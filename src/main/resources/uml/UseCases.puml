@@ -1,8 +1,0 @@
-@startuml
-
-User -> (createItem)
-User -> (viewList)
-User -> (search)
-
-
-@enduml
