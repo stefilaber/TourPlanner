@@ -2,7 +2,6 @@ package at.fhtw.swen2.tutorial.presentation.view;
 
 import at.fhtw.swen2.tutorial.presentation.viewmodel.NewPersonViewModel;
 import at.fhtw.swen2.tutorial.service.PersonService;
-import at.fhtw.swen2.tutorial.service.model.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -10,20 +9,21 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 @Component
-//@Scope("prototype")
+@Scope("prototype")
 @Slf4j
-public class NewPersonController implements Initializable {
+public class NewPersonView implements Initializable {
 
     @Autowired
     private PersonService personService;
     @Autowired
-    private SearchController searchController;
+    private SearchView searchView;
     @Autowired
     private NewPersonViewModel newPersonViewModel;
 

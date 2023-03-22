@@ -1,4 +1,4 @@
-package at.fhtw.swen2.tutorial.presentation.view;
+package at.fhtw.swen2.tutorial.presentation.events;
 
 import org.springframework.context.ApplicationEvent;
 

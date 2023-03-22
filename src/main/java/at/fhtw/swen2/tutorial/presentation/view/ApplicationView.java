@@ -1,7 +1,8 @@
-package at.fhtw.swen2.tutorial.presentation;
+package at.fhtw.swen2.tutorial.presentation.view;
 
-import at.fhtw.swen2.tutorial.presentation.view.ApplicationShutdownEvent;
-import at.fhtw.swen2.tutorial.presentation.view.AboutDialogController;
+import at.fhtw.swen2.tutorial.presentation.StageAware;
+import at.fhtw.swen2.tutorial.presentation.events.ApplicationShutdownEvent;
+import at.fhtw.swen2.tutorial.presentation.view.AboutDialogView;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,7 +23,7 @@ import java.util.ResourceBundle;
 @Component
 @Scope("prototype")
 @Slf4j
-public class ApplicationController implements Initializable, StageAware {
+public class ApplicationView implements Initializable, StageAware {
 
     ApplicationEventPublisher publisher;
 
@@ -39,7 +40,7 @@ public class ApplicationController implements Initializable, StageAware {
 
     SimpleObjectProperty<Stage> stage = new SimpleObjectProperty<>();
 
-    public ApplicationController(ApplicationEventPublisher publisher) {
+    public ApplicationView(ApplicationEventPublisher publisher) {
         log.debug("Initializing application controller");
         this.publisher = publisher;
     }
@@ -57,7 +58,7 @@ public class ApplicationController implements Initializable, StageAware {
 
     @FXML 
     public void onHelpAbout(ActionEvent event) {
-        new AboutDialogController().show();
+        new AboutDialogView().show();
     }
 
     @Override

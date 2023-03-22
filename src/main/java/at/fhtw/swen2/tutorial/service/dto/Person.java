@@ -1,4 +1,4 @@
-package at.fhtw.swen2.tutorial.service.model;
+package at.fhtw.swen2.tutorial.service.dto;
 
 import lombok.Builder;
 import lombok.Data;

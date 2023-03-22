@@ -1,6 +1,7 @@
-package at.fhtw.swen2.tutorial;
+package at.fhtw.swen2.tutorial.presentation;
 
-import at.fhtw.swen2.tutorial.presentation.view.ApplicationStartupEvent;
+import at.fhtw.swen2.tutorial.Swen2TemplateApplicationBoot;
+import at.fhtw.swen2.tutorial.presentation.events.ApplicationStartupEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -12,7 +13,9 @@ import javafx.application.Application;
 import javafx.application.HostServices;
 import javafx.application.Platform;
 import javafx.stage.Stage;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Swen2TemplateApplication extends Application {
 
     private Logger logger = LoggerFactory.getLogger(Swen2TemplateApplication.class);
@@ -45,7 +48,6 @@ public class Swen2TemplateApplication extends Application {
 
     ApplicationContextInitializer<GenericApplicationContext> initializers() { 
         return ac -> {
-            ac.registerBean(Application.class, () -> Swen2TemplateApplication.this);
             ac.registerBean(Parameters.class, this::getParameters);
             ac.registerBean(HostServices.class, this::getHostServices);
         };

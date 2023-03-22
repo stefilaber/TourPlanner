@@ -9,12 +9,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 @Component
-//@Scope("prototype")
+@Scope("prototype")
 @Slf4j
-public class SearchController {
+public class SearchView {
 
     public static final int PAGE_ITEMS_COUNT = 10;
 

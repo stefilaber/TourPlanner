@@ -14,9 +14,9 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 
-public class AboutDialogController extends Dialog<Void> implements Initializable {
+public class AboutDialogView extends Dialog<Void> implements Initializable {
 
-	public AboutDialogController() {
+	public AboutDialogView() {
 		super();
 
 		initialize(null, ResourceBundle.getBundle("i18n"));
