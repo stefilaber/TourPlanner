@@ -1,14 +1,15 @@
 package at.fhtw.swen2.tutorial.service;
 
 import at.fhtw.swen2.tutorial.service.dto.Person;
+import at.fhtw.swen2.tutorial.service.dto.Tour;
 
 import java.util.List;
 
-public interface PersonService {
+public interface TourService {
 
-    List<Person> getPersonList();
+    List<Tour> getTourList();
 
-    Person addNew(Person person);
+    Tour addNew(Tour tour);
 
     // erweitern mit parameter create new service
 

@@ -1,7 +1,7 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 
-import at.fhtw.swen2.tutorial.presentation.viewmodel.NewPersonViewModel;
-import at.fhtw.swen2.tutorial.service.PersonService;
+import at.fhtw.swen2.tutorial.presentation.viewmodel.NewTourViewModel;
+import at.fhtw.swen2.tutorial.service.TourService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,14 +18,14 @@ import java.util.ResourceBundle;
 @Component
 @Scope("prototype")
 @Slf4j
-public class NewPersonView implements Initializable {
+public class NewTourView implements Initializable {
 
     @Autowired
-    private PersonService personService;
+    private TourService tourService;
     @Autowired
     private SearchView searchView;
     @Autowired
-    private NewPersonViewModel newPersonViewModel;
+    private NewTourViewModel newTourViewModel;
 
     @FXML
     private Text feedbackText;
@@ -34,7 +34,7 @@ public class NewPersonView implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle rb) {
-        nameTextField.textProperty().bindBidirectional(newPersonViewModel.nameProperty());
+        nameTextField.textProperty().bindBidirectional(newTourViewModel.nameProperty());
     }
 
     public void submitButtonAction(ActionEvent event) {
@@ -43,6 +43,6 @@ public class NewPersonView implements Initializable {
             return;
         }
 
-        newPersonViewModel.addNewPerson();
+        newTourViewModel.addNewTour();
     }
 }

@@ -1,7 +1,8 @@
 package at.fhtw.swen2.tutorial.presentation.viewmodel;
 
-import at.fhtw.swen2.tutorial.service.PersonService;
+import at.fhtw.swen2.tutorial.service.TourService;
 import at.fhtw.swen2.tutorial.service.dto.Person;
+import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -13,35 +14,35 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class PersonListViewModel {
+public class TourListViewModel {
 
     @Autowired
-    PersonService personService;
+    TourService tourService;
 
-    private List<Person> masterData = new ArrayList<>();
-    private ObservableList<Person> personListItems = FXCollections.observableArrayList();
+    private List<Tour> masterData = new ArrayList<>();
+    private ObservableList<Tour> tourListItems = FXCollections.observableArrayList();
 
-    public ObservableList<Person> getPersonListItems() {
-        return personListItems;
+    public ObservableList<Tour> getTourListItems() {
+        return tourListItems;
     }
 
-    public void addItem(Person person) {
-        personListItems.add(person);
-        masterData.add(person);
+    public void addItem(Tour tour) {
+        tourListItems.add(tour);
+        masterData.add(tour);
     }
 
-    public void clearItems(){ personListItems.clear(); }
+    public void clearItems(){ tourListItems.clear(); }
 
     public void initList(){
-        personService.getPersonList().forEach(p -> {
+        tourService.getTourList().forEach(p -> {
             addItem(p);
         });
     }
 
     public void filterList(String searchText){
-        Task<List<Person>> task = new Task<>() {
+        Task<List<Tour>> task = new Task<>() {
             @Override
-            protected List<Person> call() throws Exception {
+            protected List<Tour> call() throws Exception {
                 updateMessage("Loading data");
                 return masterData
                         .stream()
@@ -51,7 +52,7 @@ public class PersonListViewModel {
         };
 
         task.setOnSucceeded(event -> {
-            personListItems.setAll(task.getValue());
+            tourListItems.setAll(task.getValue());
         });
 
         Thread th = new Thread(task);

@@ -12,14 +12,17 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class PersonEntity {
+public class TourEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-    private String email;
-    @Column(name = "IS_EMPLOYED")
-    private boolean isEmployed;
+    private String tourDescription;
+    private String tourFrom;
+    private String tourTo;
+    private String transportType;
+    private int tourDistance;
+    private int estimatedTime;
 
 }

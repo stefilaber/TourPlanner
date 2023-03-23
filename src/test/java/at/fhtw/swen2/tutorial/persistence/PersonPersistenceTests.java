@@ -1,7 +1,7 @@
 package at.fhtw.swen2.tutorial.persistence;
 
-import at.fhtw.swen2.tutorial.persistence.entities.PersonEntity;
-import at.fhtw.swen2.tutorial.persistence.repositories.PersonRepository;
+import at.fhtw.swen2.tutorial.persistence.entities.TourEntity;
+import at.fhtw.swen2.tutorial.persistence.repositories.TourRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,16 +10,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 class PersonPersistenceTests {
 
 	@Autowired
-	private PersonRepository personRepository;
+	private TourRepository tourRepository;
 
 	@Test
 	void testPersonRepository() {
-		PersonEntity maxi = PersonEntity.builder()
+		TourEntity maxi = TourEntity.builder()
 				.name("Maxi")
 				.email("maxi@email.com")
 				.build();
-		personRepository.save(maxi);
-		personRepository.findAll().forEach(System.out::println);
+		tourRepository.save(maxi);
+		tourRepository.findAll().forEach(System.out::println);
 	}
 
 }
