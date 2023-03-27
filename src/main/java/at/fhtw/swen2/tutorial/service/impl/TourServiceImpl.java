@@ -5,7 +5,6 @@ import at.fhtw.swen2.tutorial.persistence.repositories.TourRepository;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
 import at.fhtw.swen2.tutorial.service.mapper.TourMapper;
 import at.fhtw.swen2.tutorial.service.TourService;
-import at.fhtw.swen2.tutorial.service.dto.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +20,10 @@ public class TourServiceImpl implements TourService {
     @Autowired
     private TourMapper tourMapper;
 
+
     @Override
     public List<Tour> getTourList() {
+        System.out.println(tourMapper.fromEntity(tourRepository.findAll()));
         return tourMapper.fromEntity(tourRepository.findAll());
     }
 

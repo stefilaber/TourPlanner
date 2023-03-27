@@ -29,7 +29,8 @@ public class Swen2TemplateApplication extends Application {
     }
 
     @Override
-    public void init() {
+    public void init(){
+
         logger.debug("Initializing Spring ApplicationContext");
 
         applicationContext = new SpringApplicationBuilder(Swen2TemplateApplicationBoot.class)

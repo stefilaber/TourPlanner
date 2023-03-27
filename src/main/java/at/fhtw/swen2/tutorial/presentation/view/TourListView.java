@@ -50,6 +50,7 @@ public class TourListView implements Initializable{
 
         tableView.getColumns().addAll(id, name, tourDescription, from, to, transportType, tourDistance, estimatedTime);
 
+
         dataContainer.getChildren().add(tableView);
         tourListViewModel.initList();
     }

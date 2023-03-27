@@ -3,6 +3,7 @@ package at.fhtw.swen2.tutorial.presentation.viewmodel;
 import at.fhtw.swen2.tutorial.service.TourService;
 import at.fhtw.swen2.tutorial.service.dto.Person;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
+import ch.qos.logback.core.net.SyslogOutputStream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -35,6 +36,7 @@ public class TourListViewModel {
 
     public void initList(){
         tourService.getTourList().forEach(p -> {
+            System.out.println(p);
             addItem(p);
         });
     }
