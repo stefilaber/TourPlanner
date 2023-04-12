@@ -36,19 +36,19 @@ public class TourListView implements Initializable{
         TableColumn name = new TableColumn("NAME");
         name.setCellValueFactory(new PropertyValueFactory("name"));
         TableColumn tourDescription = new TableColumn("TOUR DESCRIPTION");
-        name.setCellValueFactory(new PropertyValueFactory("tourDescription"));
-        TableColumn from = new TableColumn("FROM");
-        name.setCellValueFactory(new PropertyValueFactory("from"));
-        TableColumn to = new TableColumn("TO");
-        name.setCellValueFactory(new PropertyValueFactory("to"));
+        tourDescription.setCellValueFactory(new PropertyValueFactory("tourDescription"));
+        TableColumn tourFrom = new TableColumn("FROM");
+        tourFrom.setCellValueFactory(new PropertyValueFactory("tourFrom"));
+        TableColumn tourTo = new TableColumn("TO");
+        tourTo.setCellValueFactory(new PropertyValueFactory("tourTo"));
         TableColumn transportType = new TableColumn("TRANSPORT TYPE");
-        name.setCellValueFactory(new PropertyValueFactory("transportType"));
+        transportType.setCellValueFactory(new PropertyValueFactory("transportType"));
         TableColumn tourDistance = new TableColumn("TOUR DISTANCE");
-        name.setCellValueFactory(new PropertyValueFactory("tourDistance"));
+        tourDistance.setCellValueFactory(new PropertyValueFactory("tourDistance"));
         TableColumn estimatedTime = new TableColumn("ESTIMATED TIME");
-        name.setCellValueFactory(new PropertyValueFactory("estimatedTime"));
+        estimatedTime.setCellValueFactory(new PropertyValueFactory("estimatedTime"));
 
-        tableView.getColumns().addAll(id, name, tourDescription, from, to, transportType, tourDistance, estimatedTime);
+        tableView.getColumns().addAll(id, name, tourDescription, tourFrom, tourTo, transportType, tourDistance, estimatedTime);
 
 
         dataContainer.getChildren().add(tableView);
