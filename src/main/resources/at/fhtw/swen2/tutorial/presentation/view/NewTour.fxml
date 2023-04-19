@@ -20,8 +20,20 @@
          </font>
       </Label>
       <Separator prefWidth="200.0" />
-      <Text text="new Tour"/>
+      <Text text="name"/>
       <TextField fx:id="nameTextField"/>
+      <Text text="description"/>
+      <TextField fx:id="tourDescriptionTextField"/>
+      <Text text="start"/>
+      <TextField fx:id="tourFromTextField"/>
+      <Text text="end"/>
+      <TextField fx:id="tourToTextField"/>
+      <Text text="transport type"/>
+      <TextField fx:id="transportTypeTextField"/>
+      <Text text="distance"/>
+      <TextField fx:id="tourDistanceTextField"/>
+      <Text text="estimated time"/>
+      <TextField fx:id="estimatedTimeTextField"/>
       <Button fx:id="submitButton" onAction="#submitButtonAction" text="insert"/>
       <Separator prefWidth="200.0" />
       <Text fx:id="feedbackText" />
