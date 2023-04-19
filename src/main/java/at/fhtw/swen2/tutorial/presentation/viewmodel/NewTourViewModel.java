@@ -73,7 +73,7 @@ public class NewTourViewModel {
         return tourFrom.get();
     }
 
-    public SimpleStringProperty fromProperty() {
+    public SimpleStringProperty tourFromProperty() {
         return tourFrom;
     }
 
@@ -83,7 +83,7 @@ public class NewTourViewModel {
 
     public String getTourTo() { return tourTo.get(); }
 
-    public SimpleStringProperty toProperty() { return tourTo; }
+    public SimpleStringProperty tourToProperty() { return tourTo; }
 
     public void setTourTo(String to) { this.tourTo.set(to); }
 
@@ -115,9 +115,7 @@ public class NewTourViewModel {
         return estimatedTime.get();
     }
 
-    public SimpleIntegerProperty estimatedTimeProperty() {
-        return estimatedTime;
-    }
+    public SimpleIntegerProperty estimatedTimeProperty() { return estimatedTime; }
 
     public void setEstimatedTime(int estimatedTime) {
         this.estimatedTime.set(estimatedTime);
@@ -148,6 +146,5 @@ public class NewTourViewModel {
         tour = tourService.addNew(tour);
         tourListViewModel.addItem(tour);
     }
-
 
 }

@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.util.converter.NumberStringConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -31,15 +32,58 @@ public class NewTourView implements Initializable {
     private Text feedbackText;
     @FXML
     private TextField nameTextField;
+    @FXML
+    public TextField tourFromTextField;
+    @FXML
+    public TextField tourDescriptionTextField;
+    @FXML
+    public TextField tourToTextField;
+    @FXML
+    public TextField transportTypeTextField;
+    @FXML
+    public TextField tourDistanceTextField;
+    @FXML
+    public TextField estimatedTimeTextField;
+
 
     @Override
     public void initialize(URL location, ResourceBundle rb) {
         nameTextField.textProperty().bindBidirectional(newTourViewModel.nameProperty());
+        tourDescriptionTextField.textProperty().bindBidirectional(newTourViewModel.tourDescriptionProperty());
+        tourFromTextField.textProperty().bindBidirectional(newTourViewModel.tourFromProperty());
+        tourToTextField.textProperty().bindBidirectional(newTourViewModel.tourToProperty());
+        transportTypeTextField.textProperty().bindBidirectional(newTourViewModel.transportTypeProperty());
+        tourDistanceTextField.textProperty().bindBidirectional(newTourViewModel.tourDistanceProperty(), new NumberStringConverter());
+        estimatedTimeTextField.textProperty().bindBidirectional(newTourViewModel.estimatedTimeProperty(), new NumberStringConverter());
     }
 
     public void submitButtonAction(ActionEvent event) {
         if (nameTextField.getText().isEmpty()) {
-            feedbackText.setText("nothing entered!");
+            feedbackText.setText("name not entered!");
+            return;
+        }
+        if (tourDescriptionTextField.getText().isEmpty()) {
+            feedbackText.setText("description not entered!");
+            return;
+        }
+        if (tourFromTextField.getText().isEmpty()) {
+            feedbackText.setText("tour start not entered!");
+            return;
+        }
+        if (tourToTextField.getText().isEmpty()) {
+            feedbackText.setText("tour destination not entered!");
+            return;
+        }
+        if (transportTypeTextField.getText().isEmpty()) {
+            feedbackText.setText("transport type not entered!");
+            return;
+        }
+        if (tourDistanceTextField.getText().isEmpty()) {
+            feedbackText.setText("tour distance not entered!");
+            return;
+        }
+        if (estimatedTimeTextField.getText().isEmpty()) {
+            feedbackText.setText("estimated time not entered!");
             return;
         }
 
