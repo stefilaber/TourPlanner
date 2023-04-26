@@ -1,16 +1,22 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 
 import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
+import at.fhtw.swen2.tutorial.service.dto.Tour;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -35,7 +41,7 @@ public class TourListView implements Initializable{
         id.setCellValueFactory(new PropertyValueFactory("id"));
         TableColumn name = new TableColumn("NAME");
         name.setCellValueFactory(new PropertyValueFactory("name"));
-        TableColumn tourDescription = new TableColumn("TOUR DESCRIPTION");
+        TableColumn tourDescription = new TableColumn("DESCRIPTION");
         tourDescription.setCellValueFactory(new PropertyValueFactory("tourDescription"));
         TableColumn tourFrom = new TableColumn("FROM");
         tourFrom.setCellValueFactory(new PropertyValueFactory("tourFrom"));
@@ -43,9 +49,9 @@ public class TourListView implements Initializable{
         tourTo.setCellValueFactory(new PropertyValueFactory("tourTo"));
         TableColumn transportType = new TableColumn("TRANSPORT TYPE");
         transportType.setCellValueFactory(new PropertyValueFactory("transportType"));
-        TableColumn tourDistance = new TableColumn("TOUR DISTANCE");
+        TableColumn tourDistance = new TableColumn("DISTANCE");
         tourDistance.setCellValueFactory(new PropertyValueFactory("tourDistance"));
-        TableColumn estimatedTime = new TableColumn("ESTIMATED TIME");
+        TableColumn estimatedTime = new TableColumn("DURATION");
         estimatedTime.setCellValueFactory(new PropertyValueFactory("estimatedTime"));
 
         tableView.getColumns().addAll(id, name, tourDescription, tourFrom, tourTo, transportType, tourDistance, estimatedTime);
@@ -53,6 +59,8 @@ public class TourListView implements Initializable{
 
         dataContainer.getChildren().add(tableView);
         tourListViewModel.initList();
+
+
     }
 
 }

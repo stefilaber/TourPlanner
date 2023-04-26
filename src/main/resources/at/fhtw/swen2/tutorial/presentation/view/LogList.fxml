@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.control.ListView?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="at.fhtw.swen2.tutorial.presentation.view.TourListView"
+            fx:controller="at.fhtw.swen2.tutorial.presentation.view.LogListView"
             prefHeight="400.0" prefWidth="600.0">
     <children>
         <VBox fx:id="dataContainer"
