@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface LogService {
 
-    List<Log> getLogList();
+    List<Log> getLogList(Long tourId);
 
     Log addNew(Log log);
 

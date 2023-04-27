@@ -22,9 +22,8 @@ public class LogServiceImpl implements LogService {
 
 
     @Override
-    public List<Log> getLogList() {
-        System.out.println(logMapper.fromEntity(logRepository.findAll()));
-        return logMapper.fromEntity(logRepository.findAll());
+    public List<Log> getLogList(Long selectedTourId) {
+        return logMapper.fromEntity(logRepository.findByTourId(selectedTourId));
     }
 
     @Override

@@ -23,6 +23,7 @@ public class LogListViewModel {
     @FXML
     private ListView listView;
 
+    private Long selectedTourId = Long.valueOf(0);
     private List<Log> masterData = new ArrayList<>();
     private ObservableList<Log> logListItems = FXCollections.observableArrayList();
 
@@ -39,7 +40,7 @@ public class LogListViewModel {
     public void clearItems(){ logListItems.clear(); }
 
    public void initList(){
-        logService.getLogList().forEach(p -> {
+        logService.getLogList(selectedTourId).forEach(p -> {
             System.out.println(p);
             addItem(p);
         });
