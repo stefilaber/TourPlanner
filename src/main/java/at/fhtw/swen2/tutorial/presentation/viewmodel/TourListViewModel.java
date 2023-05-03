@@ -28,10 +28,6 @@ public class TourListViewModel {
     @FXML
     private ListView listView;
 
-    @FXML public void handleMouseClick() {
-        System.out.println("clicked on " + listView.getSelectionModel().getSelectedItem());
-    }
-
     private List<Tour> masterData = new ArrayList<>();
     private ObservableList<Tour> tourListItems = FXCollections.observableArrayList();
 

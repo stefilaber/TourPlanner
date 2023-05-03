@@ -127,7 +127,8 @@ public class NewLogViewModel {
     public SimpleIntegerProperty ratingProperty() { return rating; }
 
     public void addNewLog() {
-        Log log = Log.builder().id(getId()).dateTime(getDateTime()).comment(getComment()).difficulty(getDifficulty()).totalTime(getTotalTime()).rating(getRating()).build();
+        Long selectedTourId = logListViewModel.getSelectedTourId();
+        Log log = Log.builder().id(getId()).dateTime(getDateTime()).comment(getComment()).difficulty(getDifficulty()).totalTime(getTotalTime()).rating(getRating()).tourId(selectedTourId).build();
         log = logService.addNew(log);
         logListViewModel.addItem(log);
     }

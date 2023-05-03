@@ -52,14 +52,13 @@
                            </children>
                           <children>
                               <fx:include source="TourList.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
-                              <VBox layoutX="26.0" layoutY="59.0" prefHeight="200.0" prefWidth="531.0" />
                           </children>
                       </AnchorPane>
                     </items>
                   </SplitPane>
                </content>
           </Tab>
-            <Tab text="%tab.logs.title">
+            <Tab disable="true" text="%tab.logs.title">
                <content>
                    <SplitPane disable="true" dividerPositions="0.265">
                        <items>
