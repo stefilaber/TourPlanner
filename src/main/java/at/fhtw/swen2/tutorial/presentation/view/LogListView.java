@@ -48,7 +48,7 @@ public class LogListView implements Initializable{
 
 
         dataContainer.getChildren().add(tableView);
-        logListViewModel.initList();
+        //logListViewModel.initList();
 
 
     }

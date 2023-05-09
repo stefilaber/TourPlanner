@@ -1,5 +1,6 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 
+import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.fxml.FXML;
@@ -22,13 +23,16 @@ public class TourListView implements Initializable{
 
     public final TourListViewModel tourListViewModel;
 
+    public final LogListViewModel logListViewModel;
+
     @FXML
     public TableView<Tour> tableView = new TableView<>();
     @FXML
     private VBox dataContainer;
 
-    public TourListView(TourListViewModel tourListViewModel) {
+    public TourListView(TourListViewModel tourListViewModel, LogListViewModel logListViewModel) {
         this.tourListViewModel = tourListViewModel;
+        this.logListViewModel = logListViewModel;
     }
 
     @Override
@@ -61,6 +65,8 @@ public class TourListView implements Initializable{
                 System.out.println("clicked");
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Tour rowData = row.getItem();
+                    logListViewModel.setSelectedTourId(rowData.getId());
+                    logListViewModel.initList();
                     System.out.println(rowData.getName());
                 }
             });
