@@ -14,7 +14,7 @@
       fx:controller="at.fhtw.swen2.tutorial.presentation.view.NewTourView">
 
    <children>
-      <Label text="%tab.demo.title">
+      <Label text="Add new Tour">
          <font>
             <Font size="14.0" />
          </font>
