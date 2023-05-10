@@ -1,15 +1,12 @@
 package at.fhtw.swen2.tutorial.presentation.view;
-
-import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -19,20 +16,18 @@ import java.util.stream.Stream;
 
 @Component
 @Scope("prototype")
+@Slf4j
 public class TourListView implements Initializable{
 
-    public final TourListViewModel tourListViewModel;
-
-    public final LogListViewModel logListViewModel;
+    private final TourListViewModel tourListViewModel;
 
     @FXML
     public TableView<Tour> tableView = new TableView<>();
     @FXML
     private VBox dataContainer;
 
-    public TourListView(TourListViewModel tourListViewModel, LogListViewModel logListViewModel) {
+    public TourListView(TourListViewModel tourListViewModel) {
         this.tourListViewModel = tourListViewModel;
-        this.logListViewModel = logListViewModel;
     }
 
     @Override
@@ -65,9 +60,8 @@ public class TourListView implements Initializable{
                 System.out.println("clicked");
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Tour rowData = row.getItem();
-                    logListViewModel.setSelectedTourId(rowData.getId());
-                    logListViewModel.initList();
-                    System.out.println(rowData.getName());
+                    tourListViewModel.onTourDoubleClick.accept(rowData);
+
                 }
             });
             return row ;

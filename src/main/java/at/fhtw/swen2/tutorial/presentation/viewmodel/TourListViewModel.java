@@ -1,47 +1,41 @@
 package at.fhtw.swen2.tutorial.presentation.viewmodel;
 
 import at.fhtw.swen2.tutorial.service.TourService;
-import at.fhtw.swen2.tutorial.service.dto.Person;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
-import ch.qos.logback.core.net.SyslogOutputStream;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.fxml.FXML;
-import javafx.scene.control.ListView;
-import javafx.scene.input.MouseButton;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.swing.event.ChangeListener;
-import java.awt.event.MouseEvent;
-import java.beans.EventHandler;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Component
 public class TourListViewModel {
 
-    @Autowired
+    final
     TourService tourService;
-    @FXML
-    private ListView listView;
 
-    private List<Tour> masterData = new ArrayList<>();
-    private ObservableList<Tour> tourListItems = FXCollections.observableArrayList();
+    public Consumer<Tour> onTourDoubleClick = tour -> {};
+
+    private final List<Tour> masterData = new ArrayList<>();
+    private final ObservableList<Tour> tourListItems = FXCollections.observableArrayList();
+
+    public TourListViewModel(TourService tourService) {
+        this.tourService = tourService;
+    }
 
     public ObservableList<Tour> getTourListItems() {
         return tourListItems;
     }
-    final ListView lv = new ListView(FXCollections.observableList(tourListItems));
 
     public void addItem(Tour tour) {
         tourListItems.add(tour);
         masterData.add(tour);
     }
 
-    public void clearItems(){ tourListItems.clear(); }
+//    public void clearItems(){ tourListItems.clear(); }
 
     public void initList(){
         tourService.getTourList().forEach(p -> {
@@ -70,7 +64,7 @@ public class TourListViewModel {
     public void filterList(String searchText){
         Task<List<Tour>> task = new Task<>() {
             @Override
-            protected List<Tour> call() throws Exception {
+            protected List<Tour> call() {
                 updateMessage("Loading data");
                 return masterData
                         .stream()
@@ -79,9 +73,7 @@ public class TourListViewModel {
             }
         };
 
-        task.setOnSucceeded(event -> {
-            tourListItems.setAll(task.getValue());
-        });
+        task.setOnSucceeded(event -> tourListItems.setAll(task.getValue()));
 
         Thread th = new Thread(task);
         th.setDaemon(true);
