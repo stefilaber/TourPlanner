@@ -2,13 +2,16 @@ package at.fhtw.swen2.tutorial.presentation.view;
 
 import at.fhtw.swen2.tutorial.presentation.StageAware;
 import at.fhtw.swen2.tutorial.presentation.events.ApplicationShutdownEvent;
-import at.fhtw.swen2.tutorial.presentation.view.AboutDialogView;
+import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
+import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -25,6 +28,12 @@ import java.util.ResourceBundle;
 @Slf4j
 public class ApplicationView implements Initializable, StageAware {
 
+    @FXML
+    public Tab logTab;
+
+    @FXML
+    public TabPane tabPane;
+
     ApplicationEventPublisher publisher;
 
     @FXML BorderPane layout;
@@ -40,9 +49,15 @@ public class ApplicationView implements Initializable, StageAware {
 
     SimpleObjectProperty<Stage> stage = new SimpleObjectProperty<>();
 
-    public ApplicationView(ApplicationEventPublisher publisher) {
+    public ApplicationView(ApplicationEventPublisher publisher, LogListViewModel logListViewModel, TourListViewModel tourListViewModel) {
         log.debug("Initializing application controller");
         this.publisher = publisher;
+
+        tourListViewModel.onTourDoubleClick = tour -> {
+            logListViewModel.setSelectedTourId(tour.getId());
+            logListViewModel.initList();
+            tabPane.getSelectionModel().select(logTab);
+        };
     }
 
     @Override
@@ -57,7 +72,7 @@ public class ApplicationView implements Initializable, StageAware {
     }
 
     @FXML 
-    public void onHelpAbout(ActionEvent event) {
+    public void onHelpAbout() {
         new AboutDialogView().show();
     }
 
