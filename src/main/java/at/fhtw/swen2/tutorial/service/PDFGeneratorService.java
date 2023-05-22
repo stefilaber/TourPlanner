@@ -1,5 +1,7 @@
 package at.fhtw.swen2.tutorial.service;
 
+import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
+import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageData;
 import com.itextpdf.io.image.ImageDataFactory;
@@ -10,33 +12,60 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.properties.UnitValue;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.cell.PropertyValueFactory;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
 
 // annotate to create service into bin that can be injected into controller to use it
 @Service
+@Transactional
 public class PDFGeneratorService {
 
     // TODO: replace with real data
+
+    @Autowired
+    LogListViewModel logListViewModel;
+    @Autowired
+    LogService logService;
+//    public PDFGeneratorService(LogListViewModel logListViewModel, LogService logService) {
+//        logService.getLogList(Long.valueOf(-1)).forEach(p -> {
+//            System.out.println("nfajdbfnjasbfjkalo" + p);
+//        });
+//    }
+
     public static final String TOUR_DESCRIPTION = "Embark on a captivating journey from Vienna to Salzburg and immerse yourself in the rich cultural heritage and stunning landscapes of Austria. Begin in Vienna, where you'll explore opulent palaces, visit iconic landmarks like St. Stephen's Cathedral, and stroll along the elegant Ringstrasse Boulevard. Leaving the city behind, enjoy a scenic drive through the Austrian countryside, filled with charming villages and vineyards, as you make your way to Salzburg.\n" +
                                                   "\n" +
                                                   "In Salzburg, be enchanted by its baroque architecture and UNESCO-listed historic center. Take a guided walking tour, visit Mozart's birthplace, and explore filming locations from \"The Sound of Music.\" Don't miss the awe-inspiring Hohensalzburg Fortress and indulge in traditional Austrian cuisine before bidding farewell. This Vienna to Salzburg tour promises an unforgettable experience, combining captivating history, musical heritage, and breathtaking landscapes in one enchanting adventure.";
     public static final String GOOGLE_MAPS_PNG = "src/main/resources/google_maps.png";
-    public static final String TOUR_REPORT = "target/tourReport.pdf";
-    public static final String SUMMARY_REPORT = "target/summaryReport.pdf";
-    public static final File tourReportFile = new File(TOUR_REPORT);
-    public static final File summaryReportFile = new File(SUMMARY_REPORT);
-    public static void main(String[] args ) throws IOException {
-        fileExists(tourReportFile);
-        fileExists(summaryReportFile);
+//    public static final String TOUR_REPORT = "target/reports/tourReport.pdf";
+//    public static final String SUMMARY_REPORT = "target/reports/summaryReport.pdf";
+//    public static final File tourReportFile = new File(TOUR_REPORT);
+//    public static final File summaryReportFile = new File(SUMMARY_REPORT);
+    @FXML
+    private Button tourReportButton;
 
-        writeTourReport(generateReport(TOUR_REPORT));
-        writeSummaryReport(generateReport(SUMMARY_REPORT));
-    }
+    @FXML
+    private Button summaryReportButton;
 
-    private static void fileExists(File file) {
+//    public static void main(String[] args) throws IOException {
+//
+//        fileExists(tourReportFile);
+//        fileExists(summaryReportFile);
+//
+//        writeTourReport(generateReport(TOUR_REPORT));
+//        writeSummaryReport(generateReport(SUMMARY_REPORT));
+//    }
+
+    public static void fileExists(File file) {
         // delete existing PDF file
         if (file.exists()) {
             if (file.delete()) {
@@ -58,6 +87,9 @@ public class PDFGeneratorService {
 
     public static void writeTourReport(Document document) throws IOException {
         // TODO: replace with real data
+//        logService.getLogList(Long.valueOf(-1)).forEach(p -> {
+//            System.out.println("nfajdbfnjasbfjkalo" + p);
+//        });
         final String header = "Tour name";
         final String info = "Tour information";
         final String map = "Route information";

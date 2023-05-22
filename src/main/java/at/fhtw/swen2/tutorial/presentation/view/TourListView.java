@@ -1,58 +1,96 @@
 package at.fhtw.swen2.tutorial.presentation.view;
-
 import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
+import at.fhtw.swen2.tutorial.service.PDFGeneratorService;
+import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.stream.Stream;
+
+import static at.fhtw.swen2.tutorial.service.PDFGeneratorService.*;
 
 @Component
 @Scope("prototype")
+@Slf4j
 public class TourListView implements Initializable{
 
-    @Autowired
-    public TourListViewModel tourListViewModel;
+    private final TourListViewModel tourListViewModel;
 
     @FXML
-    public TableView tableView = new TableView<>();
+    public TableView<Tour> tableView = new TableView<>();
+    @FXML
+    public Button summaryReportButton;
+
     @FXML
     private VBox dataContainer;
 
+    public TourListView(TourListViewModel tourListViewModel) {
+        this.tourListViewModel = tourListViewModel;
+    }
+
+    public static final String SUMMARY_REPORT = "target/reports/summaryReport.pdf";
+
+    public static final File summaryReportFile = new File(SUMMARY_REPORT);
+
     @Override
     public void initialize(URL location, ResourceBundle rb){
+
+        summaryReportButton.setOnAction(event -> {
+            try {
+                System.out.println("Generating summary report...");
+                fileExists(summaryReportFile);
+                writeSummaryReport(generateReport(SUMMARY_REPORT));
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
+
         tableView.setItems(tourListViewModel.getTourListItems());
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
-        TableColumn id = new TableColumn("ID");
-        id.setCellValueFactory(new PropertyValueFactory("id"));
-        TableColumn name = new TableColumn("NAME");
-        name.setCellValueFactory(new PropertyValueFactory("name"));
-        TableColumn tourDescription = new TableColumn("TOUR DESCRIPTION");
-        tourDescription.setCellValueFactory(new PropertyValueFactory("tourDescription"));
-        TableColumn tourFrom = new TableColumn("FROM");
-        tourFrom.setCellValueFactory(new PropertyValueFactory("tourFrom"));
-        TableColumn tourTo = new TableColumn("TO");
-        tourTo.setCellValueFactory(new PropertyValueFactory("tourTo"));
-        TableColumn transportType = new TableColumn("TRANSPORT TYPE");
-        transportType.setCellValueFactory(new PropertyValueFactory("transportType"));
-        TableColumn tourDistance = new TableColumn("TOUR DISTANCE");
-        tourDistance.setCellValueFactory(new PropertyValueFactory("tourDistance"));
-        TableColumn estimatedTime = new TableColumn("ESTIMATED TIME");
-        estimatedTime.setCellValueFactory(new PropertyValueFactory("estimatedTime"));
+        TableColumn<Tour, String> name = new TableColumn<>("NAME");
+        name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<Tour, String> tourDescription = new TableColumn<>("DESCRIPTION");
+        tourDescription.setCellValueFactory(new PropertyValueFactory<>("tourDescription"));
+        TableColumn<Tour, String> tourFrom = new TableColumn<>("FROM");
+        tourFrom.setCellValueFactory(new PropertyValueFactory<>("tourFrom"));
+        TableColumn<Tour, String> tourTo = new TableColumn<>("TO");
+        tourTo.setCellValueFactory(new PropertyValueFactory<>("tourTo"));
+        TableColumn<Tour, String> transportType = new TableColumn<>("TRANSPORT TYPE");
+        transportType.setCellValueFactory(new PropertyValueFactory<>("transportType"));
+        TableColumn<Tour, Integer> tourDistance = new TableColumn<>("DISTANCE");
+        tourDistance.setCellValueFactory(new PropertyValueFactory<>("tourDistance"));
+        TableColumn<Tour, Integer> estimatedTime = new TableColumn<>("DURATION");
+        estimatedTime.setCellValueFactory(new PropertyValueFactory<>("estimatedTime"));
 
-        tableView.getColumns().addAll(id, name, tourDescription, tourFrom, tourTo, transportType, tourDistance, estimatedTime);
+        var columns = tableView.getColumns();
+        Stream.of(name, tourDescription, tourFrom, tourTo, transportType, tourDistance, estimatedTime).forEach(columns::add);
 
+        tableView.setRowFactory( tv -> {
+            TableRow<Tour> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                System.out.println("clicked");
+                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                    Tour rowData = row.getItem();
+                    tourListViewModel.onTourDoubleClick.accept(rowData);
+                }
+            });
+            return row ;
+        });
 
         dataContainer.getChildren().add(tableView);
         tourListViewModel.initList();
+
     }
 
 }
