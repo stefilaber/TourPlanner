@@ -1,16 +1,19 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.StackPane;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
 
@@ -24,7 +27,7 @@ public class TourListView implements Initializable{
     @FXML
     public TableView<Tour> tableView = new TableView<>();
     @FXML
-    private VBox dataContainer;
+    private StackPane dataContainer;
 
     public TourListView(TourListViewModel tourListViewModel) {
         this.tourListViewModel = tourListViewModel;
@@ -48,8 +51,8 @@ public class TourListView implements Initializable{
         transportType.setCellValueFactory(new PropertyValueFactory<>("transportType"));
         TableColumn<Tour, Integer> tourDistance = new TableColumn<>("DISTANCE");
         tourDistance.setCellValueFactory(new PropertyValueFactory<>("tourDistance"));
-        TableColumn<Tour, Integer> estimatedTime = new TableColumn<>("DURATION");
-        estimatedTime.setCellValueFactory(new PropertyValueFactory<>("estimatedTime"));
+        TableColumn<Tour, String> estimatedTime = new TableColumn<>("DURATION");
+        estimatedTime.setCellValueFactory(cellData -> new SimpleStringProperty(DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalTime.ofSecondOfDay(cellData.getValue().getEstimatedTime()))));
 
         var columns = tableView.getColumns();
         Stream.of(name, tourDescription, tourFrom, tourTo, transportType, tourDistance, estimatedTime).forEach(columns::add);
@@ -69,8 +72,6 @@ public class TourListView implements Initializable{
 
         dataContainer.getChildren().add(tableView);
         tourListViewModel.initList();
-
-
 
     }
 

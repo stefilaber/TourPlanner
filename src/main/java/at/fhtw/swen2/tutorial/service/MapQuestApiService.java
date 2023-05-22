@@ -1,8 +1,11 @@
 package at.fhtw.swen2.tutorial.service;
 
-import at.fhtw.swen2.tutorial.service.dto.TourDistanceTime;
+import com.fasterxml.jackson.databind.JsonNode;
+
+import java.io.IOException;
 
 public interface MapQuestApiService {
 
-    TourDistanceTime getTourDistanceTime(String from, String to);
+    String getTourDistanceTime(String from, String to, String routeType) throws IOException;
+    String getStaticMap(JsonNode lastRequest) throws IOException;
 }

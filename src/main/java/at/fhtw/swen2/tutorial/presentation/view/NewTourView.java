@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -40,10 +41,6 @@ public class NewTourView implements Initializable {
     public TextField tourToTextField;
     @FXML
     public TextField transportTypeTextField;
-    @FXML
-    public TextField tourDistanceTextField;
-    @FXML
-    public TextField estimatedTimeTextField;
 
 
     @Override
@@ -53,20 +50,19 @@ public class NewTourView implements Initializable {
         tourFromTextField.textProperty().bindBidirectional(newTourViewModel.tourFromProperty());
         tourToTextField.textProperty().bindBidirectional(newTourViewModel.tourToProperty());
         transportTypeTextField.textProperty().bindBidirectional(newTourViewModel.transportTypeProperty());
-        tourDistanceTextField.textProperty().bindBidirectional(newTourViewModel.tourDistanceProperty(), new NumberStringConverter());
-        estimatedTimeTextField.textProperty().bindBidirectional(newTourViewModel.estimatedTimeProperty(), new NumberStringConverter());
     }
 
-    public void submitButtonAction(ActionEvent event) {
-        if (nameTextField.getText().isEmpty()) {
+    public void submitButtonAction(ActionEvent event) throws IOException {
+        if (nameTextField.getText() == null) {
+            System.out.println("name not entered!");
             feedbackText.setText("name not entered!");
             return;
         }
-        if (tourDescriptionTextField.getText().isEmpty()) {
+        if (tourDescriptionTextField.getText() == null) {
             feedbackText.setText("description not entered!");
             return;
         }
-        if (tourFromTextField.getText().isEmpty()) {
+        if (tourFromTextField.getText() == null) {
             feedbackText.setText("tour start not entered!");
             return;
         }
@@ -78,14 +74,10 @@ public class NewTourView implements Initializable {
             feedbackText.setText("transport type not entered!");
             return;
         }
-        if (tourDistanceTextField.getText().isEmpty()) {
-            feedbackText.setText("tour distance not entered!");
-            return;
-        }
-        if (estimatedTimeTextField.getText().isEmpty()) {
-            feedbackText.setText("estimated time not entered!");
-            return;
-        }
+//        if (transportTypeTextField.getText() != "fastest" && transportTypeTextField.getText() != "shortest" && transportTypeTextField.getText() != "pedestrian" && transportTypeTextField.getText() != "bicycle") {
+//            feedbackText.setText("transport type has to be fastest, shortest, pedestrian or bicycle!");
+//            return;
+//        }
 
         newTourViewModel.addNewTour();
     }
