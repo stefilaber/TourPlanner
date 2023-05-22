@@ -8,8 +8,6 @@ import javafx.application.Application;
 @SpringBootApplication
 public class Swen2TemplateApplicationBoot {
 
-	public static void main(String[] args) {
-		Application.launch(Swen2TemplateApplication.class, args);
-	}
+	public static void main(String[] args) { Application.launch(Swen2TemplateApplication.class, args); }
 
 }

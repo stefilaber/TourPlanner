@@ -10,9 +10,5 @@
         <module name="javafx_spring" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="javafx_spring" target="17" />
-      <module name="TourPlanner" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>

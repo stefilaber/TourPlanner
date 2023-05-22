@@ -20,7 +20,6 @@ public class TourServiceImpl implements TourService {
     @Autowired
     private TourMapper tourMapper;
 
-
     @Override
     public List<Tour> getTourList() {
         System.out.println(tourMapper.fromEntity(tourRepository.findAll()));
