@@ -9,7 +9,13 @@ import javafx.beans.property.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 
 @Component
@@ -138,15 +144,20 @@ public class NewTourViewModel {
         JsonNode time = route.get("time");
 
         //second request for the static map:
-        responseJsonString = mapQuestApiService.getStaticMap(response);
-        byte[] byteArrray = responseJsonString.getBytes();
-        System.out.println(byteArrray);
-        System.out.println(byteArrray.length);
+        BufferedImage map = mapQuestApiService.getStaticMap(response);
+
+        //creating a maps directory in case it doesn't exist
+        String path = new java.io.File(".").getCanonicalPath() + "\\src\\main\\resources\\maps\\";
+        Files.createDirectories(Paths.get(path));
+
+        //saving the image in the maps folder
+        String mapPath = getName() + ".png";
+        ImageIO.write(map, "png", new FileOutputStream(path + mapPath));
 
         //adding the new tour to the database
-//        Tour tour = Tour.builder().id(getId()).name(getName()).tourDescription(getTourDescription()).tourFrom(getTourFrom()).tourTo(getTourTo()).transportType(getTransportType()).tourDistance(distance.asInt()).estimatedTime(time.asInt()).build();
-//        tour = tourService.addNew(tour);
-//        tourListViewModel.addItem(tour);
+        Tour tour = Tour.builder().id(getId()).name(getName()).tourDescription(getTourDescription()).tourFrom(getTourFrom()).tourTo(getTourTo()).transportType(getTransportType()).tourDistance(distance.asInt()).estimatedTime(time.asInt()).build();
+        tour = tourService.addNew(tour);
+        tourListViewModel.addItem(tour);
 
     }
 

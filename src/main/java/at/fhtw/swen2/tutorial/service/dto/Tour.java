@@ -15,7 +15,5 @@ public class Tour {
     private String transportType;
     private int tourDistance;
     private int estimatedTime;
-    //TODO
-    //private char routeInformation;
 
 }

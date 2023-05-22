@@ -25,6 +25,9 @@ public class LogListView implements Initializable{
     @FXML
     private VBox dataContainer;
 
+    @FXML
+    private VBox mapContainer;
+
     public LogListView(LogListViewModel logListViewModel) {
         this.logListViewModel = logListViewModel;
     }
@@ -50,7 +53,6 @@ public class LogListView implements Initializable{
 
 
         dataContainer.getChildren().add(tableView);
-        //logListViewModel.initList();
 
 
     }

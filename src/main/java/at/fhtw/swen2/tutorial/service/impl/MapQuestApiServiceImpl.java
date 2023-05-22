@@ -1,17 +1,16 @@
 package at.fhtw.swen2.tutorial.service.impl;
 import at.fhtw.swen2.tutorial.service.MapQuestApiService;
 import com.fasterxml.jackson.databind.JsonNode;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.imageio.stream.ImageInputStream;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
-import java.nio.file.Files;
 
 @Service
 @Transactional
@@ -49,7 +48,7 @@ public class MapQuestApiServiceImpl implements MapQuestApiService {
 
     }
 
-    public String getStaticMap(JsonNode lastRequest) throws IOException {
+    public BufferedImage getStaticMap(JsonNode lastRequest) throws IOException {
 
         JsonNode route = lastRequest.get("route");
         JsonNode session = route.get("sessionId");
@@ -65,28 +64,10 @@ public class MapQuestApiServiceImpl implements MapQuestApiService {
 
         //reading the response
         int status = con.getResponseCode();
-
-//        BufferedReader in = new BufferedReader(
-//                new InputStreamReader(con.getInputStream()));
-//        String inputLine;
-//        StringBuffer content = new StringBuffer();
-//        while ((inputLine = in.readLine()) != null) {
-//            content.append(inputLine);
-//        }
-//        in.close();
-
-        ImageInputStream img = (ImageInputStream) con.getInputStream();
-        byte[] content = Files.readAllBytes(img);
-
+        BufferedImage img = ImageIO.read(con.getInputStream());
 
         con.disconnect();
-
-        byte[] imgByteArray = Base64.decodeBase64(String.valueOf(content));
-        FileOutputStream imgOutFile = new FileOutputStream("C:\\Users\\stefi\\OneDrive\\Desktop\\test.jpeg");
-        imgOutFile.write(imgByteArray);
-
-        imgOutFile.close();
-        return content.toString();
+        return img;
     }
 
 }
