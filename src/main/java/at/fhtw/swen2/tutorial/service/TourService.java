@@ -10,6 +10,8 @@ public interface TourService {
 
     Tour addNew(Tour tour);
 
+    Tour getTour(Long tourId);
+
     // erweitern mit parameter create new service
 
 }

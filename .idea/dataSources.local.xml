@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="dataSourceStorageLocal" created-in="IU-231.9011.34">
+  <component name="dataSourceStorageLocal" created-in="IU-222.3739.54">
     <data-source name="swe2db@localhost" uuid="a73b0b1d-6991-4ac8-8002-7fe2adabc55d">
-      <database-info product="PostgreSQL" version="15.1 (Debian 15.1-1.pgdg110+1)" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.5.0" dbms="POSTGRES" exact-version="15.1" exact-driver-version="42.5">
+      <database-info product="PostgreSQL" version="15.2 (Debian 15.2-1.pgdg110+1)" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.6.0" dbms="POSTGRES" exact-version="15.2" exact-driver-version="42.6">
         <identifier-quote-string>&quot;</identifier-quote-string>
       </database-info>
       <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
-      <secret-storage>forget</secret-storage>
+      <secret-storage>master_key</secret-storage>
       <user-name>swe2user</user-name>
       <schema-mapping>
         <introspection-scope>

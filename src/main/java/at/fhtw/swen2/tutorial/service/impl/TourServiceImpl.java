@@ -34,4 +34,10 @@ public class TourServiceImpl implements TourService {
         TourEntity entity = tourRepository.save(tourMapper.toEntity(tour));
         return tourMapper.fromEntity(entity);
     }
+
+    @Override
+    public Tour getTour(Long tourId) {
+        return tourRepository.findById(tourId).map(tourMapper::fromEntity).orElse(null);
+    }
+
 }

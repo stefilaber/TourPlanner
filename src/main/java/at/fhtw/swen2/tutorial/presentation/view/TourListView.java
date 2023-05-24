@@ -17,8 +17,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
 
-import static at.fhtw.swen2.tutorial.service.PDFGeneratorService.*;
-
 @Component
 @Scope("prototype")
 @Slf4j
@@ -34,8 +32,11 @@ public class TourListView implements Initializable{
     @FXML
     private VBox dataContainer;
 
-    public TourListView(TourListViewModel tourListViewModel) {
+    private final PDFGeneratorService pdfGeneratorService;
+
+    public TourListView(TourListViewModel tourListViewModel, PDFGeneratorService pdfGeneratorService) {
         this.tourListViewModel = tourListViewModel;
+        this.pdfGeneratorService = pdfGeneratorService;
     }
 
     public static final String SUMMARY_REPORT = "target/reports/summaryReport.pdf";
@@ -48,8 +49,8 @@ public class TourListView implements Initializable{
         summaryReportButton.setOnAction(event -> {
             try {
                 System.out.println("Generating summary report...");
-                fileExists(summaryReportFile);
-                writeSummaryReport(generateReport(SUMMARY_REPORT));
+                pdfGeneratorService.fileExists(summaryReportFile);
+                pdfGeneratorService.writeSummaryReport(pdfGeneratorService.generateReport(SUMMARY_REPORT));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }

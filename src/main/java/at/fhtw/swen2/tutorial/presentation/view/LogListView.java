@@ -1,5 +1,6 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
+import at.fhtw.swen2.tutorial.service.PDFGeneratorService;
 import at.fhtw.swen2.tutorial.service.dto.Log;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -32,8 +33,11 @@ public class LogListView implements Initializable{
     @FXML
     private VBox dataContainer;
 
-    public LogListView(LogListViewModel logListViewModel) {
+    private final PDFGeneratorService pdfGeneratorService;
+
+    public LogListView(LogListViewModel logListViewModel, PDFGeneratorService pdfGeneratorService) {
         this.logListViewModel = logListViewModel;
+        this.pdfGeneratorService = pdfGeneratorService;
     }
 
     public static final String TOUR_REPORT = "target/reports/tourReport.pdf";
@@ -45,8 +49,8 @@ public class LogListView implements Initializable{
         tourReportButton.setOnAction(event -> {
             try {
                 System.out.println("Generating tour report...");
-                fileExists(tourReportFile);
-                writeTourReport(generateReport(TOUR_REPORT));
+                pdfGeneratorService.fileExists(tourReportFile);
+                pdfGeneratorService.writeTourReport(pdfGeneratorService.generateReport(TOUR_REPORT));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
