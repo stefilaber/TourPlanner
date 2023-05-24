@@ -66,6 +66,7 @@ public class PDFGeneratorService {
     public void writeTourReport(Document document) throws IOException {
         // TODO: replace with real data
 
+        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
         java.util.List<Log> logList= logService.getLogList(logListViewModel.getSelectedTourId());
         System.out.println("logList:" + logList);
         Tour tour = tourService.getTour(logListViewModel.getSelectedTourId());
