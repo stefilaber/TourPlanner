@@ -1,0 +1,29 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_5_24_2023_5_17_PM_[Changes]1" date="1684941467990" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_24_2023_5_17_PM_[Changes]1/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 5/24/2023 5:17 PM [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="target/reports/summaryReport.pdf" />
+    <option name="AFTER_PATH" value="target/reports/summaryReport.pdf" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_24_2023_5_17_PM_[Changes]1/summaryReport.pdf" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/at/fhtw/swen2/tutorial/service/PDFGeneratorService.class" />
+    <option name="AFTER_PATH" value="target/classes/at/fhtw/swen2/tutorial/service/PDFGeneratorService.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_24_2023_5_17_PM_[Changes]1/PDFGeneratorService.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/at/fhtw/swen2/tutorial/presentation/view/TourListView.class" />
+    <option name="AFTER_PATH" value="target/classes/at/fhtw/swen2/tutorial/presentation/view/TourListView.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_24_2023_5_17_PM_[Changes]1/TourListView.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/at/fhtw/swen2/tutorial/presentation/view/LogListView.class" />
+    <option name="AFTER_PATH" value="target/classes/at/fhtw/swen2/tutorial/presentation/view/LogListView.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_24_2023_5_17_PM_[Changes]1/LogListView.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/reports/tourReport.pdf" />
+    <option name="AFTER_PATH" value="target/reports/tourReport.pdf" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_24_2023_5_17_PM_[Changes]1/tourReport.pdf" />
+  </binary>
+</changelist>
