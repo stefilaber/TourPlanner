@@ -32,7 +32,6 @@ public class TourListView implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle rb){
-
         tableView.setItems(tourListViewModel.getTourListItems());
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -69,8 +68,6 @@ public class TourListView implements Initializable{
 
         dataContainer.getChildren().add(tableView);
         tourListViewModel.initList();
-
-
 
     }
 

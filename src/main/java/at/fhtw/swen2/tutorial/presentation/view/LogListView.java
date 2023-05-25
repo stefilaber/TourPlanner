@@ -7,6 +7,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import java.util.stream.Stream;
 
 @Component
 @Scope("prototype")
+@Slf4j
 public class LogListView implements Initializable{
 
     public final LogListViewModel logListViewModel;
@@ -48,10 +50,8 @@ public class LogListView implements Initializable{
         var columns = tableView.getColumns();
         Stream.of(dateTime, comment, difficulty, totalTime, rating).forEach(columns::add);
 
-
         dataContainer.getChildren().add(tableView);
-        //logListViewModel.initList();
-
+        logListViewModel.initList();
 
     }
 

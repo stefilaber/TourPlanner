@@ -73,6 +73,6 @@ public class NewLogView implements Initializable {
             return;
         }
 
-        //newLogViewModel.addNewLog();
+        newLogViewModel.addNewLog();
     }
 }

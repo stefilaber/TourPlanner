@@ -23,7 +23,6 @@ public class LogListViewModel {
     @FXML
     private ListView listView;
 
-
     private Long selectedTourId = Long.valueOf(0);
 
     private List<Log> masterData = new ArrayList<>();
@@ -32,7 +31,6 @@ public class LogListViewModel {
     public ObservableList<Log> getLogListItems() {
         return logListItems;
     }
-    final ListView lv = new ListView(FXCollections.observableList(logListItems));
 
     public void addItem(Log log) {
         logListItems.add(log);
