@@ -4,16 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1fcec2cd-4574-4f1a-909d-e3914a86487d" name="Changes" comment="PDFGeneratorService uses tourService and logService for the data">
+    <list default="true" id="1fcec2cd-4574-4f1a-909d-e3914a86487d" name="Changes" comment="created functional buttons for generating the reports">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/at/fhtw/swen2/tutorial/service/dto/Statistic.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/a73b0b1d-6991-4ac8-8002-7fe2adabc55d.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/a73b0b1d-6991-4ac8-8002-7fe2adabc55d.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_24_2023_5_17_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_24_2023_5_17_PM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_24_2023_5_17_PM__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_5_24_2023_5_17_PM__Changes_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/at/fhtw/swen2/tutorial/service/PDFGeneratorService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/at/fhtw/swen2/tutorial/service/PDFGeneratorService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/at/fhtw/swen2/tutorial/presentation/view/LogListView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/at/fhtw/swen2/tutorial/presentation/view/LogListView.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/at/fhtw/swen2/tutorial/presentation/view/TourListView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/at/fhtw/swen2/tutorial/presentation/view/TourListView.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/at/fhtw/swen2/tutorial/service/PDFGeneratorService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/at/fhtw/swen2/tutorial/service/PDFGeneratorService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/at/fhtw/swen2/tutorial/service/TourService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/at/fhtw/swen2/tutorial/service/TourService.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/at/fhtw/swen2/tutorial/service/impl/TourServiceImpl.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/at/fhtw/swen2/tutorial/service/impl/TourServiceImpl.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/reports/summaryReport.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/target/reports/summaryReport.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/reports/tourReport.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/target/reports/tourReport.pdf" afterDir="false" />
     </list>
@@ -37,6 +37,19 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="064f628c-c564-4c14-a3a8-27850b7bebf7" />
+        <option name="url" value="https://github.com/stefilaber/TourPlanner.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/src/main/java/at/fhtw/swen2/tutorial/persistence/repositories/TourRepository.java" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main/java/at/fhtw/swen2/tutorial/presentation/view/ApplicationView.java" root0="FORCE_HIGHLIGHTING" />
@@ -55,25 +68,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/FH/SS23/SWEN/TourPlanner&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;483af24d7689b63437f277ed0d5b27b5&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "E:/FH/SS23/SWEN/TourPlanner",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "spring.configuration.checksum": "483af24d7689b63437f277ed0d5b27b5",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Swen2TemplateApplicationBoot" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="javafx_spring" />
@@ -93,6 +107,7 @@
       <updated>1684754144401</updated>
       <workItem from="1684754145667" duration="123000" />
       <workItem from="1684754278151" duration="10531000" />
+      <workItem from="1685014415668" duration="9632000" />
     </task>
     <task id="LOCAL-00001" summary="created functional buttons for generating the reports">
       <created>1684765497207</created>
@@ -110,5 +125,15 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="created functional buttons for generating the reports" />
     <option name="LAST_COMMIT_MESSAGE" value="created functional buttons for generating the reports" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <breakpoint enabled="true" type="java-exception">
+          <properties class="java.lang.ArithmeticException" package="java.lang" />
+          <option name="timeStamp" value="1" />
+        </breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

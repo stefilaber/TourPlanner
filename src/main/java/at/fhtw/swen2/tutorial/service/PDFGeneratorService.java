@@ -2,6 +2,7 @@ package at.fhtw.swen2.tutorial.service;
 
 import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
 import at.fhtw.swen2.tutorial.service.dto.Log;
+import at.fhtw.swen2.tutorial.service.dto.Statistic;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
 import com.itextpdf.io.font.constants.StandardFonts;
 import com.itextpdf.io.image.ImageData;
@@ -18,23 +19,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 // annotate to create service into bin that can be injected into controller to use it
 @Service
 @Transactional
 public class PDFGeneratorService {
 
-    // TODO: replace with real data
-
     final TourService tourService;
-
     final LogService logService;
-
     final LogListViewModel logListViewModel;
 
-    public static final String TOUR_DESCRIPTION = "Embark on a captivating journey from Vienna to Salzburg and immerse yourself in the rich cultural heritage and stunning landscapes of Austria. Begin in Vienna, where you'll explore opulent palaces, visit iconic landmarks like St. Stephen's Cathedral, and stroll along the elegant Ringstrasse Boulevard. Leaving the city behind, enjoy a scenic drive through the Austrian countryside, filled with charming villages and vineyards, as you make your way to Salzburg.\n" +
-                                                  "\n" +
-                                                  "In Salzburg, be enchanted by its baroque architecture and UNESCO-listed historic center. Take a guided walking tour, visit Mozart's birthplace, and explore filming locations from \"The Sound of Music.\" Don't miss the awe-inspiring Hohensalzburg Fortress and indulge in traditional Austrian cuisine before bidding farewell. This Vienna to Salzburg tour promises an unforgettable experience, combining captivating history, musical heritage, and breathtaking landscapes in one enchanting adventure.";
+    // TODO: get map from API
     public static final String GOOGLE_MAPS_PNG = "src/main/resources/google_maps.png";
 
     public PDFGeneratorService(TourService tourService, LogService logService, LogListViewModel logListViewModel) {
@@ -59,15 +57,11 @@ public class PDFGeneratorService {
     public Document generateReport(String report) throws IOException {
         PdfWriter writer = new PdfWriter(report);
         PdfDocument pdf = new PdfDocument(writer);
-        Document document = new Document(pdf);
-        return document;
+        return new Document(pdf);
     }
 
     public void writeTourReport(Document document) throws IOException {
-        // TODO: replace with real data
-
-        System.out.println("AAAAAAAAAAAAAAAAAAAAAAAAAAA");
-        java.util.List<Log> logList= logService.getLogList(logListViewModel.getSelectedTourId());
+        java.util.List<Log> logList = logService.getLogList(logListViewModel.getSelectedTourId());
         System.out.println("logList:" + logList);
         Tour tour = tourService.getTour(logListViewModel.getSelectedTourId());
 
@@ -77,11 +71,12 @@ public class PDFGeneratorService {
 
         Paragraph tourReportHeader = new Paragraph(name)
                 .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
-                .setFontSize(14)
+                .setFontSize(18)
                 .setBold()
+                .setUnderline()
                 .setFontColor(ColorConstants.PINK);
         document.add(tourReportHeader);
-        document.add(new Paragraph(TOUR_DESCRIPTION));
+        document.add(new Paragraph(tour.getTourDescription()));
 
         Paragraph listHeader = new Paragraph("\n" + info)
                 .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
@@ -91,37 +86,39 @@ public class PDFGeneratorService {
         List list = new List()
                 .setListSymbol("• ")
                 .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA));
-        list.add(new ListItem("From: Vienna"))
-                .add(new ListItem("To: Salzburg"))
-                .add(new ListItem("Transport: Bus"))
-                .add(new ListItem("Distance: 300 km"))
-                .add(new ListItem("Estimated duration: 3 hours"));
+        list.add(new ListItem("From: " + tour.getTourFrom()))
+                .add(new ListItem("To: " + tour.getTourTo()))
+                .add(new ListItem("Transport: " + tour.getTransportType()))
+                // TODO: get distance and time from api
+                .add(new ListItem("Distance: " + tour.getTourDistance() + " km"))
+                .add(new ListItem("Estimated duration: " + tour.getEstimatedTime() + " hours"));
+
         document.add(listHeader);
         document.add(list);
 
-        Paragraph tableHeader = new Paragraph("\n" + "Tour Logs Table")
+        Paragraph tableHeader = new Paragraph("\n" + "Tour Logs")
                 .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
                 .setFontSize(14)
                 .setBold()
                 .setFontColor(ColorConstants.PINK);
         document.add(tableHeader);
-        Table table = new Table(UnitValue.createPercentArray(new float[] {20, 50, 10, 15, 5})).useAllAvailableWidth();
+
+        Table table = new Table(UnitValue.createPercentArray(new float[] {20, 50, 13, 12, 5})).useAllAvailableWidth();
         table.addHeaderCell(getHeaderCell("Date/Time"));
         table.addHeaderCell(getHeaderCell("Comment"));
         table.addHeaderCell(getHeaderCell("Difficulty"));
         table.addHeaderCell(getHeaderCell("Total time"));
         table.addHeaderCell(getHeaderCell("Rating"));
-        table.setFontSize(14).setBackgroundColor(ColorConstants.WHITE);
-        table.addCell("May 1, 2023, 9:00 AM");
-        table.addCell("We started our tour in Vienna and explored the magnificent Schönbrunn Palace. The opulent interiors and sprawling gardens were truly a sight to behold.");
-        table.addCell("easy");
-        table.addCell("3 hours");
-        table.addCell("4.5");
-        table.addCell("May 2, 2023, 10:30 AM");
-        table.addCell(" Today, we visited St. Stephen's Cathedral in Vienna. The Gothic architecture was stunning, and we had the opportunity to climb the tower for panoramic views of the city.");
-        table.addCell("medium");
-        table.addCell("2 hours");
-        table.addCell("4");
+        table.setFontSize(12).setBackgroundColor(ColorConstants.WHITE);
+
+        for (Log log : logList) {
+            table.addCell(log.getDateTime());
+            table.addCell(log.getComment());
+            table.addCell(log.getDifficulty());
+            table.addCell(String.valueOf(log.getTotalTime()));
+            table.addCell(String.valueOf(log.getRating()));
+        }
+
         document.add(table);
 
         document.add(new AreaBreak());
@@ -140,47 +137,110 @@ public class PDFGeneratorService {
 
     public void writeSummaryReport(Document document) throws IOException {
 
-        java.util.List<Tour> tourList= tourService.getTourList();
-        System.out.println("tourList" + tourList);
-
+        java.util.List<Statistic> tourStatsList = new ArrayList<>();
+        DecimalFormat df = new DecimalFormat("#.#");
+        df.setRoundingMode(RoundingMode.CEILING);
         final String header = "Tours Summary Report";
-        // TODO: replace with real data
-        final long avgTime = 0;
-        final long avgDistance = 0;
-        final long avgRating = 0;
+
+        // calculate average time, difficulty and rating for each tour
+        tourStatsList = calculateStatistics();
 
         Paragraph tourReportHeader = new Paragraph(header)
                 .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
-                .setFontSize(14)
+                .setFontSize(18)
                 .setBold()
+                .setUnderline()
                 .setFontColor(ColorConstants.PINK);
         document.add(tourReportHeader);
 
-        Paragraph tableHeader = new Paragraph("\n" + "Tour Logs Table")
+        Paragraph tableHeader = new Paragraph("Statistics")
                 .setFont(PdfFontFactory.createFont(StandardFonts.HELVETICA))
                 .setFontSize(14)
                 .setBold()
                 .setFontColor(ColorConstants.PINK);
         document.add(tableHeader);
+
         Table table = new Table(UnitValue.createPercentArray(new float[] {40, 18, 22, 20})).useAllAvailableWidth();
-        table.addHeaderCell(getHeaderCell("Tour name"));
+        table.addHeaderCell(getHeaderCell("Tour"));
         table.addHeaderCell(getHeaderCell("Average time"));
-        table.addHeaderCell(getHeaderCell("Average distance"));
+        table.addHeaderCell(getHeaderCell("Average difficulty"));
         table.addHeaderCell(getHeaderCell("Average rating"));
-        table.setFontSize(14).setBackgroundColor(ColorConstants.WHITE);
-        table.addCell("Wienerberg Hiking Trail");
-        table.addCell("3 hours");
-        table.addCell("5 km");
-        table.addCell("4.5");
-        table.addCell("Vienna City Tour");
-        table.addCell("2 hours");
-        table.addCell("10 km");
-        table.addCell("4");
+        table.setFontSize(12).setBackgroundColor(ColorConstants.WHITE);
+
+        for (Statistic statistic : tourStatsList) {
+            if(statistic.getAvgTime() == 0 && statistic.getAvgRating() == 0 && statistic.getAvgDifficulty().equals("0")) {
+                table.addCell(statistic.getTourName() + " (No logs for this tour yet!)");
+                table.addCell("-");
+                table.addCell("-");
+                table.addCell("-");
+            } else {
+                table.addCell(statistic.getTourName());
+                table.addCell(df.format(statistic.getAvgTime()));
+                table.addCell(statistic.getAvgDifficulty());
+                table.addCell(df.format(statistic.getAvgRating()));
+            }
+        }
+
         document.add(table);
 
         document.close();
     }
     private Cell getHeaderCell(String s) {
         return new Cell().add(new Paragraph(s)).setBold().setBackgroundColor(ColorConstants.GRAY);
+    }
+
+    private java.util.List<Statistic> calculateStatistics() {
+        java.util.List<Tour> tourList = tourService.getTourList();
+        java.util.List<Statistic> tourStatsList = new ArrayList<>();
+
+        for (Tour tour : tourList) {
+            double avgTime = 0;
+            int easy = 0;
+            int medium = 0;
+            int hard = 0;
+            String avgDifficulty;
+            double avgRating = 0;
+
+            java.util.List<Log> logList = logService.getLogList(tour.getId());
+
+            if (logList.size() > 0) {
+                for (Log log : logList) {
+                    avgTime += log.getTotalTime();
+                    if (log.getDifficulty().equals("easy")) {
+                        easy++;
+                    } else if (log.getDifficulty().equals("medium")) {
+                        medium++;
+                    } else {
+                        hard++;
+                    }
+                    avgRating += log.getRating();
+                }
+
+                avgTime /= logList.size();
+                avgRating /= logList.size();
+
+                if (easy > medium && easy > hard) {
+                    avgDifficulty = "easy";
+                } else if (medium > easy && medium > hard) {
+                    avgDifficulty = "medium";
+                } else if (hard > easy && hard > medium){
+                    avgDifficulty = "hard";
+                } else if (easy > medium) {
+                    avgDifficulty = "medium";
+                } else if (easy == medium && easy > hard) {
+                    avgDifficulty = "easy/medium";
+                } else if (medium > easy) {
+                    avgDifficulty = "medium/hard";
+                } else {
+                    avgDifficulty = "medium";
+                }
+                tourStatsList.add(new Statistic(tour.getName(), avgTime, avgDifficulty, avgRating));
+
+            } else {
+                tourStatsList.add(new Statistic(tour.getName(), 0, String.valueOf(0), 0));
+            }
+
+        }
+        return tourStatsList;
     }
 }

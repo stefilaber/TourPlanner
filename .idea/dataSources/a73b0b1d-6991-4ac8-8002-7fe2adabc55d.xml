@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataSource name="swe2db@localhost">
-  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.43">
+  <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.48">
     <root id="1">
       <DateStyle>mdy</DateStyle>
       <Grants>1||-9223372036854775808|c|G
@@ -4824,8 +4824,10 @@ true posixrules
       <OwnerName>pg_database_owner</OwnerName>
     </schema>
     <sequence id="263" parent="262" name="hibernate_sequence">
-      <DataType>bigint|0s</DataType>
+      <DasType>bigint|0s</DasType>
       <ObjectId>41097</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
       <StateNumber>844</StateNumber>
       <OwnerName>swe2user</OwnerName>
     </sequence>
@@ -4842,49 +4844,49 @@ true posixrules
       <OwnerName>swe2user</OwnerName>
     </table>
     <column id="266" parent="264" name="id">
-      <DataType>bigint|0s</DataType>
+      <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>842</StateNumber>
       <TypeId>20</TypeId>
     </column>
     <column id="267" parent="264" name="comment">
-      <DataType>varchar(255)|0s</DataType>
+      <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>842</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="268" parent="264" name="date_time">
-      <DataType>varchar(255)|0s</DataType>
+      <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>842</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="269" parent="264" name="difficulty">
-      <DataType>varchar(255)|0s</DataType>
+      <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>842</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="270" parent="264" name="rating">
-      <DataType>integer|0s</DataType>
+      <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StateNumber>842</StateNumber>
       <TypeId>23</TypeId>
     </column>
     <column id="271" parent="264" name="total_time">
-      <DataType>integer|0s</DataType>
+      <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StateNumber>842</StateNumber>
       <TypeId>23</TypeId>
     </column>
     <column id="272" parent="264" name="tour_id">
-      <DataType>bigint|0s</DataType>
+      <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StateNumber>842</StateNumber>
@@ -4917,56 +4919,56 @@ true posixrules
       <UnderlyingIndexId>41088</UnderlyingIndexId>
     </key>
     <column id="276" parent="265" name="id">
-      <DataType>bigint|0s</DataType>
+      <DasType>bigint|0s</DasType>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StateNumber>843</StateNumber>
       <TypeId>20</TypeId>
     </column>
     <column id="277" parent="265" name="estimated_time">
-      <DataType>integer|0s</DataType>
+      <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>843</StateNumber>
       <TypeId>23</TypeId>
     </column>
     <column id="278" parent="265" name="name">
-      <DataType>varchar(255)|0s</DataType>
+      <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>843</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="279" parent="265" name="tour_description">
-      <DataType>varchar(255)|0s</DataType>
+      <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>843</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="280" parent="265" name="tour_distance">
-      <DataType>integer|0s</DataType>
+      <DasType>integer|0s</DasType>
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StateNumber>843</StateNumber>
       <TypeId>23</TypeId>
     </column>
     <column id="281" parent="265" name="tour_from">
-      <DataType>varchar(255)|0s</DataType>
+      <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StateNumber>843</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="282" parent="265" name="tour_to">
-      <DataType>varchar(255)|0s</DataType>
+      <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StateNumber>843</StateNumber>
       <TypeId>1043</TypeId>
     </column>
     <column id="283" parent="265" name="transport_type">
-      <DataType>varchar(255)|0s</DataType>
+      <DasType>varchar(255)|0s</DasType>
       <NotNull>1</NotNull>
       <Position>8</Position>
       <StateNumber>843</StateNumber>
