@@ -1,6 +1,7 @@
 package at.fhtw.swen2.tutorial.service.impl;
 
 import at.fhtw.swen2.tutorial.persistence.entities.TourEntity;
+import at.fhtw.swen2.tutorial.persistence.repositories.LogRepository;
 import at.fhtw.swen2.tutorial.persistence.repositories.TourRepository;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
 import at.fhtw.swen2.tutorial.service.mapper.TourMapper;
@@ -17,6 +18,10 @@ public class TourServiceImpl implements TourService {
 
     @Autowired
     private TourRepository tourRepository;
+
+    @Autowired
+    private LogRepository logRepository;
+
     @Autowired
     private TourMapper tourMapper;
 
@@ -38,6 +43,7 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public void delete(Tour tour) {
+        logRepository.deleteByTourId(tour.getId());
         tourRepository.delete(tourMapper.toEntity(tour));
     }
 }

@@ -34,4 +34,9 @@ public class LogServiceImpl implements LogService {
         LogEntity entity = logRepository.save(logMapper.toEntity(log));
         return logMapper.fromEntity(entity);
     }
+
+    @Override
+    public void deleteLog(Log log) {
+        logRepository.delete(logMapper.toEntity(log));
+    }
 }

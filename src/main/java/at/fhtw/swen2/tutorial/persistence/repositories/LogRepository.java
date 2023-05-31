@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface LogRepository extends JpaRepository<LogEntity, Long> {
     List<LogEntity> findByTourId(Long tourId);
+
+    void deleteByTourId(Long tourId);
 }
