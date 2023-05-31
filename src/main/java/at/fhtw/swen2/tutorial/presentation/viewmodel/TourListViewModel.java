@@ -43,24 +43,7 @@ public class TourListViewModel {
             addItem(p);
         });
     }
-    /*tourListItems.setOnMouseClicked(new EventHandler<MouseEvent>() {
-        @Override
-        public void handle(MouseEvent event) {
-            if(mouseEvent.getButton().equals(MouseButton.PRIMARY)){
-                if(mouseEvent.getClickCount() == 2){
-                    System.out.println("Double clicked");
-                }
-            }
-        }
-    });*/
 
-    /*lv.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-        @Override
-        public void handle(MouseEvent event) {
-            System.out.println("clicked on " + lv.getSelectionModel().getSelectedItem());
-        }
-    });*/
     public void filterList(String searchText){
         Task<List<Tour>> task = new Task<>() {
             @Override
@@ -81,5 +64,9 @@ public class TourListViewModel {
 
     }
 
-
+    public void deleteTour(Tour selectedTour) {
+        tourService.delete(selectedTour);
+        tourListItems.remove(selectedTour);
+        masterData.remove(selectedTour);
+    }
 }

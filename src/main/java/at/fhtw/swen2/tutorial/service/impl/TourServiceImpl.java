@@ -35,4 +35,9 @@ public class TourServiceImpl implements TourService {
         TourEntity entity = tourRepository.save(tourMapper.toEntity(tour));
         return tourMapper.fromEntity(entity);
     }
+
+    @Override
+    public void delete(Tour tour) {
+        tourRepository.delete(tourMapper.toEntity(tour));
+    }
 }
