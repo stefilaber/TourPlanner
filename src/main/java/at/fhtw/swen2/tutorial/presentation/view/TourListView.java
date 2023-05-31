@@ -1,18 +1,22 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
 
@@ -26,7 +30,8 @@ public class TourListView implements Initializable{
     @FXML
     public TableView<Tour> tableView = new TableView<>();
     @FXML
-    private VBox dataContainer;
+    private StackPane dataContainer;
+
     @FXML
     private Button editTourButton;
 
@@ -47,6 +52,7 @@ public class TourListView implements Initializable{
 
         TableColumn<Tour, String> name = new TableColumn<>("NAME");
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
+        name.setCellFactory(TextFieldTableCell.forTableColumn());
 
         TableColumn<Tour, String> tourDescription = new TableColumn<>("DESCRIPTION");
         tourDescription.setCellValueFactory(new PropertyValueFactory<>("tourDescription"));
@@ -67,21 +73,19 @@ public class TourListView implements Initializable{
         TableColumn<Tour, Integer> tourDistance = new TableColumn<>("DISTANCE");
         tourDistance.setCellValueFactory(new PropertyValueFactory<>("tourDistance"));
 
-        TableColumn<Tour, Integer> estimatedTime = new TableColumn<>("DURATION");
-        estimatedTime.setCellValueFactory(new PropertyValueFactory<>("estimatedTime"));
+        TableColumn<Tour, String> estimatedTime = new TableColumn<>("DURATION");
+        estimatedTime.setCellValueFactory(cellData -> new SimpleStringProperty(DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalTime.ofSecondOfDay(cellData.getValue().getEstimatedTime()))));
 
         var columns = tableView.getColumns();
         Stream.of(name, tourDescription, tourFrom, tourTo, transportType, tourDistance, estimatedTime).forEach(columns::add);
 
-
-
         tableView.setRowFactory( tv -> {
             TableRow<Tour> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                Tour selectedTour = tableView.getSelectionModel().getSelectedItem();
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Tour rowData = row.getItem();
                     tourListViewModel.onTourDoubleClick.accept(rowData);
+
                 }
             });
             return row ;
@@ -89,7 +93,6 @@ public class TourListView implements Initializable{
 
         dataContainer.getChildren().add(tableView);
         tourListViewModel.initList();
-
 
     }
 
@@ -113,4 +116,6 @@ public class TourListView implements Initializable{
         editTourButton.setVisible(true);
         saveEditedTourButton.setVisible(false);
     }
+}
+
 }
