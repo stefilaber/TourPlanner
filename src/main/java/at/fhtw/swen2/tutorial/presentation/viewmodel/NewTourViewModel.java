@@ -3,19 +3,11 @@ package at.fhtw.swen2.tutorial.presentation.viewmodel;
 import at.fhtw.swen2.tutorial.service.MapQuestApiService;
 import at.fhtw.swen2.tutorial.service.TourService;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javafx.beans.property.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 
 @Component
@@ -129,34 +121,15 @@ public class NewTourViewModel {
 
     public void setTour(Tour tour) { this.tour = tour; }
 
-    public void addNewTour() throws IOException {
-
-        //first request for the duration and time:
-        String responseJsonString = mapQuestApiService.getTourDistanceTime(getTourFrom(), getTourTo(), getTransportType());
-
-        //mapping the response to a json object
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode response = mapper.readTree(responseJsonString);
-
-        //getting the distance and time from the response
-        JsonNode route = response.get("route");
-        JsonNode distance = route.get("distance");
-        JsonNode time = route.get("time");
-
-        //second request for the static map:
-        BufferedImage map = mapQuestApiService.getStaticMap(response);
-
-        //creating a maps directory in case it doesn't exist
-        String path = new java.io.File(".").getCanonicalPath() + "\\src\\main\\resources\\maps\\";
-        Files.createDirectories(Paths.get(path));
-
-        //saving the image in the maps folder
-        String mapPath = getName() + ".png";
-        ImageIO.write(map, "png", new FileOutputStream(path + mapPath));
+    public void addNewTour(){
 
         //adding the new tour to the database
-        Tour tour = Tour.builder().id(getId()).name(getName()).tourDescription(getTourDescription()).tourFrom(getTourFrom()).tourTo(getTourTo()).transportType(getTransportType()).tourDistance(distance.asInt()).estimatedTime(time.asInt()).build();
-        tour = tourService.addNew(tour);
+        Tour tour = Tour.builder().id(getId()).name(getName()).tourDescription(getTourDescription()).tourFrom(getTourFrom()).tourTo(getTourTo()).transportType(getTransportType()).build();
+        try {
+            tour = tourService.save(tour);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         tourListViewModel.addItem(tour);
 
     }

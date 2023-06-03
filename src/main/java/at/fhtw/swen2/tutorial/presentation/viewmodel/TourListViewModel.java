@@ -6,6 +6,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -65,8 +67,23 @@ public class TourListViewModel {
     }
 
     public void deleteTour(Tour selectedTour) {
+
         tourService.delete(selectedTour);
         tourListItems.remove(selectedTour);
         masterData.remove(selectedTour);
+    }
+
+    public void saveEditedTour(Tour tour){
+
+        try {
+            tourService.save(tour);
+            tourListItems.setAll(masterData);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteMap(String name){
+        tourService.deleteMap(name);
     }
 }

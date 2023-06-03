@@ -9,7 +9,6 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -38,6 +37,8 @@ public class TourListView implements Initializable{
     @FXML
     private Button saveEditedTourButton;
 
+    private String selectedTourName;
+
     public TourListView(TourListViewModel tourListViewModel) {
         this.tourListViewModel = tourListViewModel;
     }
@@ -53,22 +54,42 @@ public class TourListView implements Initializable{
         TableColumn<Tour, String> name = new TableColumn<>("NAME");
         name.setCellValueFactory(new PropertyValueFactory<>("name"));
         name.setCellFactory(TextFieldTableCell.forTableColumn());
+        name.setOnEditCommit(event -> {
+            Tour tour = event.getRowValue();
+            tour.setName(event.getNewValue());
+        });
 
         TableColumn<Tour, String> tourDescription = new TableColumn<>("DESCRIPTION");
         tourDescription.setCellValueFactory(new PropertyValueFactory<>("tourDescription"));
         tourDescription.setCellFactory(TextFieldTableCell.forTableColumn());
+        tourDescription.setOnEditCommit(event -> {
+            Tour tour = event.getRowValue();
+            tour.setTourDescription(event.getNewValue());
+        });
 
         TableColumn<Tour, String> tourFrom = new TableColumn<>("FROM");
         tourFrom.setCellValueFactory(new PropertyValueFactory<>("tourFrom"));
         tourFrom.setCellFactory(TextFieldTableCell.forTableColumn());
+        tourFrom.setOnEditCommit(event -> {
+            Tour tour = event.getRowValue();
+            tour.setTourFrom(event.getNewValue());
+        });
 
         TableColumn<Tour, String> tourTo = new TableColumn<>("TO");
         tourTo.setCellValueFactory(new PropertyValueFactory<>("tourTo"));
         tourTo.setCellFactory(TextFieldTableCell.forTableColumn());
+        tourTo.setOnEditCommit(event -> {
+            Tour tour = event.getRowValue();
+            tour.setTourTo(event.getNewValue());
+        });
 
         TableColumn<Tour, String> transportType = new TableColumn<>("TRANSPORT TYPE");
         transportType.setCellValueFactory(new PropertyValueFactory<>("transportType"));
         transportType.setCellFactory(TextFieldTableCell.forTableColumn());
+        transportType.setOnEditCommit(event -> {
+            Tour tour = event.getRowValue();
+            tour.setTransportType(event.getNewValue());
+        });
 
         TableColumn<Tour, Integer> tourDistance = new TableColumn<>("DISTANCE");
         tourDistance.setCellValueFactory(new PropertyValueFactory<>("tourDistance"));
@@ -82,7 +103,14 @@ public class TourListView implements Initializable{
         tableView.setRowFactory( tv -> {
             TableRow<Tour> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                //to get selected tour name:
+                if (event.getClickCount() == 1) {
+                    Tour rowData = row.getItem();
+                    selectedTourName = rowData.getName();
+
+                //to redirect to logs tab and show logs for selected tour:
+                }
+                if (event.getClickCount() == 2 && (! row.isEmpty()) && editTourButton.isVisible()) {
                     Tour rowData = row.getItem();
                     tourListViewModel.onTourDoubleClick.accept(rowData);
 
@@ -99,10 +127,12 @@ public class TourListView implements Initializable{
     public void deleteButtonAction(ActionEvent actionEvent) {
         Tour selectedTour = tableView.getSelectionModel().getSelectedItem();
         tourListViewModel.deleteTour(selectedTour);
+        tourListViewModel.deleteMap(selectedTourName);
     }
 
     public void editButtonAction(ActionEvent actionEvent) {
 
+        //make table editable
         tableView.setEditable(true);
 
         editTourButton.setVisible(false);
@@ -111,6 +141,13 @@ public class TourListView implements Initializable{
 
     public void saveEditedTourButtonAction(ActionEvent actionEvent) {
 
+        Tour selectedTour = tableView.getSelectionModel().getSelectedItem();
+        System.out.println(selectedTour);
+
+        tourListViewModel.deleteMap(selectedTourName);
+        tourListViewModel.saveEditedTour(selectedTour);
+
+        //make table uneditable
         tableView.setEditable(false);
 
         editTourButton.setVisible(true);
@@ -118,4 +155,3 @@ public class TourListView implements Initializable{
     }
 }
 
-}
