@@ -1,6 +1,7 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -25,6 +26,8 @@ public class TourListView implements Initializable{
     public TableView<Tour> tableView = new TableView<>();
     @FXML
     private VBox dataContainer;
+    @FXML
+    private Button deleteTourButton;
 
     public TourListView(TourListViewModel tourListViewModel) {
         this.tourListViewModel = tourListViewModel;
@@ -57,11 +60,10 @@ public class TourListView implements Initializable{
         tableView.setRowFactory( tv -> {
             TableRow<Tour> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                System.out.println("clicked");
+                Tour selectedTour = tableView.getSelectionModel().getSelectedItem();
                 if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
                     Tour rowData = row.getItem();
                     tourListViewModel.onTourDoubleClick.accept(rowData);
-
                 }
             });
             return row ;
@@ -70,8 +72,10 @@ public class TourListView implements Initializable{
         dataContainer.getChildren().add(tableView);
         tourListViewModel.initList();
 
-
-
     }
 
+    public void deleteButtonAction(ActionEvent actionEvent) {
+        Tour selectedTour = tableView.getSelectionModel().getSelectedItem();
+        tourListViewModel.deleteTour(selectedTour);
+    }
 }

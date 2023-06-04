@@ -8,8 +8,10 @@ public interface LogService {
 
     List<Log> getLogList(Long tourId);
 
-    Log addNew(Log log);
+    Log save(Log log);
 
-    // erweitern mit parameter create new service
+    void delete(Log log);
+
+    void edit(Log log);
 
 }

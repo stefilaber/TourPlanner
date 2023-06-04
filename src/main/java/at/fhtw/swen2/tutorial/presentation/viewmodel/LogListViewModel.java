@@ -11,8 +11,10 @@ import javafx.scene.control.ListView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Component
@@ -23,7 +25,7 @@ public class LogListViewModel {
     @FXML
     private ListView listView;
 
-
+    public Consumer<Log> onLogDoubleClick = log -> {};
     private Long selectedTourId = Long.valueOf(0);
 
     private List<Log> masterData = new ArrayList<>();
@@ -47,28 +49,6 @@ public class LogListViewModel {
             addItem(p);
         });
     }
-    /*
-    public void filterList(String searchText){
-        Task<List<Log>> task = new Task<>() {
-            @Override
-            protected List<Tour> call() throws Exception {
-                updateMessage("Loading data");
-                return masterData
-                        .stream()
-                        .filter(value -> value.getName().toLowerCase().contains(searchText.toLowerCase()))
-                        .collect(Collectors.toList());
-            }
-        };
-
-        task.setOnSucceeded(event -> {
-            tourListItems.setAll(task.getValue());
-        });
-
-        Thread th = new Thread(task);
-        th.setDaemon(true);
-        th.start();
-
-    }*/
 
     public void setSelectedTourId(Long selectedTourId) {
         this.selectedTourId = selectedTourId;
@@ -78,4 +58,20 @@ public class LogListViewModel {
         return selectedTourId;
     }
 
+    public void deleteLog(Log log){
+        logService.delete(log);
+        logListItems.remove(log);
+        masterData.remove(log);
+    }
+
+//    public void editLog(Log log) {
+//        logService.edit(log);
+//        logListItems.set(logListItems.indexOf(log), log);
+//        masterData.set(masterData.indexOf(log), log);
+//    }
+
+    public void saveEditedLog(Log log) {
+        logService.save(log);
+        logListItems.setAll(masterData);
+    }
 }
