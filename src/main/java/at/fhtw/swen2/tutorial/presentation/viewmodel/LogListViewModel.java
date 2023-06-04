@@ -64,12 +64,6 @@ public class LogListViewModel {
         masterData.remove(log);
     }
 
-//    public void editLog(Log log) {
-//        logService.edit(log);
-//        logListItems.set(logListItems.indexOf(log), log);
-//        masterData.set(masterData.indexOf(log), log);
-//    }
-
     public void saveEditedLog(Log log) {
         logService.save(log);
         logListItems.setAll(masterData);

@@ -43,16 +43,16 @@ public class LogServiceImpl implements LogService {
         logRepository.delete(logMapper.toEntity(log));
     }
 
-    @Override
-    public void edit(Log log) {
-        LogEntity entity = logRepository.findById(log.getId()).orElse(null);
-        System.out.println(log);
-        String dateTime = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(Calendar.getInstance().getTime());
-        entity.setDateTime(dateTime);
-        entity.setComment(log.getComment());
-        entity.setDifficulty(log.getDifficulty());
-        entity.setTotalTime(log.getTotalTime());
-        entity.setRating(log.getRating());
-        logRepository.save(entity);
-    }
+//    @Override
+//    public void edit(Log log) {
+//        LogEntity entity = logRepository.findById(log.getId()).orElse(null);
+//        System.out.println(log);
+//        String dateTime = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(Calendar.getInstance().getTime());
+//        entity.setDateTime(dateTime);
+//        entity.setComment(log.getComment());
+//        entity.setDifficulty(log.getDifficulty());
+//        entity.setTotalTime(log.getTotalTime());
+//        entity.setRating(log.getRating());
+//        logRepository.save(entity);
+//    }
 }

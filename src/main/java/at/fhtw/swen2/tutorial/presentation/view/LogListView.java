@@ -88,18 +88,6 @@ public class LogListView implements Initializable{
         var columns = tableView.getColumns();
         Stream.of(dateTime, comment, difficulty, totalTime, rating).forEach(columns::add);
 
-        tableView.setRowFactory( tv -> {
-            TableRow<Log> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (!row.isEmpty())) {
-                    Log rowData = row.getItem();
-                    tableView.setEditable(true);
-                    logListViewModel.onLogDoubleClick.accept(rowData);
-                }
-            });
-            return row;
-        });
-
         dataContainer.getChildren().add(tableView);
 
     }

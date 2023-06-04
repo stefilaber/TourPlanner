@@ -12,6 +12,4 @@ public interface LogService {
 
     void delete(Log log);
 
-    void edit(Log log);
-
 }
