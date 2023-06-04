@@ -16,8 +16,7 @@ import java.util.stream.Collectors;
 @Component
 public class TourListViewModel {
 
-    final
-    TourService tourService;
+    final TourService tourService;
 
     public Consumer<Tour> onTourDoubleClick = tour -> {};
 
