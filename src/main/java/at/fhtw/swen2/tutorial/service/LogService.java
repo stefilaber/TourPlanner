@@ -10,8 +10,8 @@ public interface LogService {
 
     Log addNew(Log log);
 
-    void deleteLog(Log log);
+    void delete(Log log);
 
-    // erweitern mit parameter create new service
+    void edit(Log log);
 
 }

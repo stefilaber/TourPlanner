@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -36,7 +39,20 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public void deleteLog(Log log) {
+    public void delete(Log log) {
         logRepository.delete(logMapper.toEntity(log));
+    }
+
+    @Override
+    public void edit(Log log) {
+        LogEntity entity = logRepository.findById(log.getId()).orElse(null);
+        System.out.println(log);
+        String dateTime = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(Calendar.getInstance().getTime());
+        entity.setDateTime(dateTime);
+        entity.setComment(log.getComment());
+        entity.setDifficulty(log.getDifficulty());
+        entity.setTotalTime(log.getTotalTime());
+        entity.setRating(log.getRating());
+        logRepository.save(entity);
     }
 }
