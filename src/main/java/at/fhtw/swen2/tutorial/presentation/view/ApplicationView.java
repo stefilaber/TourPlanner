@@ -57,6 +57,7 @@ public class ApplicationView implements Initializable, StageAware {
             logListViewModel.setSelectedTourId(tour.getId());
             logListViewModel.initList();
             tabPane.getSelectionModel().select(logTab);
+            logTab.setDisable(false);
         };
     }
 
