@@ -41,7 +41,7 @@
                    </AnchorPane>
                </SplitPane>
            </Tab>
-           <Tab fx:id="logTab" text="%tab.logs.title">
+           <Tab fx:id="logTab" disable="true" text="%tab.logs.title">
                <SplitPane disable="true" dividerPositions="0.265">
                    <ScrollPane prefHeight="200.0" prefWidth="200.0">
                        <fx:include source="NewLog.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
