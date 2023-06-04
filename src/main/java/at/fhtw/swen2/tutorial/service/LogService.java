@@ -8,7 +8,7 @@ public interface LogService {
 
     List<Log> getLogList(Long tourId);
 
-    Log addNew(Log log);
+    Log save(Log log);
 
     void delete(Log log);
 

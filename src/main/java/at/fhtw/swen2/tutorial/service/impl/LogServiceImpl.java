@@ -30,7 +30,7 @@ public class LogServiceImpl implements LogService {
     }
 
     @Override
-    public Log addNew(Log log) {
+    public Log save(Log log) {
         if (log == null){
             return null;
         }

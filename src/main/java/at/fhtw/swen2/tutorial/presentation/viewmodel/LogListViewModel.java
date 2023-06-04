@@ -11,6 +11,7 @@ import javafx.scene.control.ListView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -63,9 +64,14 @@ public class LogListViewModel {
         masterData.remove(log);
     }
 
-    public void editLog(Log log) {
-        logService.edit(log);
-        logListItems.set(logListItems.indexOf(log), log);
-        masterData.set(masterData.indexOf(log), log);
+//    public void editLog(Log log) {
+//        logService.edit(log);
+//        logListItems.set(logListItems.indexOf(log), log);
+//        masterData.set(masterData.indexOf(log), log);
+//    }
+
+    public void saveEditedLog(Log log) {
+        logService.save(log);
+        logListItems.setAll(masterData);
     }
 }
