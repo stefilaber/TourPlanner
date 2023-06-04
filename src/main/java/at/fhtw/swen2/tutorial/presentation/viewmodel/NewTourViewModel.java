@@ -1,10 +1,13 @@
 package at.fhtw.swen2.tutorial.presentation.viewmodel;
 
+import at.fhtw.swen2.tutorial.service.MapQuestApiService;
 import at.fhtw.swen2.tutorial.service.TourService;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.beans.property.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
 
 
 @Component
@@ -15,13 +18,14 @@ public class NewTourViewModel {
     private SimpleStringProperty tourFrom  = new SimpleStringProperty();
     private SimpleStringProperty tourTo  = new SimpleStringProperty();
     private SimpleStringProperty transportType  = new SimpleStringProperty();
-    private SimpleIntegerProperty tourDistance  = new SimpleIntegerProperty();
-    private SimpleIntegerProperty estimatedTime  = new SimpleIntegerProperty();
 
     @Autowired
     private TourService tourService;
     @Autowired
     private TourListViewModel tourListViewModel;
+
+    @Autowired
+    private MapQuestApiService mapQuestApiService;
 
     private Tour tour;
 
@@ -35,8 +39,6 @@ public class NewTourViewModel {
         this.tourFrom = new SimpleStringProperty(tour.getTourFrom());
         this.tourTo = new SimpleStringProperty(tour.getTourTo());
         this.transportType = new SimpleStringProperty(tour.getTransportType());
-        this.tourDistance = new SimpleIntegerProperty(tour.getTourDistance());
-        this.estimatedTime = new SimpleIntegerProperty(tour.getEstimatedTime());
     }
 
     public long getId() {
@@ -99,28 +101,6 @@ public class NewTourViewModel {
         this.transportType.set(transportType);
     }
 
-    public int getTourDistance() {
-        return tourDistance.get();
-    }
-
-    public SimpleIntegerProperty tourDistanceProperty() {
-        return tourDistance;
-    }
-
-    public void setTourDistance(int tourDistance) {
-        this.tourDistance.set(tourDistance);
-    }
-
-    public int getEstimatedTime() {
-        return estimatedTime.get();
-    }
-
-    public SimpleIntegerProperty estimatedTimeProperty() { return estimatedTime; }
-
-    public void setEstimatedTime(int estimatedTime) {
-        this.estimatedTime.set(estimatedTime);
-    }
-
     public TourService getTourService() {
         return tourService;
     }
@@ -141,10 +121,17 @@ public class NewTourViewModel {
 
     public void setTour(Tour tour) { this.tour = tour; }
 
-    public void addNewTour() {
-        Tour tour = Tour.builder().id(getId()).name(getName()).tourDescription(getTourDescription()).tourFrom(getTourFrom()).tourTo(getTourTo()).transportType(getTransportType()).tourDistance(getTourDistance()).estimatedTime(getEstimatedTime()).build();
-        tour = tourService.addNew(tour);
+    public void addNewTour(){
+
+        //adding the new tour to the database
+        Tour tour = Tour.builder().id(getId()).name(getName()).tourDescription(getTourDescription()).tourFrom(getTourFrom()).tourTo(getTourTo()).transportType(getTransportType()).build();
+        try {
+            tour = tourService.save(tour);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         tourListViewModel.addItem(tour);
+
     }
 
 }

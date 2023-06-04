@@ -35,6 +35,9 @@ public class LogListView implements Initializable{
     @FXML
     private Button saveEditedLogButton;
 
+    @FXML
+    private VBox mapContainer;
+
     public LogListView(LogListViewModel logListViewModel) {
         this.logListViewModel = logListViewModel;
     }
@@ -98,7 +101,6 @@ public class LogListView implements Initializable{
         });
 
         dataContainer.getChildren().add(tableView);
-        //logListViewModel.initList();
 
     }
 
