@@ -12,7 +12,7 @@
     <children>
         <Button fx:id="saveEditedTourButton" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="10.0" onAction="#saveEditedTourButtonAction" text="update" />
         <Button fx:id="editTourButton" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="10.0" onAction="#editButtonAction" text="edit" />
-        <Button fx:id="deleteTourButton" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" onAction="#deleteButtonAction" text="delete" />
+        <Button fx:id="deleteTourButton" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" onAction="#deleteButtonAction" text="delete" />
         <StackPane fx:id="dataContainer"
                    AnchorPane.leftAnchor="7.0"
                    AnchorPane.rightAnchor="7.0"

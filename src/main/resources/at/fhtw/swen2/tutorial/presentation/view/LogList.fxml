@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhtw.swen2.tutorial.presentation.view.LogListView">
     <children>
-        <Button fx:id="deleteLogButton" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" onAction="#deleteButtonAction" text="delete"/>
+        <Button fx:id="deleteLogButton" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0" onAction="#deleteButtonAction" text="delete"/>
         <Button fx:id="saveEditedLogButton" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="10.0" onAction="#saveEditedLogButtonAction" text="update" />
         <Button fx:id="editLogButton" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="10.0" onAction="#editButtonAction" text="edit" />
         <VBox fx:id="mapContainer"
@@ -14,7 +14,7 @@
               prefWidth="586.0"
               AnchorPane.leftAnchor="7.0"
               AnchorPane.rightAnchor="7.0"
-              AnchorPane.topAnchor="7.0">
+              AnchorPane.topAnchor="45.0">
         </VBox>
         <VBox fx:id="dataContainer" layoutY="254.0"
               prefHeight="139.0" prefWidth="586.0"
