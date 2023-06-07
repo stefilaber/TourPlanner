@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class SearchViewModel {
+public class TourSearchViewModel {
 
     @Autowired
     private TourListViewModel tourListViewModel;

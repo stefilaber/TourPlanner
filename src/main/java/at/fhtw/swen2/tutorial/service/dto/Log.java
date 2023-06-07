@@ -11,6 +11,6 @@ public class Log {
     private String dateTime;
     private String comment;
     private String difficulty;
-    private int totalTime;
+    private String totalTime;
     private int rating;
 }

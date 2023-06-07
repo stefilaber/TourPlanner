@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
 
+<?import javafx.scene.control.ComboBox?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="200.0" prefWidth="200.0"
       spacing="8.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="at.fhtw.swen2.tutorial.presentation.view.NewTourView">
@@ -29,7 +30,7 @@
       <Text text="end"/>
       <TextField fx:id="tourToTextField"/>
       <Text text="transport type"/>
-      <TextField fx:id="transportTypeTextField"/>
+      <ComboBox fx:id="transportTypeComboBox"/>
       <Button fx:id="submitButton" onAction="#submitButtonAction" text="insert"/>
       <Separator prefWidth="200.0" />
       <Text fx:id="feedbackText" />

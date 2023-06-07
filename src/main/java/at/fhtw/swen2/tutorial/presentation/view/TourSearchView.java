@@ -1,10 +1,9 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 
 
-import at.fhtw.swen2.tutorial.presentation.viewmodel.SearchViewModel;
+import at.fhtw.swen2.tutorial.presentation.viewmodel.TourSearchViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import lombok.extern.slf4j.Slf4j;
@@ -15,24 +14,22 @@ import org.springframework.stereotype.Component;
 @Component
 @Scope("prototype")
 @Slf4j
-public class SearchView {
+public class TourSearchView {
 
     public static final int PAGE_ITEMS_COUNT = 10;
 
     @Autowired
-    private SearchViewModel searchViewModel;
+    private TourSearchViewModel tourSearchViewModel;
 
     @FXML
     private TextField searchField;
     @FXML
     private Button searchButton;
-    @FXML
-    private Label searchLabel;
 
     @FXML
     private void initialize() {
 
-        searchField.textProperty().bindBidirectional(searchViewModel.searchStringProperty());
+        searchField.textProperty().bindBidirectional(tourSearchViewModel.searchStringProperty());
 
         // search panel
         searchButton.setText("Search");
@@ -43,13 +40,10 @@ public class SearchView {
                 loadData();
             }
         });
-        searchField.textProperty().addListener((observable, oldValue, newValue) -> {
-            searchLabel.setText(newValue);
-        });
     }
 
     private void loadData() {
-        searchViewModel.search();
+        tourSearchViewModel.search();
     }
 
 }

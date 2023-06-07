@@ -54,10 +54,10 @@ public class ApplicationView implements Initializable, StageAware {
         this.publisher = publisher;
 
         tourListViewModel.onTourDoubleClick = tour -> {
+            logTab.setDisable(false);
             logListViewModel.setSelectedTourId(tour.getId());
             logListViewModel.initList();
             tabPane.getSelectionModel().select(logTab);
-            logTab.setDisable(false);
         };
     }
 

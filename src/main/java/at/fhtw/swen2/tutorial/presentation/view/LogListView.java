@@ -68,9 +68,9 @@ public class LogListView implements Initializable{
         });
 
 
-        TableColumn<Log, Integer> totalTime = new TableColumn<>("TOTAL TIME");
+        TableColumn<Log, String> totalTime = new TableColumn<>("TOTAL TIME");
         totalTime.setCellValueFactory(new PropertyValueFactory<>("totalTime"));
-        totalTime.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        totalTime.setCellFactory(TextFieldTableCell.forTableColumn());
         totalTime.setOnEditCommit(event -> {
             Log log = event.getRowValue();
             log.setTotalTime(event.getNewValue());
