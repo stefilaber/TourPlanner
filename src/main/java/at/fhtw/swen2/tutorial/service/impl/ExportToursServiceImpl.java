@@ -4,11 +4,9 @@ import java.io.FileOutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 
 import at.fhtw.swen2.tutorial.service.ExportDataService;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
@@ -16,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
-public class ExportDataServiceImpl implements ExportDataService {
+public class ExportToursServiceImpl implements ExportDataService {
     public static void main(String[] args) {
         String dbUrl = "jdbc:postgresql://localhost:5432/swe2db";
         String dbUsername = "swe2user";

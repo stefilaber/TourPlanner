@@ -1,6 +1,9 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
+import at.fhtw.swen2.tutorial.service.ImportDataService;
+import at.fhtw.swen2.tutorial.service.LogService;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
+import at.fhtw.swen2.tutorial.service.impl.LogServiceImpl;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,9 +13,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.StackPane;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -24,6 +29,7 @@ import java.util.stream.Stream;
 @Slf4j
 public class TourListView implements Initializable{
 
+    private final ImportDataService importLogsService;
     private final TourListViewModel tourListViewModel;
 
     @FXML
@@ -39,8 +45,9 @@ public class TourListView implements Initializable{
 
     private String selectedTourName;
 
-    public TourListView(TourListViewModel tourListViewModel) {
+    public TourListView(TourListViewModel tourListViewModel, ImportDataService importLogsService) {
         this.tourListViewModel = tourListViewModel;
+        this.importLogsService = importLogsService;
     }
 
     @Override
@@ -152,6 +159,11 @@ public class TourListView implements Initializable{
 
         editTourButton.setVisible(true);
         saveEditedTourButton.setVisible(false);
+    }
+
+    public void importLogsButtonAction(ActionEvent actionEvent) throws Exception {
+        String path = "E:/FH/SS23/SWEN/imports/logs.xlsx";
+        importLogsService.importLogs(path);
     }
 }
 
