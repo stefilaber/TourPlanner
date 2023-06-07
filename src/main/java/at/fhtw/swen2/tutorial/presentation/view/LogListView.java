@@ -37,7 +37,9 @@ public class LogListView implements Initializable{
     public void initialize(URL location, ResourceBundle rb){
 
         ImageView imageView = new ImageView();
-        imageView.setImage(logListViewModel.getMap());
+        imageView.setFitHeight(200);
+        imageView.setFitWidth(600);
+        imageView.imageProperty().bind(logListViewModel.mapProperty());
 
         tableView.setItems(logListViewModel.getLogListItems());
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);

@@ -60,12 +60,8 @@ public class ApplicationView implements Initializable, StageAware {
             logListViewModel.setSelectedTourId(tour.getId());
             logListViewModel.initList();
             tabPane.getSelectionModel().select(logTab);
-            try {
-                Image image = new Image(new File(".").getCanonicalPath() + "\\src\\main\\resources\\maps\\" + tour.getName() + ".png");
-                logListViewModel.setMap(image);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            Image image = new Image(getClass().getResourceAsStream("/maps/" + tour.getName() + ".png"));
+            logListViewModel.setMap(image);
         };
     }
 
