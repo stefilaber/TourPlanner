@@ -12,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
@@ -20,6 +21,8 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -57,6 +60,12 @@ public class ApplicationView implements Initializable, StageAware {
             logListViewModel.setSelectedTourId(tour.getId());
             logListViewModel.initList();
             tabPane.getSelectionModel().select(logTab);
+            try {
+                Image image = new Image(new File(".").getCanonicalPath() + "\\src\\main\\resources\\maps\\" + tour.getName() + ".png");
+                logListViewModel.setMap(image);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         };
     }
 

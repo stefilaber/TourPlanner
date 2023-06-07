@@ -6,6 +6,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -34,6 +35,10 @@ public class LogListView implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle rb){
+
+        ImageView imageView = new ImageView();
+        imageView.setImage(logListViewModel.getMap());
+
         tableView.setItems(logListViewModel.getLogListItems());
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
@@ -53,6 +58,7 @@ public class LogListView implements Initializable{
 
 
         dataContainer.getChildren().add(tableView);
+        mapContainer.getChildren().add(imageView);
 
 
     }
