@@ -1,11 +1,15 @@
 package at.fhtw.swen2.tutorial.presentation.viewmodel;
+
 import at.fhtw.swen2.tutorial.service.LogService;
 import at.fhtw.swen2.tutorial.service.dto.Log;
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +31,20 @@ public class LogListViewModel {
 
     private List<Log> masterData = new ArrayList<>();
     private ObservableList<Log> logListItems = FXCollections.observableArrayList();
+
+    private final ObjectProperty<Image> map = new SimpleObjectProperty<>();
+
+    public Image getMap() {
+        return map.get();
+    }
+
+    public void setMap(Image map) {
+        this.map.set(map);
+    }
+
+    public ObjectProperty<Image> mapProperty() {
+        return map;
+    }
 
     public ObservableList<Log> getLogListItems() {
         return logListItems;
@@ -78,7 +96,7 @@ public class LogListViewModel {
                                 value.getDifficulty().toLowerCase().contains(searchText.toLowerCase()) ||
                                 checkTimeSpan(value.getTotalTime(), searchText) ||
                                 String.valueOf(value.getRating()).toLowerCase().contains(searchText.toLowerCase())
-                                )
+                        )
                         .collect(Collectors.toList());
             }
         };

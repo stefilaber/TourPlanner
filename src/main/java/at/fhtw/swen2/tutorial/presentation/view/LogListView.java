@@ -1,20 +1,19 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
 import at.fhtw.swen2.tutorial.service.dto.Log;
-import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
-import javafx.util.converter.IntegerStringConverter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import javafx.scene.control.Button;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.util.converter.IntegerStringConverter;
+import javafx.scene.image.ImageView;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -31,12 +30,11 @@ public class LogListView implements Initializable{
     @FXML
     private VBox dataContainer;
     @FXML
+    private VBox mapContainer;
+    @FXML
     private Button editLogButton;
     @FXML
     private Button saveEditedLogButton;
-
-    @FXML
-    private VBox mapContainer;
 
     public LogListView(LogListViewModel logListViewModel) {
         this.logListViewModel = logListViewModel;
@@ -44,6 +42,11 @@ public class LogListView implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle rb){
+        ImageView imageView = new ImageView();
+        imageView.setFitHeight(200);
+        imageView.setFitWidth(600);
+        imageView.imageProperty().bind(logListViewModel.mapProperty());
+
         saveEditedLogButton.setVisible(false);
         tableView.setItems(logListViewModel.getLogListItems());
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
@@ -67,7 +70,6 @@ public class LogListView implements Initializable{
             log.setDifficulty(event.getNewValue());
         });
 
-
         TableColumn<Log, String> totalTime = new TableColumn<>("TOTAL TIME");
         totalTime.setCellValueFactory(new PropertyValueFactory<>("totalTime"));
         totalTime.setCellFactory(TextFieldTableCell.forTableColumn());
@@ -89,16 +91,12 @@ public class LogListView implements Initializable{
         Stream.of(dateTime, comment, difficulty, totalTime, rating).forEach(columns::add);
 
         dataContainer.getChildren().add(tableView);
-
+        mapContainer.getChildren().add(imageView);
     }
 
     public void deleteButtonAction(ActionEvent actionEvent) {
         logListViewModel.deleteLog(tableView.getSelectionModel().getSelectedItem());
     }
-
-//    public void editButtonAction(ActionEvent actionEvent) {
-//        logListViewModel.editLog(tableView.getSelectionModel().getSelectedItem());
-//    }
 
     public void editButtonAction(ActionEvent actionEvent) {
 
@@ -120,4 +118,5 @@ public class LogListView implements Initializable{
         editLogButton.setVisible(true);
         saveEditedLogButton.setVisible(false);
     }
+
 }
