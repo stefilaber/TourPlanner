@@ -52,7 +52,14 @@ public class TourListViewModel {
                 updateMessage("Loading data");
                 return masterData
                         .stream()
-                        .filter(value -> value.getName().toLowerCase().contains(searchText.toLowerCase()))
+                        .filter(value -> value.getName().toLowerCase().contains(searchText.toLowerCase()) ||
+                                        value.getTourDescription().toLowerCase().contains(searchText.toLowerCase()) ||
+                                        value.getTourFrom().toLowerCase().contains(searchText.toLowerCase()) ||
+                                        value.getTourTo().toLowerCase().contains(searchText.toLowerCase()) ||
+                                        value.getTransportType().toLowerCase().contains(searchText.toLowerCase()) ||
+                                        checkDistance(value.getTourDistance(), searchText) ||
+                                        checkTimeSpan(value.getEstimatedTime(), searchText)
+                                )
                         .collect(Collectors.toList());
             }
         };
@@ -84,5 +91,40 @@ public class TourListViewModel {
 
     public void deleteMap(String name){
         tourService.deleteMap(name);
+    }
+
+    private int convertToSeconds(String time){
+        String[] timeArray = time.split(":");
+        int hours = Integer.parseInt(timeArray[0]);
+        int minutes = 0;
+        if(timeArray.length >= 2) {
+            minutes = Integer.parseInt(timeArray[1]);
+        }
+        int seconds = 0;
+        //check if there are seconds in the time string
+        if(timeArray.length == 3){
+            seconds = Integer.parseInt(timeArray[2]);
+        }
+
+        return hours*3600 + minutes*60 + seconds;
+    }
+
+    private boolean checkTimeSpan(int tourSeconds, String searchTime){
+
+        //accepts time spans of 30 minutes (+- 1800 seconds of the tourSeconds)
+        try {
+            System.out.println(convertToSeconds(searchTime) >= (tourSeconds - 1800) && convertToSeconds(searchTime) <= tourSeconds + 1800);
+            return convertToSeconds(searchTime) >= (tourSeconds - 1800) && convertToSeconds(searchTime) <= tourSeconds + 1800;
+        } catch (NumberFormatException e){
+            return false;
+        }
+    }
+
+    private boolean checkDistance(int tourDistance, String searchDistance){
+        try {
+            return Integer.parseInt(searchDistance) >= (tourDistance - 20) && Integer.parseInt(searchDistance) <= tourDistance + 20;
+        } catch (NumberFormatException e){
+            return false;
+        }
     }
 }

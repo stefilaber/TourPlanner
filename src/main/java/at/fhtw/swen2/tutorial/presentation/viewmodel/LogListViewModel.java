@@ -1,8 +1,6 @@
 package at.fhtw.swen2.tutorial.presentation.viewmodel;
-
 import at.fhtw.swen2.tutorial.service.LogService;
 import at.fhtw.swen2.tutorial.service.dto.Log;
-import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -11,7 +9,6 @@ import javafx.scene.control.ListView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -67,5 +64,55 @@ public class LogListViewModel {
     public void saveEditedLog(Log log) {
         logService.save(log);
         logListItems.setAll(masterData);
+    }
+
+    public void filterList(String searchText) {
+        Task<List<Log>> task = new Task<>() {
+            @Override
+            protected List<Log> call() {
+                updateMessage("Loading data");
+                return masterData
+                        .stream()
+                        .filter(value -> value.getDateTime().toLowerCase().contains(searchText.toLowerCase()) ||
+                                value.getComment().toLowerCase().contains(searchText.toLowerCase()) ||
+                                value.getDifficulty().toLowerCase().contains(searchText.toLowerCase()) ||
+                                checkTimeSpan(value.getTotalTime(), searchText) ||
+                                String.valueOf(value.getRating()).toLowerCase().contains(searchText.toLowerCase())
+                                )
+                        .collect(Collectors.toList());
+            }
+        };
+
+        task.setOnSucceeded(event -> logListItems.setAll(task.getValue()));
+
+        Thread th = new Thread(task);
+        th.setDaemon(true);
+        th.start();
+    }
+
+    private int convertToSeconds(String time){
+        String[] timeArray = time.split(":");
+        int hours = Integer.parseInt(timeArray[0]);
+        int minutes = 0;
+        if(timeArray.length >= 2) {
+            minutes = Integer.parseInt(timeArray[1]);
+        }
+        int seconds = 0;
+        //check if there are seconds in the time string
+        if(timeArray.length == 3){
+            seconds = Integer.parseInt(timeArray[2]);
+        }
+
+        return hours*3600 + minutes*60 + seconds;
+    }
+
+    private boolean checkTimeSpan(String logTime, String searchTime){
+
+        //accepts time spans of 30 minutes (+- 1800 seconds of the tourSeconds)
+        try {
+            return convertToSeconds(searchTime) >= (convertToSeconds(logTime) - 1800) && convertToSeconds(searchTime) <= convertToSeconds(logTime) + 1800;
+        } catch (NumberFormatException e) {
+            return false;
+        }
     }
 }

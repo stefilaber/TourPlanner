@@ -9,6 +9,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.Button?>
 
+<?import javafx.scene.control.ComboBox?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="200.0" prefWidth="200.0"
       spacing="8.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="at.fhtw.swen2.tutorial.presentation.view.NewLogView">
@@ -25,11 +26,11 @@
         <Text text="comment"/>
         <TextField fx:id="commentTextField"/>
         <Text text="difficulty"/>
-        <TextField fx:id="difficultyTextField"/>
+        <ComboBox fx:id="difficultyComboBox" prefWidth="200.0" />
         <Text text="total time"/>
         <TextField fx:id="totalTimeTextField"/>
-        <Text text="rating type"/>
-        <TextField fx:id="ratingTextField"/>
+        <Text text="rating"/>
+        <ComboBox fx:id="ratingComboBox"/>
         <Button fx:id="submitButton" onAction="#submitButtonAction" text="insert"/>
         <Separator prefWidth="200.0" />
         <Text fx:id="feedbackText" />

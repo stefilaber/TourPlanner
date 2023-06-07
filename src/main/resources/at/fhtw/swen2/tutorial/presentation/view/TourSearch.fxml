@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml"
             xmlns="http://javafx.com/javafx"
-            fx:controller="at.fhtw.swen2.tutorial.presentation.view.SearchView"
+            fx:controller="at.fhtw.swen2.tutorial.presentation.view.TourSearchView"
             prefHeight="400.0" prefWidth="600.0">
     <children>
 
@@ -16,7 +16,6 @@
                 <Label text="Search Tour:"/>
                 <TextField fx:id="searchField" prefWidth="-1.0" HBox.hgrow="ALWAYS"/>
                 <Button fx:id="searchButton" prefWidth="-1.0" HBox.hgrow="ALWAYS"/>
-                <Label fx:id="searchLabel"/>
             </children>
         </HBox>
 
