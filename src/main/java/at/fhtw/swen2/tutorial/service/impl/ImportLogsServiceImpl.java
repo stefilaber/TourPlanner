@@ -2,6 +2,7 @@ package at.fhtw.swen2.tutorial.service.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -135,7 +136,7 @@ public class ImportLogsServiceImpl implements ImportDataService {
     private LogRepository logRepository;
 
     @Override
-    public void importLogs(String excelFilePath) throws IOException {
+    public void importData(String excelFilePath) throws IOException {
         File file = new File(excelFilePath);
         if (!file.exists()) {
             System.out.println("Excel file not found.");

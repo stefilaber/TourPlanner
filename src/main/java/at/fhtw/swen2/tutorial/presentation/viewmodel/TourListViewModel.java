@@ -1,10 +1,14 @@
 package at.fhtw.swen2.tutorial.presentation.viewmodel;
 
+import at.fhtw.swen2.tutorial.service.ExportDataService;
+import at.fhtw.swen2.tutorial.service.ImportDataService;
 import at.fhtw.swen2.tutorial.service.TourService;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
+import at.fhtw.swen2.tutorial.service.impl.ImportLogsServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -18,13 +22,18 @@ public class TourListViewModel {
 
     final TourService tourService;
 
+    final ImportDataService importToursService;
+    private final ExportDataService exportToursService;
+
     public Consumer<Tour> onTourDoubleClick = tour -> {};
 
     private final List<Tour> masterData = new ArrayList<>();
     private final ObservableList<Tour> tourListItems = FXCollections.observableArrayList();
 
-    public TourListViewModel(TourService tourService) {
+    public TourListViewModel(TourService tourService, @Qualifier("importToursServiceImpl") ImportDataService importToursService, @Qualifier("exportToursServiceImpl") ExportDataService exportToursService) {
         this.tourService = tourService;
+        this.importToursService = importToursService;
+        this.exportToursService = exportToursService;
     }
 
     public ObservableList<Tour> getTourListItems() {
@@ -35,8 +44,6 @@ public class TourListViewModel {
         tourListItems.add(tour);
         masterData.add(tour);
     }
-
-//    public void clearItems(){ tourListItems.clear(); }
 
     public void initList(){
         tourService.getTourList().forEach(p -> {
@@ -84,5 +91,14 @@ public class TourListViewModel {
 
     public void deleteMap(String name){
         tourService.deleteMap(name);
+    }
+
+    public void importTours() throws Exception {
+        String path = "C:\\Users\\stefi\\OneDrive\\Desktop\\exported_data";
+        importToursService.importData(path);
+    }
+
+    public void exportTours() throws Exception {
+        exportToursService.exportData();
     }
 }

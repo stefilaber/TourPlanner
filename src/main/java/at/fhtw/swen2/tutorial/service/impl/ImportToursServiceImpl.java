@@ -111,10 +111,13 @@ public class ImportToursServiceImpl implements ImportDataService {
 //        updateStatement.close();
 //    }
 
-    @Autowired
-    private LogRepository logRepository;
+    private final LogRepository logRepository;
 
-    public void importLogs(String excelFilePath) throws IOException {
+    public ImportToursServiceImpl(LogRepository logRepository) {
+        this.logRepository = logRepository;
+    }
+
+    public void importData(String excelFilePath) throws IOException {
         File file = new File(excelFilePath);
         if (!file.exists()) {
             System.out.println("Excel file not found.");

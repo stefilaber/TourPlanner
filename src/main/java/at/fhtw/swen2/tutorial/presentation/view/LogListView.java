@@ -120,4 +120,12 @@ public class LogListView implements Initializable{
         editLogButton.setVisible(true);
         saveEditedLogButton.setVisible(false);
     }
+
+    public void importLogsButtonAction(ActionEvent actionEvent) throws Exception {
+        logListViewModel.importLogs();
+    }
+
+    public void exportLogsButtonAction(ActionEvent actionEvent) throws Exception {
+        logListViewModel.exportLogs();
+    }
 }

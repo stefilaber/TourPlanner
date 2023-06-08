@@ -29,7 +29,6 @@ import java.util.stream.Stream;
 @Slf4j
 public class TourListView implements Initializable{
 
-    private final ImportDataService importLogsService;
     private final TourListViewModel tourListViewModel;
 
     @FXML
@@ -45,9 +44,8 @@ public class TourListView implements Initializable{
 
     private String selectedTourName;
 
-    public TourListView(TourListViewModel tourListViewModel, ImportDataService importLogsService) {
+    public TourListView(TourListViewModel tourListViewModel) {
         this.tourListViewModel = tourListViewModel;
-        this.importLogsService = importLogsService;
     }
 
     @Override
@@ -161,9 +159,12 @@ public class TourListView implements Initializable{
         saveEditedTourButton.setVisible(false);
     }
 
-    public void importLogsButtonAction(ActionEvent actionEvent) throws Exception {
-        String path = "E:/FH/SS23/SWEN/imports/logs.xlsx";
-        importLogsService.importLogs(path);
+    public void importToursButtonAction(ActionEvent actionEvent) throws Exception {
+        tourListViewModel.importTours();
+    }
+
+    public void exportLogsButtonAction(ActionEvent actionEvent) throws Exception {
+        tourListViewModel.exportTours();
     }
 }
 

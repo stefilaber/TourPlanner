@@ -53,7 +53,7 @@ public class MapQuestApiServiceImpl implements MapQuestApiService {
         JsonNode route = lastRequest.get("route");
         JsonNode session = route.get("sessionId");
         String boundingBox = route.get("boundingBox").get("lr").get("lng").asText() + "," + route.get("boundingBox").get("lr").get("lat").asText() + "," + route.get("boundingBox").get("ul").get("lng").asText() + "," + route.get("boundingBox").get("ul").get("lat").asText();
-        URL url = new URL("https://www.mapquestapi.com/staticmap/v5/map?key=" + key + "&session=" + session.asText() + "&bondingBox=" + boundingBox + "&size=600,200@2x");
+        URL url = new URL("https://www.mapquestapi.com/staticmap/v5/map?key=" + key + "&session=" + session.asText() + "&bondingBox=" + boundingBox+ "&size=800,400@2x");
         HttpURLConnection con = (HttpURLConnection) url.openConnection();
         con.setRequestMethod("GET");
 
