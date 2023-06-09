@@ -1,13 +1,20 @@
 package at.fhtw.swen2.tutorial.presentation.view;
+import at.fhtw.swen2.tutorial.presentation.Swen2TemplateApplication;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
 import at.fhtw.swen2.tutorial.service.dto.Log;
+import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
+import javafx.util.converter.IntegerStringConverter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import javafx.scene.control.Button;
@@ -15,6 +22,7 @@ import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.util.converter.IntegerStringConverter;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
@@ -36,8 +44,11 @@ public class LogListView implements Initializable{
     @FXML
     private Button saveEditedLogButton;
 
-    public LogListView(LogListViewModel logListViewModel) {
+    private final Swen2TemplateApplication swen2TemplateApplication;
+
+    public LogListView(LogListViewModel logListViewModel, Swen2TemplateApplication swen2TemplateApplication) {
         this.logListViewModel = logListViewModel;
+        this.swen2TemplateApplication = swen2TemplateApplication;
     }
 
     @Override
@@ -118,5 +129,4 @@ public class LogListView implements Initializable{
         editLogButton.setVisible(true);
         saveEditedLogButton.setVisible(false);
     }
-
 }

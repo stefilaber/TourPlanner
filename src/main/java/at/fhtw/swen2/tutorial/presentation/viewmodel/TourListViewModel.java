@@ -1,12 +1,18 @@
 package at.fhtw.swen2.tutorial.presentation.viewmodel;
 
+import at.fhtw.swen2.tutorial.service.ExportDataService;
+import at.fhtw.swen2.tutorial.service.ImportDataService;
 import at.fhtw.swen2.tutorial.service.TourService;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,14 +23,18 @@ import java.util.stream.Collectors;
 public class TourListViewModel {
 
     final TourService tourService;
+    final ImportDataService importToursService;
+    private final ExportDataService exportToursService;
 
     public Consumer<Tour> onTourDoubleClick = tour -> {};
 
     private final List<Tour> masterData = new ArrayList<>();
     private final ObservableList<Tour> tourListItems = FXCollections.observableArrayList();
 
-    public TourListViewModel(TourService tourService) {
+    public TourListViewModel(TourService tourService, @Qualifier("importToursServiceImpl") ImportDataService importToursService, @Qualifier("exportToursServiceImpl") ExportDataService exportToursService) {
         this.tourService = tourService;
+        this.importToursService = importToursService;
+        this.exportToursService = exportToursService;
     }
 
     public ObservableList<Tour> getTourListItems() {
@@ -35,8 +45,6 @@ public class TourListViewModel {
         tourListItems.add(tour);
         masterData.add(tour);
     }
-
-//    public void clearItems(){ tourListItems.clear(); }
 
     public void initList(){
         tourService.getTourList().forEach(p -> {
@@ -53,13 +61,13 @@ public class TourListViewModel {
                 return masterData
                         .stream()
                         .filter(value -> value.getName().toLowerCase().contains(searchText.toLowerCase()) ||
-                                        value.getTourDescription().toLowerCase().contains(searchText.toLowerCase()) ||
-                                        value.getTourFrom().toLowerCase().contains(searchText.toLowerCase()) ||
-                                        value.getTourTo().toLowerCase().contains(searchText.toLowerCase()) ||
-                                        value.getTransportType().toLowerCase().contains(searchText.toLowerCase()) ||
-                                        checkDistance(value.getTourDistance(), searchText) ||
-                                        checkTimeSpan(value.getEstimatedTime(), searchText)
-                                )
+                                value.getTourDescription().toLowerCase().contains(searchText.toLowerCase()) ||
+                                value.getTourFrom().toLowerCase().contains(searchText.toLowerCase()) ||
+                                value.getTourTo().toLowerCase().contains(searchText.toLowerCase()) ||
+                                value.getTransportType().toLowerCase().contains(searchText.toLowerCase()) ||
+                                checkDistance(value.getTourDistance(), searchText) ||
+                                checkTimeSpan(value.getEstimatedTime(), searchText)
+                        )
                         .collect(Collectors.toList());
             }
         };
@@ -91,6 +99,17 @@ public class TourListViewModel {
 
     public void deleteMap(String name){
         tourService.deleteMap(name);
+    }
+
+    public void importTours(File file) throws Exception {
+        List<Tour> tours = importToursService.importData(file);
+        for (Tour tour : tours) {
+            addItem(tour);
+        }
+    }
+
+    public void exportTours() throws Exception {
+        exportToursService.exportData();
     }
 
     private int convertToSeconds(String time){

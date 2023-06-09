@@ -1,23 +1,35 @@
 package at.fhtw.swen2.tutorial.presentation.view;
+import at.fhtw.swen2.tutorial.presentation.Swen2TemplateApplication;
+import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
+import at.fhtw.swen2.tutorial.service.ImportDataService;
+import at.fhtw.swen2.tutorial.service.LogService;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
+import at.fhtw.swen2.tutorial.service.impl.LogServiceImpl;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import javafx.stage.Stage;
 
+import java.awt.*;
+import java.io.File;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
+
 
 @Component
 @Scope("prototype")
@@ -25,6 +37,8 @@ import java.util.stream.Stream;
 public class TourListView implements Initializable{
 
     private final TourListViewModel tourListViewModel;
+    private final Swen2TemplateApplication swen2TemplateApplication;
+    private final LogListViewModel logListViewModel;
 
     @FXML
     public TableView<Tour> tableView = new TableView<>();
@@ -37,10 +51,15 @@ public class TourListView implements Initializable{
     @FXML
     private Button saveEditedTourButton;
 
+    @FXML
+    private Button importToursButton;
+
     private String selectedTourName;
 
-    public TourListView(TourListViewModel tourListViewModel) {
+    public TourListView(TourListViewModel tourListViewModel, Swen2TemplateApplication swen2TemplateApplication, LogListViewModel logListViewModel) {
         this.tourListViewModel = tourListViewModel;
+        this.swen2TemplateApplication = swen2TemplateApplication;
+        this.logListViewModel = logListViewModel;
     }
 
     @Override
@@ -152,6 +171,39 @@ public class TourListView implements Initializable{
 
         editTourButton.setVisible(true);
         saveEditedTourButton.setVisible(false);
+    }
+
+    public void importToursButtonAction() throws Exception {
+
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
+        );
+        File file = fileChooser.showOpenDialog(swen2TemplateApplication.getStage());
+        if (file != null) {
+            tourListViewModel.importTours(file);
+        }
+    }
+
+    public void exportLogsButtonAction(ActionEvent actionEvent) throws Exception {
+        tourListViewModel.exportTours();
+    }
+
+    public void importLogsButtonAction() throws Exception {
+
+        final FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
+        );
+        File file = fileChooser.showOpenDialog(swen2TemplateApplication.getStage());
+        if (file != null) {
+            logListViewModel.importLogs(file);
+        }
+
+    }
+
+    public void exportLogsButtonAction() throws Exception {
+        logListViewModel.exportLogs();
     }
 }
 

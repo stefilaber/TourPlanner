@@ -8,22 +8,18 @@ import javafx.beans.property.SimpleStringProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 @Component
 public class NewLogViewModel {
 
     private SimpleLongProperty id = new SimpleLongProperty();
-
-    private SimpleStringProperty dateTime = new SimpleStringProperty();
-
     private SimpleStringProperty comment  = new SimpleStringProperty();
-
     private SimpleStringProperty difficulty  = new SimpleStringProperty();
-
     private SimpleStringProperty totalTime  = new SimpleStringProperty();
-
     private SimpleIntegerProperty rating  = new SimpleIntegerProperty();
-
-
+    
     private LogService logService;
     private LogListViewModel logListViewModel;
 
@@ -34,14 +30,12 @@ public class NewLogViewModel {
     public NewLogViewModel(Log log) {
         this.log = log;
         this.id = new SimpleLongProperty(log.getId());
-        this.dateTime = new SimpleStringProperty(log.getDateTime());
         this.comment = new SimpleStringProperty(log.getComment());
         this.difficulty = new SimpleStringProperty(log.getDifficulty());
-        this.totalTime = new SimpleStringProperty(log.getTotalTime());
+        this.totalTime = new SimpleIntegerProperty(log.getTotalTime());
         this.rating = new SimpleIntegerProperty(log.getRating());
     }
 
-    @Autowired
     public NewLogViewModel(LogService logService, LogListViewModel logListViewModel) {
         this.logService = logService;
         this.logListViewModel = logListViewModel;
@@ -55,20 +49,56 @@ public class NewLogViewModel {
         return dateTime.get();
     }
 
+    public void setDateTime(String dateTime) {
+        this.dateTime.set(dateTime);
+    }
+
     public String getComment() {
         return comment.get();
+    }
+
+    public void setComment(String comment) {
+        this.comment.set(comment);
     }
 
     public String getDifficulty() {
         return difficulty.get();
     }
 
+    public void setDifficulty(String difficulty) {
+        this.difficulty.set(difficulty);
+    }
+
     public String getTotalTime() {
         return totalTime.get();
     }
 
+    public void setTotalTime(int totalTime) {
+        this.totalTime.set(totalTime);
+    }
+
     public int getRating() {
         return rating.get();
+    }
+
+    public void setRating(int rating) {
+        this.rating.set(rating);
+    }
+
+    public LogService getLogService() {
+        return logService;
+    }
+
+    public void setLogService(LogService logService) {
+        this.logService = logService;
+    }
+
+    public LogListViewModel getLogListViewModel() {
+        return logListViewModel;
+    }
+
+    public void setLogListViewModel(LogListViewModel logListViewModel) {
+        this.logListViewModel = logListViewModel;
     }
 
     public Log getLog() {
@@ -78,8 +108,6 @@ public class NewLogViewModel {
     public void setLog(Log log) {
         this.log = log;
     }
-
-    public SimpleStringProperty dateTimeProperty() { return dateTime; }
 
     public SimpleStringProperty commentProperty() { return comment; }
 
@@ -91,8 +119,16 @@ public class NewLogViewModel {
 
     public void addNewLog() {
         Long selectedTourId = logListViewModel.getSelectedTourId();
-        Log log = Log.builder().id(getId()).dateTime(getDateTime()).comment(getComment()).difficulty(getDifficulty()).totalTime(getTotalTime()).rating(getRating()).tourId(selectedTourId).build();
-        System.out.println("Saving log: " + log);
+        String dateTime = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(Calendar.getInstance().getTime());
+        Log log = Log.builder()
+                .id(getId())
+                .dateTime(dateTime)
+                .comment(getComment())
+                .difficulty(getDifficulty())
+                .totalTime(getTotalTime())
+                .rating(getRating())
+                .tourId(selectedTourId)
+                .build();
         log = logService.save(log);
         logListViewModel.addItem(log);
     }

@@ -5,13 +5,11 @@ import at.fhtw.swen2.tutorial.persistence.repositories.LogRepository;
 import at.fhtw.swen2.tutorial.service.LogService;
 import at.fhtw.swen2.tutorial.service.dto.Log;
 import at.fhtw.swen2.tutorial.service.mapper.LogMapper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -55,4 +53,5 @@ public class LogServiceImpl implements LogService {
 //        entity.setRating(log.getRating());
 //        logRepository.save(entity);
 //    }
+
 }
