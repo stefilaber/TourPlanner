@@ -81,10 +81,10 @@ public class ExportLogsServiceImpl implements ExportDataService {
         Files.createDirectories(Paths.get(path));
         FileOutputStream fileOutputStream = new FileOutputStream(path+"logs.xlsx");
 
-            workbook.write(fileOutputStream);
-            workbook.close();
-            fileOutputStream.close();
+        workbook.write(fileOutputStream);
+        workbook.close();
+        fileOutputStream.close();
 
-            System.out.println("Data exported successfully.");
+        System.out.println("Data exported successfully.");
     }
 }

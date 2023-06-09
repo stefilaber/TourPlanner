@@ -186,7 +186,7 @@ public class TourListView implements Initializable{
     }
 
     public void exportLogsButtonAction(ActionEvent actionEvent) throws Exception {
-        tourListViewModel.exportTours();
+        logListViewModel.exportLogs();
     }
 
     public void importLogsButtonAction() throws Exception {

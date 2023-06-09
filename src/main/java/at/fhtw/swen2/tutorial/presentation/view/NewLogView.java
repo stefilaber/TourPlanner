@@ -47,7 +47,6 @@ public class NewLogView implements Initializable {
         List<Integer> ratingList = List.of(1, 2, 3, 4, 5);
         ratingComboBox.getItems().addAll(ratingList);
 
-        dateTimeTextField.textProperty().bindBidirectional(newLogViewModel.dateTimeProperty());
         commentTextField.textProperty().bindBidirectional(newLogViewModel.commentProperty());
         difficultyComboBox.valueProperty().bindBidirectional(newLogViewModel.difficultyProperty());
         totalTimeTextField.textProperty().bindBidirectional(newLogViewModel.totalTimeProperty());

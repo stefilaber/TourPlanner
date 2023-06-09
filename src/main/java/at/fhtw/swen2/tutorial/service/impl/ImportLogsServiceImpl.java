@@ -58,7 +58,7 @@ public class ImportLogsServiceImpl implements ImportDataService<Log> {
             String dateTime = row.getCell(2).getStringCellValue();
             String comment = row.getCell(3).getStringCellValue();
             String difficulty = row.getCell(4).getStringCellValue();
-            int totalTime = (int) row.getCell(5).getNumericCellValue();
+            String totalTime = row.getCell(5).getStringCellValue();
             int rating = (int) row.getCell(6).getNumericCellValue();
 
             LogEntity log = LogEntity.builder()

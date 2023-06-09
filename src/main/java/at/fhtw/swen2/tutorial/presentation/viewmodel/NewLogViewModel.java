@@ -32,7 +32,7 @@ public class NewLogViewModel {
         this.id = new SimpleLongProperty(log.getId());
         this.comment = new SimpleStringProperty(log.getComment());
         this.difficulty = new SimpleStringProperty(log.getDifficulty());
-        this.totalTime = new SimpleIntegerProperty(log.getTotalTime());
+        this.totalTime = new SimpleStringProperty(log.getTotalTime());
         this.rating = new SimpleIntegerProperty(log.getRating());
     }
 
@@ -43,14 +43,6 @@ public class NewLogViewModel {
 
     public long getId() {
         return id.get();
-    }
-
-    public String getDateTime() {
-        return dateTime.get();
-    }
-
-    public void setDateTime(String dateTime) {
-        this.dateTime.set(dateTime);
     }
 
     public String getComment() {
@@ -65,40 +57,12 @@ public class NewLogViewModel {
         return difficulty.get();
     }
 
-    public void setDifficulty(String difficulty) {
-        this.difficulty.set(difficulty);
-    }
-
     public String getTotalTime() {
         return totalTime.get();
     }
 
-    public void setTotalTime(int totalTime) {
-        this.totalTime.set(totalTime);
-    }
-
     public int getRating() {
         return rating.get();
-    }
-
-    public void setRating(int rating) {
-        this.rating.set(rating);
-    }
-
-    public LogService getLogService() {
-        return logService;
-    }
-
-    public void setLogService(LogService logService) {
-        this.logService = logService;
-    }
-
-    public LogListViewModel getLogListViewModel() {
-        return logListViewModel;
-    }
-
-    public void setLogListViewModel(LogListViewModel logListViewModel) {
-        this.logListViewModel = logListViewModel;
     }
 
     public Log getLog() {
