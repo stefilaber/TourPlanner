@@ -6,6 +6,7 @@ import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
@@ -14,12 +15,14 @@ import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.shape.Circle;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -59,6 +62,8 @@ public class ApplicationView implements Initializable, StageAware {
             tabPane.getSelectionModel().select(logTab);
             logTab.setDisable(false);
         };
+
+
     }
 
     @Override

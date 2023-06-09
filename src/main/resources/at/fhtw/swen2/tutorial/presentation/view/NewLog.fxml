@@ -20,8 +20,6 @@
             </font>
         </Label>
         <Separator prefWidth="200.0" />
-        <Text text="date/time"/>
-        <TextField fx:id="dateTimeTextField"/>
         <Text text="comment"/>
         <TextField fx:id="commentTextField"/>
         <Text text="difficulty"/>

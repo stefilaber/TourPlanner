@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
@@ -79,9 +80,11 @@ public class LogListViewModel {
         logListItems.setAll(masterData);
     }
 
-    public void importLogs() throws Exception {
-        String path = "";
-        importLogsService.importData(path);
+    public void importLogs(File file) throws Exception {
+        List<Log> logs= importLogsService.importData(file);
+        for (Log log : logs) {
+            addItem(log);
+        }
     }
 
     public void exportLogs() throws Exception {

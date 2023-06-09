@@ -16,8 +16,13 @@
         <Button fx:id="editTourButton" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="10.0" onAction="#editButtonAction" text="edit" />
         <Button fx:id="deleteTourButton" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0" onAction="#deleteButtonAction" text="delete" />
 
-        <Button fx:id="importToursButton" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" onAction="#importToursButtonAction" text="import" />
-        <Button fx:id="exportToursButton" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="10.0" onAction="#exportLogsButtonAction" text="export" />
+        <Label text="import/export tours" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="45.0"/>
+        <Button fx:id="importToursButton" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="40.0" onAction="#importToursButtonAction" text="import" />
+        <Button fx:id="exportToursButton" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="40.0" onAction="#exportLogsButtonAction" text="export" />
+
+        <Label text="import/export logs" AnchorPane.rightAnchor="125.0" AnchorPane.topAnchor="75.0"/>
+        <Button fx:id="importLogsButton" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="70.0" onAction="#importLogsButtonAction" text="import" />
+        <Button fx:id="exportLogsButton" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" onAction="#exportLogsButtonAction" text="export" />
 
         <StackPane fx:id="dataContainer"
                    AnchorPane.leftAnchor="7.0"

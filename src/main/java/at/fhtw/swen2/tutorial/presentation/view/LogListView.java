@@ -1,4 +1,5 @@
 package at.fhtw.swen2.tutorial.presentation.view;
+import at.fhtw.swen2.tutorial.presentation.Swen2TemplateApplication;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
 import at.fhtw.swen2.tutorial.service.dto.Log;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
@@ -12,10 +13,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.util.converter.IntegerStringConverter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
@@ -38,8 +41,12 @@ public class LogListView implements Initializable{
     @FXML
     private VBox mapContainer;
 
-    public LogListView(LogListViewModel logListViewModel) {
+    private final Swen2TemplateApplication swen2TemplateApplication;
+
+
+    public LogListView(LogListViewModel logListViewModel, Swen2TemplateApplication swen2TemplateApplication) {
         this.logListViewModel = logListViewModel;
+        this.swen2TemplateApplication = swen2TemplateApplication;
     }
 
     @Override
@@ -92,15 +99,11 @@ public class LogListView implements Initializable{
 
     }
 
-    public void deleteButtonAction(ActionEvent actionEvent) {
+    public void deleteButtonAction() {
         logListViewModel.deleteLog(tableView.getSelectionModel().getSelectedItem());
     }
 
-//    public void editButtonAction(ActionEvent actionEvent) {
-//        logListViewModel.editLog(tableView.getSelectionModel().getSelectedItem());
-//    }
-
-    public void editButtonAction(ActionEvent actionEvent) {
+    public void editButtonAction() {
 
         //make table editable
         tableView.setEditable(true);
@@ -109,7 +112,7 @@ public class LogListView implements Initializable{
         saveEditedLogButton.setVisible(true);
     }
 
-    public void saveEditedLogButtonAction(ActionEvent actionEvent) {
+    public void saveEditedLogButtonAction() {
 
         Log selectedLog = tableView.getSelectionModel().getSelectedItem();
         logListViewModel.saveEditedLog(selectedLog);
@@ -121,11 +124,4 @@ public class LogListView implements Initializable{
         saveEditedLogButton.setVisible(false);
     }
 
-    public void importLogsButtonAction(ActionEvent actionEvent) throws Exception {
-        logListViewModel.importLogs();
-    }
-
-    public void exportLogsButtonAction(ActionEvent actionEvent) throws Exception {
-        logListViewModel.exportLogs();
-    }
 }

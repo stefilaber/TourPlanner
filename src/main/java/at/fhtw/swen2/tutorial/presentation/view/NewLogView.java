@@ -43,7 +43,6 @@ public class NewLogView implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle rb) {
-        dateTimeTextField.textProperty().bindBidirectional(newLogViewModel.dateTimeProperty());
         commentTextField.textProperty().bindBidirectional(newLogViewModel.commentProperty());
         difficultyTextField.textProperty().bindBidirectional(newLogViewModel.difficultyProperty());
         totalTimeTextField.textProperty().bindBidirectional(newLogViewModel.totalTimeProperty(), new NumberStringConverter());
@@ -52,10 +51,6 @@ public class NewLogView implements Initializable {
     }
 
     public void submitButtonAction(ActionEvent event) {
-        if (dateTimeTextField.getText().isEmpty()) {
-            feedbackText.setText("date/time not entered!");
-            return;
-        }
         if (commentTextField.getText().isEmpty()) {
             feedbackText.setText("comment not entered!");
             return;

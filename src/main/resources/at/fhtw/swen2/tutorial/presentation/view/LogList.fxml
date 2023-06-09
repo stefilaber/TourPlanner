@@ -12,8 +12,6 @@
         <Button fx:id="saveEditedLogButton" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="10.0" onAction="#saveEditedLogButtonAction" text="update" />
         <Button fx:id="editLogButton" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="10.0" onAction="#editButtonAction" text="edit" />
 
-        <Button fx:id="importLogsButton" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0" onAction="#importLogsButtonAction" text="import" />
-        <Button fx:id="exportLogsButton" AnchorPane.leftAnchor="65.0" AnchorPane.topAnchor="10.0" onAction="#exportLogsButtonAction" text="export" />
         <VBox fx:id="dataContainer"
               AnchorPane.leftAnchor="10.0"
               AnchorPane.rightAnchor="10.0"

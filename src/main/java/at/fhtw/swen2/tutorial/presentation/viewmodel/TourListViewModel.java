@@ -8,9 +8,12 @@ import at.fhtw.swen2.tutorial.service.impl.ImportLogsServiceImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,9 +96,11 @@ public class TourListViewModel {
         tourService.deleteMap(name);
     }
 
-    public void importTours() throws Exception {
-        String path = "C:\\Users\\stefi\\OneDrive\\Desktop\\exported_data";
-        importToursService.importData(path);
+    public void importTours(File file) throws Exception {
+        List<Tour> tours = importToursService.importData(file);
+        for (Tour tour : tours) {
+            addItem(tour);
+        }
     }
 
     public void exportTours() throws Exception {

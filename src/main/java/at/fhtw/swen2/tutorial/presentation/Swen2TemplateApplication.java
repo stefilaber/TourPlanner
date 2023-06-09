@@ -20,11 +20,13 @@ public class Swen2TemplateApplication extends Application {
 
     private Logger logger = LoggerFactory.getLogger(Swen2TemplateApplication.class);
     private ConfigurableApplicationContext applicationContext;
+
+    private Stage stage;
     
     @Override
     public void start(Stage stage) throws Exception {
         logger.debug("Starting TutorialApplication");
-
+        this.stage = stage;
         applicationContext.publishEvent(new ApplicationStartupEvent(this, stage));
     }
 
@@ -52,5 +54,9 @@ public class Swen2TemplateApplication extends Application {
             ac.registerBean(Parameters.class, this::getParameters);
             ac.registerBean(HostServices.class, this::getHostServices);
         };
+    }
+
+    public Stage getStage() {
+        return stage;
     }
 }

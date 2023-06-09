@@ -8,19 +8,16 @@ import javafx.beans.property.SimpleStringProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 @Component
 public class NewLogViewModel {
 
     private SimpleLongProperty id = new SimpleLongProperty();
-
-    private SimpleStringProperty dateTime = new SimpleStringProperty();
-
     private SimpleStringProperty comment  = new SimpleStringProperty();
-
     private SimpleStringProperty difficulty  = new SimpleStringProperty();
-
     private SimpleIntegerProperty totalTime  = new SimpleIntegerProperty();
-
     private SimpleIntegerProperty rating  = new SimpleIntegerProperty();
 
 
@@ -36,7 +33,6 @@ public class NewLogViewModel {
     public NewLogViewModel(Log log) {
         this.log = log;
         this.id = new SimpleLongProperty(log.getId());
-        this.dateTime = new SimpleStringProperty(log.getDateTime());
         this.comment = new SimpleStringProperty(log.getComment());
         this.difficulty = new SimpleStringProperty(log.getDifficulty());
         this.totalTime = new SimpleIntegerProperty(log.getTotalTime());
@@ -45,14 +41,6 @@ public class NewLogViewModel {
 
     public long getId() {
         return id.get();
-    }
-
-    public String getDateTime() {
-        return dateTime.get();
-    }
-
-    public void setDateTime(String dateTime) {
-        this.dateTime.set(dateTime);
     }
 
     public String getComment() {
@@ -111,8 +99,6 @@ public class NewLogViewModel {
         this.log = log;
     }
 
-    public SimpleStringProperty dateTimeProperty() { return dateTime; }
-
     public SimpleStringProperty commentProperty() { return comment; }
 
     public SimpleStringProperty difficultyProperty() { return difficulty; }
@@ -123,7 +109,16 @@ public class NewLogViewModel {
 
     public void addNewLog() {
         Long selectedTourId = logListViewModel.getSelectedTourId();
-        Log log = Log.builder().id(getId()).dateTime(getDateTime()).comment(getComment()).difficulty(getDifficulty()).totalTime(getTotalTime()).rating(getRating()).tourId(selectedTourId).build();
+        String dateTime = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(Calendar.getInstance().getTime());
+        Log log = Log.builder()
+                .id(getId())
+                .dateTime(dateTime)
+                .comment(getComment())
+                .difficulty(getDifficulty())
+                .totalTime(getTotalTime())
+                .rating(getRating())
+                .tourId(selectedTourId)
+                .build();
         log = logService.save(log);
         logListViewModel.addItem(log);
     }
