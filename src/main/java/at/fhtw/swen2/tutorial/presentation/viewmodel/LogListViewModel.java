@@ -65,8 +65,6 @@ public class LogListViewModel {
     public ObservableList<Log> getLogListItems() {
         return logListItems;
     }
-    
-    final ListView lv = new ListView(FXCollections.observableList(logListItems));
 
     public void addItem(Log log) {
         logListItems.add(log);
