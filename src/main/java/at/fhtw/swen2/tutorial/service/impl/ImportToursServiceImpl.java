@@ -36,7 +36,7 @@ public class ImportToursServiceImpl implements ImportDataService<Tour> {
 
     public List<Tour> importData(File file) throws IOException {
 
-        List<Tour> data= new ArrayList<>();
+        List<Tour> data = new ArrayList<>();
 
         FileInputStream fileInputStream = new FileInputStream(file);
         XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);

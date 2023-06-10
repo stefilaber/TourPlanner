@@ -14,8 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 
-<?import javafx.scene.control.Button?>
-<BorderPane fx:id="layout" prefHeight="420.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhtw.swen2.tutorial.presentation.view.ApplicationView">
+<BorderPane fx:id="layout" prefHeight="497.0" prefWidth="838.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.fhtw.swen2.tutorial.presentation.view.ApplicationView">
    <top>
        <MenuBar BorderPane.alignment="CENTER">
            <Menu mnemonicParsing="false" text="%menu.file.title">
@@ -31,7 +30,7 @@
    <center>
        <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
            <Tab text="%tab.demo.title">
-               <SplitPane disable="true" dividerPositions="0.265">
+               <SplitPane disable="true" dividerPositions="0.25310114503816794">
                    <ScrollPane prefHeight="200.0" prefWidth="200.0">
                        <fx:include source="NewTour.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                    </ScrollPane>
@@ -42,7 +41,7 @@
                </SplitPane>
            </Tab>
            <Tab fx:id="logTab" disable="true" text="%tab.logs.title">
-               <SplitPane disable="true" dividerPositions="0.265">
+               <SplitPane disable="true" dividerPositions="0.25071564885496184">
                    <ScrollPane prefHeight="200.0" prefWidth="200.0">
                        <fx:include source="NewLog.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                    </ScrollPane>
@@ -55,7 +54,7 @@
        </TabPane>
    </center>
    <bottom>
-       <ToolBar maxHeight="20.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="20.0" BorderPane.alignment="CENTER">
+       <ToolBar maxHeight="20.0" nodeOrientation="RIGHT_TO_LEFT" prefHeight="0.0" prefWidth="838.0" BorderPane.alignment="CENTER">
            <Label fx:id="tbMonitorStatus" />
            <Label text="%tab.monitor.status" />
            <Separator orientation="VERTICAL" />

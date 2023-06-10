@@ -75,6 +75,7 @@ public class NewLogView implements Initializable {
             return;
         }
 
+        newLogViewModel.setRating(ratingComboBox.getValue());
         newLogViewModel.addNewLog();
     }
 }

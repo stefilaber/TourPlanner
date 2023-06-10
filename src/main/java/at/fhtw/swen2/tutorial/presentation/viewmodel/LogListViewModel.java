@@ -103,6 +103,8 @@ public class LogListViewModel {
     public void importLogs(File file) throws Exception {
         List<Log> logs= importLogsService.importData(file);
         for (Log log : logs) {
+            System.out.println(log);
+            logService.save(log);
             addItem(log);
         }
     }

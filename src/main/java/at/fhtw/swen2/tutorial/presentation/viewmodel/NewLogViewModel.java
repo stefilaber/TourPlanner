@@ -64,6 +64,10 @@ public class NewLogViewModel {
         return totalTime.get();
     }
 
+    public void setRating(int rating) {
+        this.rating.set(rating);
+    }
+
     public int getRating() {
         return rating.get();
     }
@@ -98,5 +102,6 @@ public class NewLogViewModel {
                 .build();
         logService.save(log);
         logListViewModel.addItem(log);
+
     }
 }

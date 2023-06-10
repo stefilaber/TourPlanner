@@ -42,7 +42,7 @@ public class ImportLogsServiceImpl implements ImportDataService<Log> {
     @Override
     public List<Log> importData(File file) throws IOException {
 
-        List<Log> data= new ArrayList<>();
+        List<Log> data = new ArrayList<>();
 
         FileInputStream fileInputStream = new FileInputStream(file);
         XSSFWorkbook workbook = new XSSFWorkbook(fileInputStream);
@@ -53,15 +53,26 @@ public class ImportLogsServiceImpl implements ImportDataService<Log> {
             if (row.getRowNum() == 0) {
                 continue;
             }
+            if (row.getCell(1) == null) {
+                break;
+            }
 
-            Long id = (long) row.getCell(0).getNumericCellValue();
-            Long tourId = (long) row.getCell(1).getNumericCellValue();
+            Long id = (long) row.getCell(1).getNumericCellValue();
+            System.out.println("ID: " + id);
+            Long tourId = (long) row.getCell(2).getNumericCellValue();
+            System.out.println("Tour ID: " + tourId);
 //            String dateTime = row.getCell(2).getLocalDateTimeCellValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss"));
-            String dateTime = row.getCell(2).getStringCellValue();
-            String comment = row.getCell(3).getStringCellValue();
-            String difficulty = row.getCell(4).getStringCellValue();
-            String totalTime = row.getCell(5).getStringCellValue();
-            int rating = (int) row.getCell(6).getNumericCellValue();
+            String dateTime = row.getCell(3).getStringCellValue();
+            System.out.println("Date Time: " + dateTime);
+            String comment = row.getCell(4).getStringCellValue();
+            System.out.println("Comment: " + comment);
+            String difficulty = row.getCell(5).getStringCellValue();
+            System.out.println("Difficulty: " + difficulty);
+            String totalTime = String.valueOf(row.getCell(6).getNumericCellValue());
+            System.out.println("Total Time: " + totalTime);
+//            String totalTime = "12:30";
+            int rating = (int) row.getCell(7).getNumericCellValue();
+            System.out.println("Rating: " + rating);
 
             LogEntity log = LogEntity.builder()
                     .id(id)
