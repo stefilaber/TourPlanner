@@ -15,7 +15,7 @@
 
         <Label text="tours:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="23.0" />
         <Button fx:id="importToursButton" onAction="#importToursButtonAction" text="import" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="19.0" />
-        <Button fx:id="exportToursButton" onAction="#exportLogsButtonAction" text="export" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="19.0" />
+        <Button fx:id="exportToursButton" onAction="#exportToursButtonAction" text="export" AnchorPane.leftAnchor="110.0" AnchorPane.topAnchor="19.0" />
 
         <Label text="logs:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="54.0" />
         <Button fx:id="importLogsButton" onAction="#importLogsButtonAction" text="import" AnchorPane.leftAnchor="50.0" AnchorPane.topAnchor="49.0" />

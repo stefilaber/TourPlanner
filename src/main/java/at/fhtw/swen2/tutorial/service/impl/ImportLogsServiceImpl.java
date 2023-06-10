@@ -9,6 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +56,7 @@ public class ImportLogsServiceImpl implements ImportDataService<Log> {
 
             Long id = (long) row.getCell(0).getNumericCellValue();
             Long tourId = (long) row.getCell(1).getNumericCellValue();
+//            String dateTime = row.getCell(2).getLocalDateTimeCellValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss"));
             String dateTime = row.getCell(2).getStringCellValue();
             String comment = row.getCell(3).getStringCellValue();
             String difficulty = row.getCell(4).getStringCellValue();
