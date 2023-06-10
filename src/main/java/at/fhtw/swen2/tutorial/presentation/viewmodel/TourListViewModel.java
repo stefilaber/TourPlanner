@@ -2,6 +2,7 @@ package at.fhtw.swen2.tutorial.presentation.viewmodel;
 
 import at.fhtw.swen2.tutorial.service.ExportDataService;
 import at.fhtw.swen2.tutorial.service.ImportDataService;
+import at.fhtw.swen2.tutorial.service.PDFGeneratorService;
 import at.fhtw.swen2.tutorial.service.TourService;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.collections.FXCollections;
@@ -26,15 +27,18 @@ public class TourListViewModel {
     final ImportDataService importToursService;
     private final ExportDataService exportToursService;
 
+    private final PDFGeneratorService pdfGeneratorService;
+
     public Consumer<Tour> onTourDoubleClick = tour -> {};
 
     private final List<Tour> masterData = new ArrayList<>();
     private final ObservableList<Tour> tourListItems = FXCollections.observableArrayList();
 
-    public TourListViewModel(TourService tourService, @Qualifier("importToursServiceImpl") ImportDataService importToursService, @Qualifier("exportToursServiceImpl") ExportDataService exportToursService) {
+    public TourListViewModel(TourService tourService, @Qualifier("importToursServiceImpl") ImportDataService importToursService, @Qualifier("exportToursServiceImpl") ExportDataService exportToursService, PDFGeneratorService pdfGeneratorService) {
         this.tourService = tourService;
         this.importToursService = importToursService;
         this.exportToursService = exportToursService;
+        this.pdfGeneratorService = pdfGeneratorService;
     }
 
     public ObservableList<Tour> getTourListItems() {
@@ -144,6 +148,18 @@ public class TourListViewModel {
             return Integer.parseInt(searchDistance) >= (tourDistance - 20) && Integer.parseInt(searchDistance) <= tourDistance + 20;
         } catch (NumberFormatException e){
             return false;
+        }
+    }
+
+    public void generateSummaryReport(){
+        String SUMMARY_REPORT = "target/reports/summaryReport.pdf";
+        File summaryReportFile = new File(SUMMARY_REPORT);
+        try {
+            System.out.println("Generating summary report...");
+            pdfGeneratorService.fileExists(summaryReportFile);
+            pdfGeneratorService.writeSummaryReport(SUMMARY_REPORT);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -3,6 +3,7 @@ package at.fhtw.swen2.tutorial.presentation.view;
 import at.fhtw.swen2.tutorial.presentation.StageAware;
 import at.fhtw.swen2.tutorial.presentation.events.ApplicationShutdownEvent;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
+import at.fhtw.swen2.tutorial.presentation.viewmodel.NewLogViewModel;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
@@ -54,15 +55,17 @@ public class ApplicationView implements Initializable, StageAware {
 
     SimpleObjectProperty<Stage> stage = new SimpleObjectProperty<>();
 
-    public ApplicationView(ApplicationEventPublisher publisher, LogListViewModel logListViewModel, TourListViewModel tourListViewModel) {
+    public ApplicationView(ApplicationEventPublisher publisher, LogListViewModel logListViewModel, TourListViewModel tourListViewModel, NewLogViewModel newLogViewModel) {
         log.debug("Initializing application controller");
         this.publisher = publisher;
 
         tourListViewModel.onTourDoubleClick = tour -> {
             logTab.setDisable(false);
             logListViewModel.setSelectedTourId(tour.getId());
+            newLogViewModel.setSelectedTourId(tour.getId());
             logListViewModel.initList();
             tabPane.getSelectionModel().select(logTab);
+            System.out.println(getClass().getResourceAsStream("/maps/" + tour.getName() + ".png"));
             Image image = new Image(getClass().getResourceAsStream("/maps/" + tour.getName() + ".png"));
             logListViewModel.setMap(image);
         };

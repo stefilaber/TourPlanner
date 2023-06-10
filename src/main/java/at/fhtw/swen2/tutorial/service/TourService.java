@@ -15,4 +15,7 @@ public interface TourService {
 
     void deleteMap(String name);
 
+
+    Tour getTour(Long tourId);
+
 }

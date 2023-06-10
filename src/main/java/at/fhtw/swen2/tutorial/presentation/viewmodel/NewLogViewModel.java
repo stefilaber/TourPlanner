@@ -19,11 +19,16 @@ public class NewLogViewModel {
     private SimpleStringProperty difficulty  = new SimpleStringProperty();
     private SimpleStringProperty totalTime  = new SimpleStringProperty();
     private SimpleIntegerProperty rating  = new SimpleIntegerProperty();
-    
+
+    @Autowired
     private LogService logService;
+
+    @Autowired
     private LogListViewModel logListViewModel;
 
     private Log log;
+
+    private long selectedTourId;
 
     public NewLogViewModel() { }
 
@@ -35,10 +40,8 @@ public class NewLogViewModel {
         this.totalTime = new SimpleStringProperty(log.getTotalTime());
         this.rating = new SimpleIntegerProperty(log.getRating());
     }
-
-    public NewLogViewModel(LogService logService, LogListViewModel logListViewModel) {
-        this.logService = logService;
-        this.logListViewModel = logListViewModel;
+    public void setSelectedTourId(long selectedTourId) {
+        this.selectedTourId = selectedTourId;
     }
 
     public long getId() {
@@ -93,7 +96,7 @@ public class NewLogViewModel {
                 .rating(getRating())
                 .tourId(selectedTourId)
                 .build();
-        log = logService.save(log);
+        logService.save(log);
         logListViewModel.addItem(log);
     }
 }

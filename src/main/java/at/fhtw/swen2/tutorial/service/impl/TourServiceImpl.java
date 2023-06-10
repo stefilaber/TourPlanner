@@ -69,11 +69,15 @@ public class TourServiceImpl implements TourService {
         //creating a maps directory in case it doesn't exist
         String path = new java.io.File(".").getCanonicalPath() + "\\src\\main\\resources\\maps\\";
         Files.createDirectories(Paths.get(path));
+        //saving the picture in the target folder as well so the image gets displayed without having to restart the application
+        String targetPath = new java.io.File(".").getCanonicalPath() + "\\target\\classes\\maps\\";
+        Files.createDirectories(Paths.get(targetPath));
 
         //saving the image in the maps folder
         String mapPath = tour.getName() + ".png";
-        try(FileOutputStream fos = new FileOutputStream(path + mapPath)) {
+        try(FileOutputStream fos = new FileOutputStream(path + mapPath); FileOutputStream fos2 = new FileOutputStream(targetPath + mapPath)) {
             ImageIO.write(map, "png", fos);
+            ImageIO.write(map, "png", fos2);
         } catch (IOException e) {
             // TODO Add logging
             throw e;
@@ -101,6 +105,11 @@ public class TourServiceImpl implements TourService {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Tour getTour(Long tourId) {
+        return tourRepository.findById(tourId).map(tourMapper::fromEntity).orElse(null);
     }
 
 }

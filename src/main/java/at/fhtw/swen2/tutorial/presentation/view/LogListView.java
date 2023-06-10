@@ -1,6 +1,7 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 import at.fhtw.swen2.tutorial.presentation.Swen2TemplateApplication;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
+import at.fhtw.swen2.tutorial.service.PDFGeneratorService;
 import at.fhtw.swen2.tutorial.service.dto.Log;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.event.ActionEvent;
@@ -23,6 +24,7 @@ import javafx.util.converter.IntegerStringConverter;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.stream.Stream;
@@ -32,6 +34,8 @@ import java.util.stream.Stream;
 public class LogListView implements Initializable{
 
     public final LogListViewModel logListViewModel;
+    private final Swen2TemplateApplication swen2TemplateApplication;
+    private final PDFGeneratorService pdfGeneratorService;
 
     @FXML
     public TableView<Log> tableView = new TableView<>();
@@ -43,12 +47,13 @@ public class LogListView implements Initializable{
     private Button editLogButton;
     @FXML
     private Button saveEditedLogButton;
+    @FXML
+    private Button tourReportButton;
 
-    private final Swen2TemplateApplication swen2TemplateApplication;
-
-    public LogListView(LogListViewModel logListViewModel, Swen2TemplateApplication swen2TemplateApplication) {
+    public LogListView(LogListViewModel logListViewModel, Swen2TemplateApplication swen2TemplateApplication, PDFGeneratorService pdfGeneratorService) {
         this.logListViewModel = logListViewModel;
         this.swen2TemplateApplication = swen2TemplateApplication;
+        this.pdfGeneratorService = pdfGeneratorService;
     }
 
     @Override
@@ -103,13 +108,17 @@ public class LogListView implements Initializable{
 
         dataContainer.getChildren().add(tableView);
         mapContainer.getChildren().add(imageView);
+
+        tourReportButton.setOnAction(event -> {
+            logListViewModel.generateTourReport();
+        });
     }
 
-    public void deleteButtonAction(ActionEvent actionEvent) {
+    public void deleteButtonAction() {
         logListViewModel.deleteLog(tableView.getSelectionModel().getSelectedItem());
     }
 
-    public void editButtonAction(ActionEvent actionEvent) {
+    public void editButtonAction() {
 
         //make table editable
         tableView.setEditable(true);

@@ -4,6 +4,7 @@ import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
 import at.fhtw.swen2.tutorial.service.ImportDataService;
 import at.fhtw.swen2.tutorial.service.LogService;
+import at.fhtw.swen2.tutorial.service.PDFGeneratorService;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
 import at.fhtw.swen2.tutorial.service.impl.LogServiceImpl;
 import javafx.beans.property.SimpleStringProperty;
@@ -24,6 +25,7 @@ import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -52,7 +54,7 @@ public class TourListView implements Initializable{
     private Button saveEditedTourButton;
 
     @FXML
-    private Button importToursButton;
+    private Button summaryReportButton;
 
     private String selectedTourName;
 
@@ -119,6 +121,9 @@ public class TourListView implements Initializable{
         var columns = tableView.getColumns();
         Stream.of(name, tourDescription, tourFrom, tourTo, transportType, tourDistance, estimatedTime).forEach(columns::add);
 
+        dataContainer.getChildren().add(tableView);
+        tourListViewModel.initList();
+
         tableView.setRowFactory( tv -> {
             TableRow<Tour> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
@@ -138,8 +143,9 @@ public class TourListView implements Initializable{
             return row ;
         });
 
-        dataContainer.getChildren().add(tableView);
-        tourListViewModel.initList();
+        summaryReportButton.setOnAction(event -> {
+            tourListViewModel.generateSummaryReport();
+        });
 
     }
 

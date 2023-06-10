@@ -24,8 +24,6 @@ public class NewLogView implements Initializable {
     @FXML
     private Text feedbackText;
     @FXML
-    private TextField dateTimeTextField;
-    @FXML
     public TextField commentTextField;
     @FXML
     public ComboBox<String> difficultyComboBox;
@@ -55,10 +53,6 @@ public class NewLogView implements Initializable {
 
 
     public void submitButtonAction() {
-        if (dateTimeTextField.getText() == null) {
-            feedbackText.setText("date/time not entered!");
-            return;
-        }
         if (commentTextField.getText() == null) {
             feedbackText.setText("comment not entered!");
             return;

@@ -1,8 +1,6 @@
 package at.fhtw.swen2.tutorial.presentation.viewmodel;
 
-import at.fhtw.swen2.tutorial.service.ExportDataService;
-import at.fhtw.swen2.tutorial.service.ImportDataService;
-import at.fhtw.swen2.tutorial.service.LogService;
+import at.fhtw.swen2.tutorial.service.*;
 import at.fhtw.swen2.tutorial.service.dto.Log;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.beans.property.ObjectProperty;
@@ -31,8 +29,10 @@ public class LogListViewModel {
     private ListView listView;
     
     final LogService logService;
+    final TourService tourService;
     final ImportDataService importLogsService;
     private final ExportDataService exportLogsService;
+    final PDFGeneratorService pdfGeneratorService;
 
     public Consumer<Log> onLogDoubleClick = log -> {};
     private Long selectedTourId = Long.valueOf(0);
@@ -40,13 +40,15 @@ public class LogListViewModel {
     private List<Log> masterData = new ArrayList<>();
     private ObservableList<Log> logListItems = FXCollections.observableArrayList();
 
-    public LogListViewModel(LogService logService, @Qualifier("importLogsServiceImpl") ImportDataService importLogsService, @Qualifier("exportLogsServiceImpl") ExportDataService exportLogsService) {
+    private final ObjectProperty<Image> map = new SimpleObjectProperty<>();
+
+    public LogListViewModel(LogService logService, @Qualifier("importLogsServiceImpl") ImportDataService importLogsService, @Qualifier("exportLogsServiceImpl") ExportDataService exportLogsService, PDFGeneratorService pdfGeneratorService, TourService tourService) {
         this.logService = logService;
         this.importLogsService = importLogsService;
         this.exportLogsService = exportLogsService;
+        this.pdfGeneratorService = pdfGeneratorService;
+        this.tourService = tourService;
     }
-
-    private final ObjectProperty<Image> map = new SimpleObjectProperty<>();
 
     public Image getMap() {
         return map.get();
@@ -158,6 +160,20 @@ public class LogListViewModel {
             return convertToSeconds(searchTime) >= (convertToSeconds(logTime) - 1800) && convertToSeconds(searchTime) <= convertToSeconds(logTime) + 1800;
         } catch (NumberFormatException e) {
             return false;
+        }
+    }
+
+    public void generateTourReport(){
+
+        try {
+            Tour tour = tourService.getTour(selectedTourId);
+            String TOUR_REPORT = "target/reports/" + tour.getName() + "TourReport.pdf";
+            File tourReportFile = new File(TOUR_REPORT);
+            System.out.println("Generating tour report...");
+            pdfGeneratorService.fileExists(tourReportFile);
+            pdfGeneratorService.writeTourReport(TOUR_REPORT, tour);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 }
