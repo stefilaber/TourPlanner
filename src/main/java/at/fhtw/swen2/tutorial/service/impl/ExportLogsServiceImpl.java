@@ -21,6 +21,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 @Service
 @Transactional
@@ -29,7 +31,10 @@ public class ExportLogsServiceImpl implements ExportDataService {
     private final LogRepository logRepository;
     private final LogMapper logMapper;
 
+    private static Logger logger = LogManager.getLogger(ExportLogsServiceImpl.class);
+
     public ExportLogsServiceImpl(LogRepository logRepository, LogMapper logMapper) {
+        logger.debug("ExportLogsServiceImpl created");
         this.logRepository = logRepository;
         this.logMapper = logMapper;
     }
@@ -85,6 +90,6 @@ public class ExportLogsServiceImpl implements ExportDataService {
         workbook.close();
         fileOutputStream.close();
 
-        System.out.println("Data exported successfully.");
+        logger.debug("Exported logs to excel file");
     }
 }

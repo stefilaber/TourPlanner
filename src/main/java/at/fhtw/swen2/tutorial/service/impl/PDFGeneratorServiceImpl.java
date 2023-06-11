@@ -19,6 +19,8 @@ import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.properties.UnitValue;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,8 +39,10 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
 
     final TourService tourService;
     final LogService logService;
+    private static Logger logger = LogManager.getLogger(PDFGeneratorServiceImpl.class);
 
     public PDFGeneratorServiceImpl(TourService tourService, LogService logService) {
+        logger.debug("PDFGeneratorServiceImpl created");
         this.tourService = tourService;
         this.logService = logService;
     }
@@ -48,29 +52,34 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
         // delete existing PDF file
         if (file.exists()) {
             if (file.delete()) {
-                System.out.println("Existing PDF file deleted successfully.");
+                logger.info("Existing PDF file deleted successfully.");
             } else {
-                System.out.println("Failed to delete the existing PDF file.");
+                logger.info("Failed to delete the existing PDF file.");
             }
         } else {
-            System.out.println("No existing PDF file found.");
+            logger.info("No existing PDF file found.");
         }
     }
 
     @Override
     public Document generateReport(String report) throws IOException {
 
+        logger.debug("generateReport called");
+
         String path = new java.io.File(".").getCanonicalPath() + "\\target\\reports\\";
         Files.createDirectories(Paths.get(path));
 
         PdfWriter writer = new PdfWriter(report);
         PdfDocument pdf = new PdfDocument(writer);
+
+        logger.debug("PDF file created successfully.");
         return new Document(pdf);
     }
 
     @Override
     public void writeTourReport(String report, Tour tour) throws IOException {
 
+        logger.debug("writeTourReport called");
         Document document = generateReport(report);
         java.util.List<Log> logList = logService.getLogList(tour.getId());
         System.out.println("logList:" + logList);
@@ -142,12 +151,14 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
         ImageData imageData = ImageDataFactory.create(MAP_IMAGE);
         document.add(new Image(imageData));
 
+        logger.info("Tour report created successfully.");
         document.close();
     }
 
     @Override
     public void writeSummaryReport(String report) throws IOException {
 
+        logger.debug("writeSummaryReport called");
         Document document = generateReport(report);
 
         java.util.List<Statistic> tourStatsList;
@@ -196,6 +207,7 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
 
         document.add(table);
 
+        logger.info("Summary report created successfully.");
         document.close();
     }
     private Cell getHeaderCell(String s) {
@@ -254,10 +266,12 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
             }
 
         }
+        logger.debug("calculateStatistics finished");
         return tourStatsList;
     }
 
     private int convertToSeconds(String time){
+        logger.debug("convertToSeconds called");
         String[] timeArray = time.split(":");
         int hours = Integer.parseInt(timeArray[0]);
         int minutes = 0;

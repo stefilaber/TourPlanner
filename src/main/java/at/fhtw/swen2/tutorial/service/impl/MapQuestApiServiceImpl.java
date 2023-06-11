@@ -11,11 +11,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 @Service
 @Transactional
 public class MapQuestApiServiceImpl implements MapQuestApiService {
 
+    private static Logger logger = LogManager.getLogger(MapQuestApiServiceImpl.class);
     String key = "kMmPCHrWU9Jng3AWsYyivKIACMsJqaRO";
 
     @Override
@@ -29,6 +32,7 @@ public class MapQuestApiServiceImpl implements MapQuestApiService {
         String contentType = con.getHeaderField("Content-Type");
         con.setConnectTimeout(5000);
         con.setReadTimeout(5000);
+        logger.debug("Requesting distance and time from MapQuest API");
 
         //reading the response
         int status = con.getResponseCode();
@@ -43,7 +47,7 @@ public class MapQuestApiServiceImpl implements MapQuestApiService {
         in.close();
 
         con.disconnect();
-
+        logger.info("Distance and time received from MapQuest API");
         return content.toString();
 
     }
@@ -62,11 +66,14 @@ public class MapQuestApiServiceImpl implements MapQuestApiService {
         con.setConnectTimeout(5000);
         con.setReadTimeout(5000);
 
+        logger.debug("Requesting static map from MapQuest API");
+
         //reading the response
         int status = con.getResponseCode();
         BufferedImage img = ImageIO.read(con.getInputStream());
 
         con.disconnect();
+        logger.info("Static map received from MapQuest API");
         return img;
     }
 

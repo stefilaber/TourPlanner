@@ -8,10 +8,10 @@ import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,11 +34,14 @@ public class TourListViewModel {
     private final List<Tour> masterData = new ArrayList<>();
     private final ObservableList<Tour> tourListItems = FXCollections.observableArrayList();
 
+    private static final Logger logger = LogManager.getLogger(TourListViewModel.class);
+
     public TourListViewModel(TourService tourService, @Qualifier("importToursServiceImpl") ImportDataService importToursService, @Qualifier("exportToursServiceImpl") ExportDataService exportToursService, PDFGeneratorService pdfGeneratorService) {
         this.tourService = tourService;
         this.importToursService = importToursService;
         this.exportToursService = exportToursService;
         this.pdfGeneratorService = pdfGeneratorService;
+        logger.debug("TourListViewModel created");
     }
 
     public ObservableList<Tour> getTourListItems() {
@@ -48,6 +51,7 @@ public class TourListViewModel {
     public void addItem(Tour tour) {
         tourListItems.add(tour);
         masterData.add(tour);
+        logger.info("Tour added: " + tour);
     }
 
     public void initList(){
@@ -55,6 +59,7 @@ public class TourListViewModel {
             System.out.println(p);
             addItem(p);
         });
+        logger.info("TourList initialized");
     }
 
     public void filterList(String searchText){
@@ -82,6 +87,8 @@ public class TourListViewModel {
         th.setDaemon(true);
         th.start();
 
+        logger.info("TourList filtered");
+
     }
 
     public void deleteTour(Tour selectedTour) {
@@ -89,6 +96,8 @@ public class TourListViewModel {
         tourService.delete(selectedTour);
         tourListItems.remove(selectedTour);
         masterData.remove(selectedTour);
+
+        logger.info("Tour deleted: " + selectedTour);
     }
 
     public void saveEditedTour(Tour tour){
@@ -99,6 +108,8 @@ public class TourListViewModel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        logger.info("Tour edited: " + tour);
     }
 
     public void deleteMap(String name){
@@ -110,10 +121,12 @@ public class TourListViewModel {
         for (Tour tour : tours) {
             addItem(tour);
         }
+        logger.info("Tours imported");
     }
 
     public void exportTours() throws Exception {
         exportToursService.exportData();
+        logger.info("Tours exported");
     }
 
     private int convertToSeconds(String time){
@@ -128,7 +141,7 @@ public class TourListViewModel {
         if(timeArray.length == 3){
             seconds = Integer.parseInt(timeArray[2]);
         }
-
+        logger.debug("Time converted to seconds");
         return hours*3600 + minutes*60 + seconds;
     }
 
@@ -136,17 +149,20 @@ public class TourListViewModel {
 
         //accepts time spans of 30 minutes (+- 1800 seconds of the tourSeconds)
         try {
-            System.out.println(convertToSeconds(searchTime) >= (tourSeconds - 1800) && convertToSeconds(searchTime) <= tourSeconds + 1800);
+            logger.debug("check for TimeSpan");
             return convertToSeconds(searchTime) >= (tourSeconds - 1800) && convertToSeconds(searchTime) <= tourSeconds + 1800;
         } catch (NumberFormatException e){
+            logger.error("TimeSpan could not be checked");
             return false;
         }
     }
 
     private boolean checkDistance(int tourDistance, String searchDistance){
         try {
+            logger.debug("check for Distance");
             return Integer.parseInt(searchDistance) >= (tourDistance - 20) && Integer.parseInt(searchDistance) <= tourDistance + 20;
         } catch (NumberFormatException e){
+            logger.error("Distance could not be checked");
             return false;
         }
     }
@@ -158,7 +174,9 @@ public class TourListViewModel {
             System.out.println("Generating summary report...");
             pdfGeneratorService.fileExists(summaryReportFile);
             pdfGeneratorService.writeSummaryReport(SUMMARY_REPORT);
+            logger.info("Summary Report generated");
         } catch (IOException e) {
+            logger.error("Summary Report could not be generated");
             throw new RuntimeException(e);
         }
     }

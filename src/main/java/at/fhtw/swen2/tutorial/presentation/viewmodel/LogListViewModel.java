@@ -1,5 +1,6 @@
 package at.fhtw.swen2.tutorial.presentation.viewmodel;
 
+import at.fhtw.swen2.tutorial.presentation.view.ApplicationView;
 import at.fhtw.swen2.tutorial.service.*;
 import at.fhtw.swen2.tutorial.service.dto.Log;
 import at.fhtw.swen2.tutorial.service.dto.Tour;
@@ -11,9 +12,13 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,7 +47,10 @@ public class LogListViewModel {
 
     private final ObjectProperty<Image> map = new SimpleObjectProperty<>();
 
+    private static Logger logger = LogManager.getLogger(LogListViewModel.class);
+
     public LogListViewModel(LogService logService, @Qualifier("importLogsServiceImpl") ImportDataService importLogsService, @Qualifier("exportLogsServiceImpl") ExportDataService exportLogsService, PDFGeneratorService pdfGeneratorService, TourService tourService) {
+        logger.debug("Initializing logListViewModel");
         this.logService = logService;
         this.importLogsService = importLogsService;
         this.exportLogsService = exportLogsService;
@@ -50,12 +58,9 @@ public class LogListViewModel {
         this.tourService = tourService;
     }
 
-    public Image getMap() {
-        return map.get();
-    }
-
     public void setMap(Image map) {
         this.map.set(map);
+        logger.info("Map set");
     }
 
     public ObjectProperty<Image> mapProperty() {
@@ -67,6 +72,7 @@ public class LogListViewModel {
     }
 
     public void addItem(Log log) {
+        logger.info("Adding log: {} to list and db", log);
         logListItems.add(log);
         masterData.add(log);
     }
@@ -79,10 +85,13 @@ public class LogListViewModel {
             System.out.println(p);
             addItem(p);
         });
+        logger.info("Log list initialized");
     }
 
     public void setSelectedTourId(Long selectedTourId) {
+
         this.selectedTourId = selectedTourId;
+        logger.info("Selected tour id set to: {}", selectedTourId);
     }
 
     public Long getSelectedTourId() {
@@ -93,11 +102,13 @@ public class LogListViewModel {
         logService.delete(log);
         logListItems.remove(log);
         masterData.remove(log);
+        logger.info("Log deleted: {}", log);
     }
 
     public void saveEditedLog(Log log) {
         logService.save(log);
         logListItems.setAll(masterData);
+        logger.info("Log edited: {}", log);
     }
 
     public void importLogs(File file) throws Exception {
@@ -107,10 +118,12 @@ public class LogListViewModel {
             logService.save(log);
             addItem(log);
         }
+        logger.info("Logs imported");
     }
 
     public void exportLogs() throws Exception {
         exportLogsService.exportData();
+        logger.info("Logs exported");
     }
 
     public void filterList(String searchText) {
@@ -135,6 +148,7 @@ public class LogListViewModel {
         Thread th = new Thread(task);
         th.setDaemon(true);
         th.start();
+        logger.info("Log list filtered by text: {}", searchText);
     }
 
     private int convertToSeconds(String time){
@@ -157,8 +171,10 @@ public class LogListViewModel {
 
         //accepts time spans of 30 minutes (+- 1800 seconds of the tourSeconds)
         try {
+            logger.debug("Checking time span: {} and {}", logTime, searchTime);
             return convertToSeconds(searchTime) >= (convertToSeconds(logTime) - 1800) && convertToSeconds(searchTime) <= convertToSeconds(logTime) + 1800;
         } catch (NumberFormatException e) {
+            logger.error("Error checking time span");
             return false;
         }
     }
@@ -172,7 +188,9 @@ public class LogListViewModel {
             System.out.println("Generating tour report...");
             pdfGeneratorService.fileExists(tourReportFile);
             pdfGeneratorService.writeTourReport(TOUR_REPORT, tour);
+            logger.info("Tour report generated");
         } catch (IOException e) {
+            logger.error("Error generating tour report");
             throw new RuntimeException(e);
         }
     }

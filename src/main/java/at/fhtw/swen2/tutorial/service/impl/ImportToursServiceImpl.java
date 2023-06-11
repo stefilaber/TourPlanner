@@ -21,6 +21,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 @Service
 @Transactional
@@ -29,7 +31,10 @@ public class ImportToursServiceImpl implements ImportDataService<Tour> {
     private final TourRepository tourRepository;
     private final TourMapper tourMapper;
 
+    private static Logger logger = LogManager.getLogger(ImportToursServiceImpl.class);
+
     public ImportToursServiceImpl(TourRepository tourRepository, TourMapper tourMapper) {
+        logger.debug("ImportToursServiceImpl created");
         this.tourRepository = tourRepository;
         this.tourMapper = tourMapper;
     }
@@ -68,14 +73,14 @@ public class ImportToursServiceImpl implements ImportDataService<Tour> {
                     .estimatedTime(estimatedTime)
                     .build();
             tourRepository.save(tour);
-            System.out.println("Record inserted for ID: " + id);
+            logger.info("Record inserted for ID: " + id);
             data.add(tourMapper.fromEntity(tour));
         }
 
         workbook.close();
         fileInputStream.close();
 
-        System.out.println("Data imported successfully.");
+        logger.info("Data imported successfully.");
 
         return data;
     }

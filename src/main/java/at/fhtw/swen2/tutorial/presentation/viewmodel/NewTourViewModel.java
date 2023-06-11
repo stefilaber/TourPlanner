@@ -6,12 +6,16 @@ import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.beans.property.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
 
 
 @Component
 public class NewTourViewModel {
+
+    private static Logger logger = LogManager.getLogger(NewTourViewModel.class);
     private SimpleLongProperty id = new SimpleLongProperty();
     private SimpleStringProperty name = new SimpleStringProperty();
     private SimpleStringProperty tourDescription  = new SimpleStringProperty();
@@ -24,14 +28,12 @@ public class NewTourViewModel {
     @Autowired
     private TourListViewModel tourListViewModel;
 
-    @Autowired
-    private MapQuestApiService mapQuestApiService;
-
     private Tour tour;
 
     public NewTourViewModel() { }
 
     public NewTourViewModel(Tour tour) {
+        logger.debug("Initializing new tour view model with tour {}", tour);
         this.tour = tour;
         this.id = new SimpleLongProperty(tour.getId());
         this.name = new SimpleStringProperty(tour.getName());
@@ -131,7 +133,7 @@ public class NewTourViewModel {
             throw new RuntimeException(e);
         }
         tourListViewModel.addItem(tour);
-
+        logger.info("Added new tour {}", tour);
     }
 
 }

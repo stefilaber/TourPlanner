@@ -26,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 @Transactional
 @Service
@@ -33,7 +35,10 @@ public class ImportLogsServiceImpl implements ImportDataService<Log> {
     private final LogRepository logRepository;
     private final LogMapper logMapper;
 
+    private static Logger logger = LogManager.getLogger(ImportLogsServiceImpl.class);
+
     public ImportLogsServiceImpl(LogRepository logRepository, LogMapper logMapper) {
+        logger.debug("ImportLogsServiceImpl created");
         this.logRepository = logRepository;
         this.logMapper = logMapper;
     }
@@ -63,16 +68,11 @@ public class ImportLogsServiceImpl implements ImportDataService<Log> {
             System.out.println("Tour ID: " + tourId);
 //            String dateTime = row.getCell(2).getLocalDateTimeCellValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss"));
             String dateTime = row.getCell(3).getStringCellValue();
-            System.out.println("Date Time: " + dateTime);
             String comment = row.getCell(4).getStringCellValue();
-            System.out.println("Comment: " + comment);
             String difficulty = row.getCell(5).getStringCellValue();
-            System.out.println("Difficulty: " + difficulty);
             String totalTime = String.valueOf(row.getCell(6).getNumericCellValue());
-            System.out.println("Total Time: " + totalTime);
 //            String totalTime = "12:30";
             int rating = (int) row.getCell(7).getNumericCellValue();
-            System.out.println("Rating: " + rating);
 
             LogEntity log = LogEntity.builder()
                     .id(id)
@@ -83,14 +83,14 @@ public class ImportLogsServiceImpl implements ImportDataService<Log> {
                     .totalTime(totalTime)
                     .rating(rating)
                     .build();
-            System.out.println("Record inserted for ID: " + id);
+            logger.info("Record inserted for ID: " + id);
             data.add(logMapper.fromEntity(log));
         }
 
         workbook.close();
         fileInputStream.close();
 
-        System.out.println("Data imported successfully.");
+        logger.info("Data imported successfully.");
 
         return data;
     }

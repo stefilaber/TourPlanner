@@ -3,25 +3,21 @@ import at.fhtw.swen2.tutorial.presentation.Swen2TemplateApplication;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
 import at.fhtw.swen2.tutorial.service.PDFGeneratorService;
 import at.fhtw.swen2.tutorial.service.dto.Log;
-import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 import javafx.util.converter.IntegerStringConverter;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import javafx.scene.control.Button;
-import javafx.scene.control.cell.TextFieldTableCell;
-import javafx.util.converter.IntegerStringConverter;
 import javafx.scene.image.ImageView;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -50,7 +46,10 @@ public class LogListView implements Initializable{
     @FXML
     private Button tourReportButton;
 
+    private static Logger logger = LogManager.getLogger(LogListView.class);
+
     public LogListView(LogListViewModel logListViewModel, Swen2TemplateApplication swen2TemplateApplication, PDFGeneratorService pdfGeneratorService) {
+        logger.debug("Initializing application controller");
         this.logListViewModel = logListViewModel;
         this.swen2TemplateApplication = swen2TemplateApplication;
         this.pdfGeneratorService = pdfGeneratorService;
@@ -58,6 +57,7 @@ public class LogListView implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle rb){
+        logger.debug("Initializing application");
         ImageView imageView = new ImageView();
         imageView.setFitHeight(200);
         imageView.setFitWidth(600);
@@ -112,22 +112,30 @@ public class LogListView implements Initializable{
         tourReportButton.setOnAction(event -> {
             logListViewModel.generateTourReport();
         });
+
+        logger.debug("Application initialized");
     }
 
     public void deleteButtonAction() {
+
+        logger.info("delete button clicked");
         logListViewModel.deleteLog(tableView.getSelectionModel().getSelectedItem());
     }
 
     public void editButtonAction() {
 
+        logger.info("edit tour button clicked");
         //make table editable
         tableView.setEditable(true);
 
         editLogButton.setVisible(false);
         saveEditedLogButton.setVisible(true);
+
     }
 
     public void saveEditedLogButtonAction(ActionEvent actionEvent) {
+
+        logger.info("update tour button clicked");
 
         Log selectedLog = tableView.getSelectionModel().getSelectedItem();
         logListViewModel.saveEditedLog(selectedLog);

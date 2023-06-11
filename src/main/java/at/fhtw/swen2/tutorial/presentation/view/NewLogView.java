@@ -7,6 +7,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
@@ -32,12 +34,16 @@ public class NewLogView implements Initializable {
     @FXML
     public ComboBox<Integer> ratingComboBox;
 
+    private static Logger logger = LogManager.getLogger(NewLogView.class);
+
     public NewLogView(NewLogViewModel newLogViewModel) {
         this.newLogViewModel = newLogViewModel;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle rb) {
+
+        logger.debug("Initializing new log view");
 
         List <String> difficultyList = List.of("easy", "medium", "hard");
         difficultyComboBox.getItems().addAll(difficultyList);
@@ -54,23 +60,28 @@ public class NewLogView implements Initializable {
 
     public void submitButtonAction() {
         if (commentTextField.getText() == null) {
+            logger.debug("comment not entered");
             feedbackText.setText("comment not entered!");
             return;
         }
         if (difficultyComboBox.getValue() == null) {
+            logger.debug("difficulty not entered");
             feedbackText.setText("difficulty not entered!");
             return;
         }
         if (totalTimeTextField.getText() == null) {
+            logger.debug("total time not entered");
             feedbackText.setText("total time not entered!");
             return;
         }
         String timeRegex = "[0-9]{1,2}";
         if(!(totalTimeTextField.getText().matches(timeRegex) || totalTimeTextField.getText().matches(timeRegex + ":" + timeRegex) || totalTimeTextField.getText().matches(timeRegex + ":" + timeRegex + ":" + timeRegex))) {
+            logger.debug("total time is not a valid time");
             feedbackText.setText("total time is not a valid time!");
             return;
         }
         if (ratingComboBox.getValue() == null || ratingComboBox.getValue() == 0) {
+            logger.debug("rating not entered");
             feedbackText.setText("rating not entered!");
             return;
         }

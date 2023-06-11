@@ -22,6 +22,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 @Service
 @Transactional
@@ -30,7 +32,10 @@ public class ExportToursServiceImpl implements ExportDataService {
     private final TourRepository tourRepository;
     private final TourMapper tourMapper;
 
+    private static Logger logger = LogManager.getLogger(ExportToursServiceImpl.class);
+
     public ExportToursServiceImpl(TourRepository tourRepository, TourMapper tourMapper) {
+        logger.debug("ExportToursServiceImpl created");
         this.tourRepository = tourRepository;
         this.tourMapper = tourMapper;
     }
@@ -75,7 +80,7 @@ public class ExportToursServiceImpl implements ExportDataService {
             workbook.close();
             fileOutputStream.close();
 
-            System.out.println("Data exported successfully.");
+            logger.info("Data exported successfully.");
 
     }
 }

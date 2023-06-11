@@ -9,6 +9,8 @@ import javafx.scene.text.Text;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.net.URL;
 import java.util.List;
@@ -34,13 +36,19 @@ public class NewTourView implements Initializable {
     @FXML
     public ComboBox<String> transportTypeComboBox;
 
+    private static Logger logger = LogManager.getLogger(NewTourView.class);
+
+
     public NewTourView(NewTourViewModel newTourViewModel) {
+        logger.debug("new tour controller");
         this.newTourViewModel = newTourViewModel;
     }
 
 
     @Override
     public void initialize(URL location, ResourceBundle rb) {
+
+        logger.debug("Initializing new tour");
 
         List<String> transportTypeList = List.of("fastest", "shortest", "pedestrian", "bicycle");
         transportTypeComboBox.getItems().addAll(transportTypeList);

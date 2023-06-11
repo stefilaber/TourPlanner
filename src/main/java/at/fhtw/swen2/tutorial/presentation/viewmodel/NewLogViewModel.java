@@ -1,5 +1,6 @@
 package at.fhtw.swen2.tutorial.presentation.viewmodel;
 
+import at.fhtw.swen2.tutorial.presentation.view.ApplicationView;
 import at.fhtw.swen2.tutorial.service.LogService;
 import at.fhtw.swen2.tutorial.service.dto.Log;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -7,6 +8,8 @@ import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,9 +33,11 @@ public class NewLogViewModel {
 
     private long selectedTourId;
 
-    public NewLogViewModel() { }
+    private static Logger logger = LogManager.getLogger(NewLogViewModel.class);
 
+    public NewLogViewModel() { }
     public NewLogViewModel(Log log) {
+        logger.debug("Initializing new log view model constructor");
         this.log = log;
         this.id = new SimpleLongProperty(log.getId());
         this.comment = new SimpleStringProperty(log.getComment());
@@ -102,6 +107,6 @@ public class NewLogViewModel {
                 .build();
         logService.save(log);
         logListViewModel.addItem(log);
-
+        logger.info("New log added");
     }
 }

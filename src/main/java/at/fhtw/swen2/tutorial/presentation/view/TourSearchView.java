@@ -10,13 +10,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 @Component
 @Scope("prototype")
 @Slf4j
 public class TourSearchView {
-
-    public static final int PAGE_ITEMS_COUNT = 10;
 
     @Autowired
     private TourSearchViewModel tourSearchViewModel;
@@ -26,8 +26,12 @@ public class TourSearchView {
     @FXML
     private Button searchButton;
 
+    private static Logger logger = LogManager.getLogger(TourSearchView.class);
+
     @FXML
     private void initialize() {
+
+        logger.debug("Initializing tour search view");
 
         searchField.textProperty().bindBidirectional(tourSearchViewModel.searchStringProperty());
 
@@ -44,6 +48,7 @@ public class TourSearchView {
 
     private void loadData() {
         tourSearchViewModel.search();
+        logger.debug("Searching for tours");
     }
 
 }
