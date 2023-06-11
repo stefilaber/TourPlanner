@@ -69,8 +69,9 @@ public class NewLogView implements Initializable {
             feedbackText.setText("total time not entered!");
             return;
         }
-        String timeRegex = "[0-9]{1,2}";
-        if(!(totalTimeTextField.getText().matches(timeRegex) || totalTimeTextField.getText().matches(timeRegex + ":" + timeRegex) || totalTimeTextField.getText().matches(timeRegex + ":" + timeRegex + ":" + timeRegex))) {
+        String timeRegex = "^([0-9]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$";
+        String timeRegex2 = "^([0-9]?[0-9]|2[0-3]):[0-5][0-9]$";
+        if(!(totalTimeTextField.getText().matches(timeRegex) || totalTimeTextField.getText().matches(timeRegex2))) {
             log.debug("total time is not a valid time");
             feedbackText.setText("total time is not a valid time!");
             return;
