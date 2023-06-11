@@ -216,7 +216,7 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
         java.util.List<Statistic> tourStatsList = new ArrayList<>();
 
         for (Tour tour : tourList) {
-            long avgTime = 0;
+            int avgTime = 0;
             int easy = 0;
             int medium = 0;
             int hard = 0;
@@ -256,7 +256,7 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
                 } else {
                     avgDifficulty = "medium";
                 }
-                tourStatsList.add(new Statistic(tour.getName(), DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalTime.ofSecondOfDay(avgTime)), avgDifficulty, avgRating));
+                tourStatsList.add(new Statistic(tour.getName(), convertSecondsToHours(avgTime), avgDifficulty, avgRating));
 
             } else {
                 tourStatsList.add(new Statistic(tour.getName(), "0", String.valueOf(0), 0));
@@ -282,5 +282,12 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
         }
 
         return hours*3600 + minutes*60 + seconds;
+    }
+
+    private String convertSecondsToHours(int seconds) {
+        int hours = seconds / 3600;
+        int minutes = (seconds % 3600) / 60;
+        int secs = seconds % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, secs);
     }
 }
