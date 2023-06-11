@@ -101,7 +101,9 @@ public class TourListViewModel {
     public void saveEditedTour(Tour tour){
 
         try {
-            tourService.save(tour);
+            Tour newTour = tourService.save(tour);
+            masterData.remove(tour);
+            masterData.add(newTour);
             tourListItems.setAll(masterData);
         } catch (IOException e) {
             throw new RuntimeException(e);

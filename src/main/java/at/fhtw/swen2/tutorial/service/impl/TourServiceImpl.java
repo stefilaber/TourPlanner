@@ -84,6 +84,9 @@ public class TourServiceImpl implements TourService {
 
         //rebuilding the tour with distance, time and map path
         tour = Tour.builder().id(tour.getId()).name(tour.getName()).tourDescription(tour.getTourDescription()).tourFrom(tour.getTourFrom()).tourTo(tour.getTourTo()).transportType(tour.getTransportType()).tourDistance(distance.asInt()).estimatedTime(time.asInt()).build();
+        System.out.println("distance: "+distance.asInt());
+        System.out.println("time: "+time.asInt());
+        System.out.println(tour);
         log.info("Created Tour with information from MapQuest");
         //saving the tour in the database
         TourEntity entity = tourRepository.save(tourMapper.toEntity(tour));
