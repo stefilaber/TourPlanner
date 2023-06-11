@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 @Component
 @Scope("prototype")
@@ -24,18 +22,15 @@ public class LogSearchView {
     @FXML
     private Button searchButton;
 
-    private static Logger logger = LogManager.getLogger(LogSearchView.class);
-
-
     public LogSearchView(LogSearchViewModel logSearchViewModel) {
-        logger.debug("logSearchView controller");
+        log.debug("logSearchView controller");
         this.logSearchViewModel = logSearchViewModel;
     }
 
     @FXML
     private void initialize() {
 
-        logger.debug("Initializing log search view");
+        log.debug("Initializing log search view");
 
         searchField.textProperty().bindBidirectional(logSearchViewModel.searchStringProperty());
 
@@ -51,7 +46,7 @@ public class LogSearchView {
     }
 
     private void loadData() {
-        logger.debug("Loading filtered data");
+        log.debug("Loading filtered data");
         logSearchViewModel.search();
     }
 

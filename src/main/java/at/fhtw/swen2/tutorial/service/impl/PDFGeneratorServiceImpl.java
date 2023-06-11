@@ -1,6 +1,5 @@
 package at.fhtw.swen2.tutorial.service.impl;
 
-import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
 import at.fhtw.swen2.tutorial.service.LogService;
 import at.fhtw.swen2.tutorial.service.PDFGeneratorService;
 import at.fhtw.swen2.tutorial.service.TourService;
@@ -17,10 +16,9 @@ import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.*;
 import com.itextpdf.layout.properties.UnitValue;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -32,17 +30,16 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-// annotate to create service into bin that can be injected into controller to use it
 @Service
 @Transactional
+@Slf4j
 public class PDFGeneratorServiceImpl implements PDFGeneratorService {
 
     final TourService tourService;
     final LogService logService;
-    private static Logger logger = LogManager.getLogger(PDFGeneratorServiceImpl.class);
 
     public PDFGeneratorServiceImpl(TourService tourService, LogService logService) {
-        logger.debug("PDFGeneratorServiceImpl created");
+        log.debug("PDFGeneratorServiceImpl created");
         this.tourService = tourService;
         this.logService = logService;
     }
@@ -52,19 +49,19 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
         // delete existing PDF file
         if (file.exists()) {
             if (file.delete()) {
-                logger.info("Existing PDF file deleted successfully.");
+                log.info("Existing PDF file deleted successfully.");
             } else {
-                logger.info("Failed to delete the existing PDF file.");
+                log.info("Failed to delete the existing PDF file.");
             }
         } else {
-            logger.info("No existing PDF file found.");
+            log.info("No existing PDF file found.");
         }
     }
 
     @Override
     public Document generateReport(String report) throws IOException {
 
-        logger.debug("generateReport called");
+        log.debug("generateReport called");
 
         String path = new java.io.File(".").getCanonicalPath() + "\\target\\reports\\";
         Files.createDirectories(Paths.get(path));
@@ -72,14 +69,14 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
         PdfWriter writer = new PdfWriter(report);
         PdfDocument pdf = new PdfDocument(writer);
 
-        logger.debug("PDF file created successfully.");
+        log.debug("PDF file created successfully.");
         return new Document(pdf);
     }
 
     @Override
     public void writeTourReport(String report, Tour tour) throws IOException {
 
-        logger.debug("writeTourReport called");
+        log.debug("writeTourReport called");
         Document document = generateReport(report);
         java.util.List<Log> logList = logService.getLogList(tour.getId());
         System.out.println("logList:" + logList);
@@ -151,14 +148,14 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
         ImageData imageData = ImageDataFactory.create(MAP_IMAGE);
         document.add(new Image(imageData));
 
-        logger.info("Tour report created successfully.");
+        log.info("Tour report created successfully.");
         document.close();
     }
 
     @Override
     public void writeSummaryReport(String report) throws IOException {
 
-        logger.debug("writeSummaryReport called");
+        log.debug("writeSummaryReport called");
         Document document = generateReport(report);
 
         java.util.List<Statistic> tourStatsList;
@@ -207,7 +204,7 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
 
         document.add(table);
 
-        logger.info("Summary report created successfully.");
+        log.info("Summary report created successfully.");
         document.close();
     }
     private Cell getHeaderCell(String s) {
@@ -266,12 +263,12 @@ public class PDFGeneratorServiceImpl implements PDFGeneratorService {
             }
 
         }
-        logger.debug("calculateStatistics finished");
+        log.debug("calculateStatistics finished");
         return tourStatsList;
     }
 
     private int convertToSeconds(String time){
-        logger.debug("convertToSeconds called");
+        log.debug("convertToSeconds called");
         String[] timeArray = time.split(":");
         int hours = Integer.parseInt(timeArray[0]);
         int minutes = 0;

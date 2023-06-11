@@ -1,40 +1,33 @@
 package at.fhtw.swen2.tutorial.service.impl;
+import at.fhtw.swen2.tutorial.persistence.entities.TourEntity;
+import at.fhtw.swen2.tutorial.persistence.repositories.TourRepository;
+import at.fhtw.swen2.tutorial.service.ImportDataService;
+import at.fhtw.swen2.tutorial.service.dto.Tour;
+import at.fhtw.swen2.tutorial.service.mapper.TourMapper;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.transaction.Transactional;
 
-import at.fhtw.swen2.tutorial.persistence.entities.LogEntity;
-import at.fhtw.swen2.tutorial.persistence.entities.TourEntity;
-import at.fhtw.swen2.tutorial.persistence.repositories.LogRepository;
-import at.fhtw.swen2.tutorial.persistence.repositories.TourRepository;
-import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
-import at.fhtw.swen2.tutorial.presentation.viewmodel.TourListViewModel;
-import at.fhtw.swen2.tutorial.service.ImportDataService;
-import at.fhtw.swen2.tutorial.service.dto.Tour;
-import at.fhtw.swen2.tutorial.service.mapper.TourMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
-
 @Service
 @Transactional
+@Slf4j
 public class ImportToursServiceImpl implements ImportDataService<Tour> {
 
     private final TourRepository tourRepository;
     private final TourMapper tourMapper;
 
-    private static Logger logger = LogManager.getLogger(ImportToursServiceImpl.class);
-
     public ImportToursServiceImpl(TourRepository tourRepository, TourMapper tourMapper) {
-        logger.debug("ImportToursServiceImpl created");
+        log.debug("ImportToursServiceImpl created");
         this.tourRepository = tourRepository;
         this.tourMapper = tourMapper;
     }
@@ -73,14 +66,14 @@ public class ImportToursServiceImpl implements ImportDataService<Tour> {
                     .estimatedTime(estimatedTime)
                     .build();
             tourRepository.save(tour);
-            logger.info("Record inserted for ID: " + id);
+            log.info("Record inserted for ID: " + id);
             data.add(tourMapper.fromEntity(tour));
         }
 
         workbook.close();
         fileInputStream.close();
 
-        logger.info("Data imported successfully.");
+        log.info("Data imported successfully.");
 
         return data;
     }

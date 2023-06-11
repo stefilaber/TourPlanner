@@ -1,6 +1,5 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 
-
 import at.fhtw.swen2.tutorial.presentation.viewmodel.TourSearchViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 @Component
 @Scope("prototype")
@@ -26,12 +23,10 @@ public class TourSearchView {
     @FXML
     private Button searchButton;
 
-    private static Logger logger = LogManager.getLogger(TourSearchView.class);
-
     @FXML
     private void initialize() {
 
-        logger.debug("Initializing tour search view");
+        log.debug("Initializing tour search view");
 
         searchField.textProperty().bindBidirectional(tourSearchViewModel.searchStringProperty());
 
@@ -48,7 +43,7 @@ public class TourSearchView {
 
     private void loadData() {
         tourSearchViewModel.search();
-        logger.debug("Searching for tours");
+        log.debug("Searching for tours");
     }
 
 }

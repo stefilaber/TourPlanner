@@ -13,11 +13,10 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.layout.VBox;
 import javafx.util.converter.IntegerStringConverter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 import javafx.scene.image.ImageView;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +26,7 @@ import java.util.stream.Stream;
 
 @Component
 @Scope("prototype")
+@Slf4j
 public class LogListView implements Initializable{
 
     public final LogListViewModel logListViewModel;
@@ -46,10 +46,9 @@ public class LogListView implements Initializable{
     @FXML
     private Button tourReportButton;
 
-    private static Logger logger = LogManager.getLogger(LogListView.class);
 
     public LogListView(LogListViewModel logListViewModel, Swen2TemplateApplication swen2TemplateApplication, PDFGeneratorService pdfGeneratorService) {
-        logger.debug("Initializing application controller");
+        log.debug("Initializing application controller");
         this.logListViewModel = logListViewModel;
         this.swen2TemplateApplication = swen2TemplateApplication;
         this.pdfGeneratorService = pdfGeneratorService;
@@ -57,7 +56,7 @@ public class LogListView implements Initializable{
 
     @Override
     public void initialize(URL location, ResourceBundle rb){
-        logger.debug("Initializing application");
+        log.debug("Initializing application");
         ImageView imageView = new ImageView();
         imageView.setFitHeight(200);
         imageView.setFitWidth(600);
@@ -113,18 +112,18 @@ public class LogListView implements Initializable{
             logListViewModel.generateTourReport();
         });
 
-        logger.debug("Application initialized");
+        log.debug("Application initialized");
     }
 
     public void deleteButtonAction() {
 
-        logger.info("delete button clicked");
+        log.info("delete button clicked");
         logListViewModel.deleteLog(tableView.getSelectionModel().getSelectedItem());
     }
 
     public void editButtonAction() {
 
-        logger.info("edit tour button clicked");
+        log.info("edit tour button clicked");
         //make table editable
         tableView.setEditable(true);
 
@@ -135,7 +134,7 @@ public class LogListView implements Initializable{
 
     public void saveEditedLogButtonAction(ActionEvent actionEvent) {
 
-        logger.info("update tour button clicked");
+        log.info("update tour button clicked");
 
         Log selectedLog = tableView.getSelectionModel().getSelectedItem();
         logListViewModel.saveEditedLog(selectedLog);

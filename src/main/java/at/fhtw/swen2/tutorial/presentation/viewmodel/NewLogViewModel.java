@@ -1,20 +1,19 @@
 package at.fhtw.swen2.tutorial.presentation.viewmodel;
 
-import at.fhtw.swen2.tutorial.presentation.view.ApplicationView;
 import at.fhtw.swen2.tutorial.service.LogService;
 import at.fhtw.swen2.tutorial.service.dto.Log;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
 @Component
+@Slf4j
 public class NewLogViewModel {
 
     private SimpleLongProperty id = new SimpleLongProperty();
@@ -29,16 +28,14 @@ public class NewLogViewModel {
     @Autowired
     private LogListViewModel logListViewModel;
 
-    private Log log;
+    private Log newLog;
 
     private long selectedTourId;
 
-    private static Logger logger = LogManager.getLogger(NewLogViewModel.class);
-
     public NewLogViewModel() { }
     public NewLogViewModel(Log log) {
-        logger.debug("Initializing new log view model constructor");
-        this.log = log;
+        NewLogViewModel.log.debug("Initializing new log view model constructor");
+        this.newLog = log;
         this.id = new SimpleLongProperty(log.getId());
         this.comment = new SimpleStringProperty(log.getComment());
         this.difficulty = new SimpleStringProperty(log.getDifficulty());
@@ -77,12 +74,12 @@ public class NewLogViewModel {
         return rating.get();
     }
 
-    public Log getLog() {
-        return log;
+    public Log getNewLog() {
+        return newLog;
     }
 
-    public void setLog(Log log) {
-        this.log = log;
+    public void setNewLog(Log newLog) {
+        this.newLog = newLog;
     }
 
     public SimpleStringProperty commentProperty() { return comment; }
@@ -107,6 +104,6 @@ public class NewLogViewModel {
                 .build();
         logService.save(log);
         logListViewModel.addItem(log);
-        logger.info("New log added");
+        NewLogViewModel.log.info("New log added");
     }
 }

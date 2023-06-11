@@ -1,6 +1,7 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 
 import at.fhtw.swen2.tutorial.presentation.StageAware;
+import at.fhtw.swen2.tutorial.presentation.Swen2TemplateApplication;
 import at.fhtw.swen2.tutorial.presentation.events.ApplicationShutdownEvent;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.LogListViewModel;
 import at.fhtw.swen2.tutorial.presentation.viewmodel.NewLogViewModel;
@@ -22,8 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,14 +51,12 @@ public class ApplicationView implements Initializable, StageAware {
 
     SimpleObjectProperty<Stage> stage = new SimpleObjectProperty<>();
 
-    private static Logger logger = LogManager.getLogger(ApplicationView.class);
-
     public ApplicationView(ApplicationEventPublisher publisher, LogListViewModel logListViewModel, TourListViewModel tourListViewModel, NewLogViewModel newLogViewModel) {
-        logger.debug("Initializing application controller");
+        log.debug("Initializing application controller");
         this.publisher = publisher;
 
         tourListViewModel.onTourDoubleClick = tour -> {
-            logger.info("Tour double clicked: {}", tour);
+            log.info("Tour double clicked: {}", tour);
             logTab.setDisable(false);
             logListViewModel.setSelectedTourId(tour.getId());
             newLogViewModel.setSelectedTourId(tour.getId());
@@ -69,9 +66,9 @@ public class ApplicationView implements Initializable, StageAware {
                 Image image = new Image(getClass().getResourceAsStream("/maps/" + tour.getName() + ".png"));
                 logListViewModel.setMap(image);
             } catch (Exception e) {
-                logger.error("Could not load map for tour: {}", tour.getName());
+                log.error("Could not load map for tour: {}", tour.getName());
             }
-            logger.info("Got map from path: {}", getClass().getResourceAsStream("/maps/" + tour.getName() + ".png"));
+            log.info("Got map from path: {}", getClass().getResourceAsStream("/maps/" + tour.getName() + ".png"));
 
         };
     }
@@ -91,6 +88,7 @@ public class ApplicationView implements Initializable, StageAware {
     public void onHelpAbout() {
         new AboutDialogView().show();
     }
+
 
     @Override
     public void setStage(Stage stage) {

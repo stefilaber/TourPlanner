@@ -1,44 +1,32 @@
 package at.fhtw.swen2.tutorial.service.impl;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
 import at.fhtw.swen2.tutorial.persistence.entities.LogEntity;
 import at.fhtw.swen2.tutorial.persistence.repositories.LogRepository;
 import at.fhtw.swen2.tutorial.service.ImportDataService;
 import at.fhtw.swen2.tutorial.service.dto.Log;
-import at.fhtw.swen2.tutorial.service.dto.Tour;
 import at.fhtw.swen2.tutorial.service.mapper.LogMapper;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.transaction.Transactional;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
 
 @Transactional
 @Service
+@Slf4j
 public class ImportLogsServiceImpl implements ImportDataService<Log> {
     private final LogRepository logRepository;
     private final LogMapper logMapper;
 
-    private static Logger logger = LogManager.getLogger(ImportLogsServiceImpl.class);
-
     public ImportLogsServiceImpl(LogRepository logRepository, LogMapper logMapper) {
-        logger.debug("ImportLogsServiceImpl created");
+        log.debug("ImportLogsServiceImpl created");
         this.logRepository = logRepository;
         this.logMapper = logMapper;
     }
@@ -83,14 +71,14 @@ public class ImportLogsServiceImpl implements ImportDataService<Log> {
                     .totalTime(totalTime)
                     .rating(rating)
                     .build();
-            logger.info("Record inserted for ID: " + id);
+            ImportLogsServiceImpl.log.info("Record inserted for ID: " + id);
             data.add(logMapper.fromEntity(log));
         }
 
         workbook.close();
         fileInputStream.close();
 
-        logger.info("Data imported successfully.");
+        log.info("Data imported successfully.");
 
         return data;
     }
