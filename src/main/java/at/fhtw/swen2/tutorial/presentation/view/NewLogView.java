@@ -1,21 +1,17 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 
 import at.fhtw.swen2.tutorial.presentation.viewmodel.NewLogViewModel;
-import at.fhtw.swen2.tutorial.presentation.viewmodel.NewTourViewModel;
-import at.fhtw.swen2.tutorial.service.LogService;
-import at.fhtw.swen2.tutorial.service.TourService;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.util.converter.NumberStringConverter;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 @Component
@@ -23,56 +19,70 @@ import java.util.ResourceBundle;
 @Slf4j
 public class NewLogView implements Initializable {
 
-    @Autowired
-    private LogService logService;
-    @Autowired
-    private NewLogViewModel newLogViewModel;
+    private final NewLogViewModel newLogViewModel;
 
     @FXML
     private Text feedbackText;
     @FXML
-    private TextField dateTimeTextField;
-    @FXML
     public TextField commentTextField;
     @FXML
-    public TextField difficultyTextField;
+    public ComboBox<String> difficultyComboBox;
     @FXML
     public TextField totalTimeTextField;
     @FXML
-    public TextField ratingTextField;
+    public ComboBox<Integer> ratingComboBox;
+    public NewLogView(NewLogViewModel newLogViewModel) {
+        this.newLogViewModel = newLogViewModel;
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle rb) {
-        dateTimeTextField.textProperty().bindBidirectional(newLogViewModel.dateTimeProperty());
+
+        log.debug("Initializing new log view");
+
+        List <String> difficultyList = List.of("easy", "medium", "hard");
+        difficultyComboBox.getItems().addAll(difficultyList);
+
+        List<Integer> ratingList = List.of(1, 2, 3, 4, 5);
+        ratingComboBox.getItems().addAll(ratingList);
+
         commentTextField.textProperty().bindBidirectional(newLogViewModel.commentProperty());
-        difficultyTextField.textProperty().bindBidirectional(newLogViewModel.difficultyProperty());
-        totalTimeTextField.textProperty().bindBidirectional(newLogViewModel.totalTimeProperty(), new NumberStringConverter());
-        ratingTextField.textProperty().bindBidirectional(newLogViewModel.ratingProperty(), new NumberStringConverter());
-        totalTimeTextField.textProperty().bindBidirectional(newLogViewModel.totalTimeProperty(), new NumberStringConverter());
+        difficultyComboBox.valueProperty().bindBidirectional(newLogViewModel.difficultyProperty());
+        totalTimeTextField.textProperty().bindBidirectional(newLogViewModel.totalTimeProperty());
+        ratingComboBox.valueProperty().bindBidirectional(newLogViewModel.ratingProperty().asObject());
     }
 
-    public void submitButtonAction(ActionEvent event) {
-        if (dateTimeTextField.getText().isEmpty()) {
-            feedbackText.setText("date/time not entered!");
-            return;
-        }
-        if (commentTextField.getText().isEmpty()) {
+
+    public void submitButtonAction() {
+        if (commentTextField.getText() == null) {
+            log.debug("comment not entered");
             feedbackText.setText("comment not entered!");
             return;
         }
-        if (difficultyTextField.getText().isEmpty()) {
+        if (difficultyComboBox.getValue() == null) {
+            log.debug("difficulty not entered");
             feedbackText.setText("difficulty not entered!");
             return;
         }
-        if (totalTimeTextField.getText().isEmpty()) {
+        if (totalTimeTextField.getText() == null) {
+            log.debug("total time not entered");
             feedbackText.setText("total time not entered!");
             return;
         }
-        if (ratingTextField.getText().isEmpty()) {
+        String timeRegex = "^([0-9]?[0-9]|2[0-3]):[0-5][0-9]:[0-5][0-9]$";
+        String timeRegex2 = "^([0-9]?[0-9]|2[0-3]):[0-5][0-9]$";
+        if(!(totalTimeTextField.getText().matches(timeRegex) || totalTimeTextField.getText().matches(timeRegex2))) {
+            log.debug("total time is not a valid time");
+            feedbackText.setText("total time is not a valid time!");
+            return;
+        }
+        if (ratingComboBox.getValue() == null || ratingComboBox.getValue() == 0) {
+            log.debug("rating not entered");
             feedbackText.setText("rating not entered!");
             return;
         }
 
-        //newLogViewModel.addNewLog();
+        newLogViewModel.setRating(ratingComboBox.getValue());
+        newLogViewModel.addNewLog();
     }
 }

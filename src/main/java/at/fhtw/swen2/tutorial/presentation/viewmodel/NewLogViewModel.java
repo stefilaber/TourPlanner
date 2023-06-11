@@ -1,63 +1,53 @@
 package at.fhtw.swen2.tutorial.presentation.viewmodel;
 
 import at.fhtw.swen2.tutorial.service.LogService;
-import at.fhtw.swen2.tutorial.service.TourService;
 import at.fhtw.swen2.tutorial.service.dto.Log;
-import at.fhtw.swen2.tutorial.service.dto.Tour;
-import javafx.beans.property.Property;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.beans.property.SimpleStringProperty;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 @Component
+@Slf4j
 public class NewLogViewModel {
 
     private SimpleLongProperty id = new SimpleLongProperty();
-
-    private SimpleStringProperty dateTime = new SimpleStringProperty();
-
     private SimpleStringProperty comment  = new SimpleStringProperty();
-
     private SimpleStringProperty difficulty  = new SimpleStringProperty();
-
-    private SimpleIntegerProperty totalTime  = new SimpleIntegerProperty();
-
+    private SimpleStringProperty totalTime  = new SimpleStringProperty();
     private SimpleIntegerProperty rating  = new SimpleIntegerProperty();
-
 
     @Autowired
     private LogService logService;
+
     @Autowired
     private LogListViewModel logListViewModel;
 
-    private Log log;
+    private Log newLog;
+
+    private long selectedTourId;
 
     public NewLogViewModel() { }
-
     public NewLogViewModel(Log log) {
-        this.log = log;
+        NewLogViewModel.log.debug("Initializing new log view model constructor");
+        this.newLog = log;
         this.id = new SimpleLongProperty(log.getId());
-        this.dateTime = new SimpleStringProperty(log.getDateTime());
         this.comment = new SimpleStringProperty(log.getComment());
         this.difficulty = new SimpleStringProperty(log.getDifficulty());
-        this.totalTime = new SimpleIntegerProperty(log.getTotalTime());
+        this.totalTime = new SimpleStringProperty(log.getTotalTime());
         this.rating = new SimpleIntegerProperty(log.getRating());
+    }
+    public void setSelectedTourId(long selectedTourId) {
+        this.selectedTourId = selectedTourId;
     }
 
     public long getId() {
         return id.get();
-    }
-
-    public String getDateTime() {
-        return dateTime.get();
-    }
-
-    public void setDateTime(String dateTime) {
-        this.dateTime.set(dateTime);
     }
 
     public String getComment() {
@@ -72,64 +62,48 @@ public class NewLogViewModel {
         return difficulty.get();
     }
 
-    public void setDifficulty(String difficulty) {
-        this.difficulty.set(difficulty);
-    }
-
-    public int getTotalTime() {
+    public String getTotalTime() {
         return totalTime.get();
-    }
-
-    public void setTotalTime(int totalTime) {
-        this.totalTime.set(totalTime);
-    }
-
-    public int getRating() {
-        return rating.get();
     }
 
     public void setRating(int rating) {
         this.rating.set(rating);
     }
 
-    public LogService getLogService() {
-        return logService;
+    public int getRating() {
+        return rating.get();
     }
 
-    public void setLogService(LogService logService) {
-        this.logService = logService;
+    public Log getNewLog() {
+        return newLog;
     }
 
-    public LogListViewModel getLogListViewModel() {
-        return logListViewModel;
+    public void setNewLog(Log newLog) {
+        this.newLog = newLog;
     }
-
-    public void setLogListViewModel(LogListViewModel logListViewModel) {
-        this.logListViewModel = logListViewModel;
-    }
-
-    public Log getLog() {
-        return log;
-    }
-
-    public void setLog(Log log) {
-        this.log = log;
-    }
-
-    public SimpleStringProperty dateTimeProperty() { return dateTime; }
 
     public SimpleStringProperty commentProperty() { return comment; }
 
     public SimpleStringProperty difficultyProperty() { return difficulty; }
 
-    public SimpleIntegerProperty totalTimeProperty() { return totalTime; }
+    public SimpleStringProperty totalTimeProperty() { return totalTime; }
 
     public SimpleIntegerProperty ratingProperty() { return rating; }
 
     public void addNewLog() {
         Long selectedTourId = logListViewModel.getSelectedTourId();
-        Log log = Log.builder().id(getId()).dateTime(getDateTime()).comment(getComment()).difficulty(getDifficulty()).totalTime(getTotalTime()).rating(getRating()).tourId(selectedTourId).build();
-        log = logService.addNew(log);
+        String dateTime = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(Calendar.getInstance().getTime());
+        Log log = Log.builder()
+                .id(getId())
+                .dateTime(dateTime)
+                .comment(getComment())
+                .difficulty(getDifficulty())
+                .totalTime(getTotalTime())
+                .rating(getRating())
+                .tourId(selectedTourId)
+                .build();
+        logService.save(log);
         logListViewModel.addItem(log);
+        NewLogViewModel.log.info("New log added");
     }
 }

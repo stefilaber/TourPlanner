@@ -2,14 +2,20 @@ package at.fhtw.swen2.tutorial.service;
 
 import at.fhtw.swen2.tutorial.service.dto.Tour;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface TourService {
 
     List<Tour> getTourList();
 
-    Tour addNew(Tour tour);
+    Tour save(Tour tour) throws IOException;
 
-    // erweitern mit parameter create new service
+    void delete(Tour tour);
+
+    void deleteMap(String name);
+
+
+    Tour getTour(Long tourId);
 
 }

@@ -28,7 +28,7 @@ public class LogEntity {
     private String difficulty;
 
     @Column(nullable = false)
-    private int totalTime;
+    private String totalTime;
 
     @Column(nullable = false)
     private int rating;

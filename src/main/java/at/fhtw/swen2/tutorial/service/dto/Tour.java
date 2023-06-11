@@ -15,7 +15,20 @@ public class Tour {
     private String transportType;
     private int tourDistance;
     private int estimatedTime;
-    //TODO
-    //private char routeInformation;
+
+    public Tour() {
+        // Default constructor
+    }
+
+    public Tour(Long id, String name, String tourDescription, String tourFrom, String tourTo, String transportType, int tourDistance, int estimatedTime) {
+        this.id = id;
+        this.name = name;
+        this.tourDescription = tourDescription;
+        this.tourFrom = tourFrom;
+        this.tourTo = tourTo;
+        this.transportType = transportType;
+        this.tourDistance = tourDistance;
+        this.estimatedTime = estimatedTime;
+    }
 
 }
