@@ -16,7 +16,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -99,7 +101,11 @@ public class LogListViewModel {
     }
 
     public void saveEditedLog(Log log) {
+        masterData.remove(log);
+        String dateTime = new SimpleDateFormat("dd/MM/yyyy - HH:mm:ss").format(Calendar.getInstance().getTime());
+        log.setDateTime(dateTime);
         logService.save(log);
+        masterData.add(log);
         logListItems.setAll(masterData);
         LogListViewModel.log.info("Log edited: {}", log);
     }
