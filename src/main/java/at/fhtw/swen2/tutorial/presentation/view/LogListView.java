@@ -81,10 +81,6 @@ public class LogListView implements Initializable{
         difficulty.setCellValueFactory(new PropertyValueFactory<>("difficulty"));
         difficulty.setCellFactory(TextFieldTableCell.forTableColumn());
         difficulty.setOnEditCommit(event -> {
-            if(!event.getNewValue().equalsIgnoreCase("easy") && !event.getNewValue().equalsIgnoreCase("medium") && !event.getNewValue().equalsIgnoreCase("hard")){
-                log.error("Invalid difficulty");
-                return;
-            }
             Log log = event.getRowValue();
             log.setDifficulty(event.getNewValue().toLowerCase());
         });
@@ -93,13 +89,6 @@ public class LogListView implements Initializable{
         totalTime.setCellValueFactory(new PropertyValueFactory<>("totalTime"));
         totalTime.setCellFactory(TextFieldTableCell.forTableColumn());
         totalTime.setOnEditCommit(event -> {
-            //check if the value is a valid integer
-            try {
-                Integer.parseInt(event.getNewValue());
-            } catch (NumberFormatException e) {
-                log.error("Invalid total time");
-                return;
-            }
             Log log = event.getRowValue();
             log.setTotalTime(event.getNewValue());
         });
@@ -107,13 +96,7 @@ public class LogListView implements Initializable{
         TableColumn<Log, Integer> rating = new TableColumn<>("RATING");
         rating.setCellValueFactory(new PropertyValueFactory<>("rating"));
         rating.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
-        rating.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
         rating.setOnEditCommit(event -> {
-            //check if the value is a valid integer between 1 and 5
-            if(event.getNewValue() < 1 || event.getNewValue() > 5){
-                log.error("Invalid rating");
-                return;
-            }
             Log log = event.getRowValue();
             log.setRating(event.getNewValue());
         });
