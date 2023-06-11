@@ -117,7 +117,7 @@ public class TourListView implements Initializable{
         tourDistance.setCellValueFactory(new PropertyValueFactory<>("tourDistance"));
 
         TableColumn<Tour, String> estimatedTime = new TableColumn<>("DURATION");
-        estimatedTime.setCellValueFactory(cellData -> new SimpleStringProperty(DateTimeFormatter.ofPattern("HH:mm:ss").format(LocalTime.ofSecondOfDay(cellData.getValue().getEstimatedTime()))));
+        estimatedTime.setCellValueFactory(cellData -> new SimpleStringProperty(convertSecondsToHours(cellData.getValue().getEstimatedTime())));
 
         var columns = tableView.getColumns();
         Stream.of(name, tourDescription, tourFrom, tourTo, transportType, tourDistance, estimatedTime).forEach(columns::add);
@@ -222,6 +222,13 @@ public class TourListView implements Initializable{
     public void exportLogsButtonAction() throws Exception {
         log.info("clicked on export logs button");
         logListViewModel.exportLogs();
+    }
+
+    private String convertSecondsToHours(int seconds) {
+        int hours = seconds / 3600;
+        int minutes = (seconds % 3600) / 60;
+        int secs = seconds % 60;
+        return String.format("%02d:%02d:%02d", hours, minutes, secs);
     }
 }
 
