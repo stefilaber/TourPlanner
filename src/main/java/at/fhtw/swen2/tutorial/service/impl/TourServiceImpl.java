@@ -9,6 +9,7 @@ import at.fhtw.swen2.tutorial.service.mapper.TourMapper;
 import at.fhtw.swen2.tutorial.service.TourService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,30 +24,27 @@ import java.util.List;
 
 @Service
 @Transactional
+@Slf4j
 public class TourServiceImpl implements TourService {
 
     @Autowired
     private TourRepository tourRepository;
-
     @Autowired
     private LogRepository logRepository;
-
     @Autowired
     private TourMapper tourMapper;
-
-
     @Autowired
     private MapQuestApiService mapQuestApiService;
 
-
     @Override
     public List<Tour> getTourList() {
-        System.out.println(tourMapper.fromEntity(tourRepository.findAll()));
+        log.info("TourService getting tour list");
         return tourMapper.fromEntity(tourRepository.findAll());
     }
 
     @Override
     public Tour save(Tour tour) throws IOException {
+        log.info("TourService saving tour");
         if (tour == null){
             return null;
         }
@@ -78,13 +76,15 @@ public class TourServiceImpl implements TourService {
         try(FileOutputStream fos = new FileOutputStream(path + mapPath); FileOutputStream fos2 = new FileOutputStream(targetPath + mapPath)) {
             ImageIO.write(map, "png", fos);
             ImageIO.write(map, "png", fos2);
+            log.debug("Map saved in: " + path + mapPath);
         } catch (IOException e) {
-            // TODO Add logging
+            log.error("Error saving map: " + e.getMessage());
             throw e;
         }
 
         //rebuilding the tour with distance, time and map path
         tour = Tour.builder().id(tour.getId()).name(tour.getName()).tourDescription(tour.getTourDescription()).tourFrom(tour.getTourFrom()).tourTo(tour.getTourTo()).transportType(tour.getTransportType()).tourDistance(distance.asInt()).estimatedTime(time.asInt()).build();
+        log.info("Created Tour with information from MapQuest");
         //saving the tour in the database
         TourEntity entity = tourRepository.save(tourMapper.toEntity(tour));
         return tourMapper.fromEntity(entity);
@@ -92,23 +92,29 @@ public class TourServiceImpl implements TourService {
 
     @Override
     public void delete(Tour tour) {
+        log.debug("Deleting Tour with id: " + tour.getId());
         logRepository.deleteByTourId(tour.getId());
         tourRepository.delete(tourMapper.toEntity(tour));
+        log.info("Deleted Tour with id: " + tour.getId());
     }
 
     @Override
     public void deleteMap(String name) {
+        log.debug("Deleting Map with name: " + name);
         try {
             String path = new java.io.File(".").getCanonicalPath() + "\\src\\main\\resources\\maps\\" + name + ".png";
             System.out.println(path);
             Files.deleteIfExists(Paths.get(path));
+            log.info("Deleted Map with name: " + name);
         } catch (IOException e) {
+            log.error("Error deleting map: " + e.getMessage());
             e.printStackTrace();
         }
     }
 
     @Override
     public Tour getTour(Long tourId) {
+        log.debug("Tour Service getting Tour with id: " + tourId);
         return tourRepository.findById(tourId).map(tourMapper::fromEntity).orElse(null);
     }
 

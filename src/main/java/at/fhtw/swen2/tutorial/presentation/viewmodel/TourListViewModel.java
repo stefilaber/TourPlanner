@@ -8,8 +8,7 @@ import at.fhtw.swen2.tutorial.service.dto.Tour;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +20,7 @@ import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Component
+@Slf4j
 public class TourListViewModel {
 
     final TourService tourService;
@@ -39,6 +39,7 @@ public class TourListViewModel {
         this.importToursService = importToursService;
         this.exportToursService = exportToursService;
         this.pdfGeneratorService = pdfGeneratorService;
+        log.debug("TourListViewModel created");
     }
 
     public ObservableList<Tour> getTourListItems() {
@@ -48,6 +49,7 @@ public class TourListViewModel {
     public void addItem(Tour tour) {
         tourListItems.add(tour);
         masterData.add(tour);
+        log.info("Tour added: " + tour);
     }
 
     public void initList(){
@@ -55,6 +57,7 @@ public class TourListViewModel {
             System.out.println(p);
             addItem(p);
         });
+        log.info("TourList initialized");
     }
 
     public void filterList(String searchText){
@@ -82,6 +85,8 @@ public class TourListViewModel {
         th.setDaemon(true);
         th.start();
 
+        log.info("TourList filtered");
+
     }
 
     public void deleteTour(Tour selectedTour) {
@@ -89,6 +94,8 @@ public class TourListViewModel {
         tourService.delete(selectedTour);
         tourListItems.remove(selectedTour);
         masterData.remove(selectedTour);
+
+        log.info("Tour deleted: " + selectedTour);
     }
 
     public void saveEditedTour(Tour tour){
@@ -99,6 +106,8 @@ public class TourListViewModel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+
+        log.info("Tour edited: " + tour);
     }
 
     public void deleteMap(String name){
@@ -110,10 +119,12 @@ public class TourListViewModel {
         for (Tour tour : tours) {
             addItem(tour);
         }
+        log.info("Tours imported");
     }
 
     public void exportTours() throws Exception {
         exportToursService.exportData();
+        log.info("Tours exported");
     }
 
     private int convertToSeconds(String time){
@@ -128,7 +139,7 @@ public class TourListViewModel {
         if(timeArray.length == 3){
             seconds = Integer.parseInt(timeArray[2]);
         }
-
+        log.debug("Time converted to seconds");
         return hours*3600 + minutes*60 + seconds;
     }
 
@@ -136,17 +147,20 @@ public class TourListViewModel {
 
         //accepts time spans of 30 minutes (+- 1800 seconds of the tourSeconds)
         try {
-            System.out.println(convertToSeconds(searchTime) >= (tourSeconds - 1800) && convertToSeconds(searchTime) <= tourSeconds + 1800);
+            log.debug("check for TimeSpan");
             return convertToSeconds(searchTime) >= (tourSeconds - 1800) && convertToSeconds(searchTime) <= tourSeconds + 1800;
         } catch (NumberFormatException e){
+            log.error("TimeSpan could not be checked");
             return false;
         }
     }
 
     private boolean checkDistance(int tourDistance, String searchDistance){
         try {
+            log.debug("check for Distance");
             return Integer.parseInt(searchDistance) >= (tourDistance - 20) && Integer.parseInt(searchDistance) <= tourDistance + 20;
         } catch (NumberFormatException e){
+            log.error("Distance could not be checked");
             return false;
         }
     }
@@ -158,7 +172,9 @@ public class TourListViewModel {
             System.out.println("Generating summary report...");
             pdfGeneratorService.fileExists(summaryReportFile);
             pdfGeneratorService.writeSummaryReport(SUMMARY_REPORT);
+            log.info("Summary Report generated");
         } catch (IOException e) {
+            log.error("Summary Report could not be generated");
             throw new RuntimeException(e);
         }
     }

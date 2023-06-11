@@ -1,40 +1,32 @@
 package at.fhtw.swen2.tutorial.service.impl;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.time.Duration;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-
 import at.fhtw.swen2.tutorial.persistence.entities.LogEntity;
 import at.fhtw.swen2.tutorial.persistence.repositories.LogRepository;
 import at.fhtw.swen2.tutorial.service.ImportDataService;
 import at.fhtw.swen2.tutorial.service.dto.Log;
-import at.fhtw.swen2.tutorial.service.dto.Tour;
 import at.fhtw.swen2.tutorial.service.mapper.LogMapper;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import javax.transaction.Transactional;
+
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.transaction.Transactional;
 
 @Transactional
 @Service
+@Slf4j
 public class ImportLogsServiceImpl implements ImportDataService<Log> {
     private final LogRepository logRepository;
     private final LogMapper logMapper;
 
     public ImportLogsServiceImpl(LogRepository logRepository, LogMapper logMapper) {
+        log.debug("ImportLogsServiceImpl created");
         this.logRepository = logRepository;
         this.logMapper = logMapper;
     }
@@ -64,16 +56,11 @@ public class ImportLogsServiceImpl implements ImportDataService<Log> {
             System.out.println("Tour ID: " + tourId);
 //            String dateTime = row.getCell(2).getLocalDateTimeCellValue().format(DateTimeFormatter.ofPattern("dd/MM/yyyy - HH:mm:ss"));
             String dateTime = row.getCell(2).getStringCellValue();
-            System.out.println("Date Time: " + dateTime);
             String comment = row.getCell(3).getStringCellValue();
-            System.out.println("Comment: " + comment);
             String difficulty = row.getCell(4).getStringCellValue();
-            System.out.println("Difficulty: " + difficulty);
-            String totalTime = row.getCell(5).getStringCellValue();
-            totalTime = totalTime.replaceAll("\\W", ":");
-            System.out.println("Total Time: " + totalTime);
+            String totalTime = String.valueOf(row.getCell(5).getNumericCellValue());
+//            String totalTime = "12:30";
             int rating = (int) row.getCell(6).getNumericCellValue();
-            System.out.println("Rating: " + rating);
 
             LogEntity log = LogEntity.builder()
                     .id(id)
@@ -84,14 +71,14 @@ public class ImportLogsServiceImpl implements ImportDataService<Log> {
                     .totalTime(totalTime)
                     .rating(rating)
                     .build();
-            System.out.println("Record inserted for ID: " + id);
+            ImportLogsServiceImpl.log.info("Record inserted for ID: " + id);
             data.add(logMapper.fromEntity(log));
         }
 
         workbook.close();
         fileInputStream.close();
 
-        System.out.println("Data imported successfully.");
+        log.info("Data imported successfully.");
 
         return data;
     }

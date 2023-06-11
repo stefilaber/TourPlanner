@@ -3,33 +3,30 @@ import at.fhtw.swen2.tutorial.persistence.entities.LogEntity;
 import at.fhtw.swen2.tutorial.persistence.repositories.LogRepository;
 import at.fhtw.swen2.tutorial.service.ExportDataService;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.List;
 
 import at.fhtw.swen2.tutorial.service.dto.Log;
 import at.fhtw.swen2.tutorial.service.mapper.LogMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
+@Slf4j
 public class ExportLogsServiceImpl implements ExportDataService {
 
     private final LogRepository logRepository;
     private final LogMapper logMapper;
 
     public ExportLogsServiceImpl(LogRepository logRepository, LogMapper logMapper) {
+        log.debug("ExportLogsServiceImpl created");
         this.logRepository = logRepository;
         this.logMapper = logMapper;
     }
@@ -85,6 +82,6 @@ public class ExportLogsServiceImpl implements ExportDataService {
         workbook.close();
         fileOutputStream.close();
 
-        System.out.println("Data exported successfully.");
+        log.debug("Exported logs to excel file");
     }
 }

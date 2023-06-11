@@ -31,13 +31,14 @@ public class NewLogView implements Initializable {
     public TextField totalTimeTextField;
     @FXML
     public ComboBox<Integer> ratingComboBox;
-
     public NewLogView(NewLogViewModel newLogViewModel) {
         this.newLogViewModel = newLogViewModel;
     }
 
     @Override
     public void initialize(URL location, ResourceBundle rb) {
+
+        log.debug("Initializing new log view");
 
         List <String> difficultyList = List.of("easy", "medium", "hard");
         difficultyComboBox.getItems().addAll(difficultyList);
@@ -54,23 +55,28 @@ public class NewLogView implements Initializable {
 
     public void submitButtonAction() {
         if (commentTextField.getText() == null) {
+            log.debug("comment not entered");
             feedbackText.setText("comment not entered!");
             return;
         }
         if (difficultyComboBox.getValue() == null) {
+            log.debug("difficulty not entered");
             feedbackText.setText("difficulty not entered!");
             return;
         }
         if (totalTimeTextField.getText() == null) {
+            log.debug("total time not entered");
             feedbackText.setText("total time not entered!");
             return;
         }
         String timeRegex = "[0-9]{1,2}";
         if(!(totalTimeTextField.getText().matches(timeRegex) || totalTimeTextField.getText().matches(timeRegex + ":" + timeRegex) || totalTimeTextField.getText().matches(timeRegex + ":" + timeRegex + ":" + timeRegex))) {
+            log.debug("total time is not a valid time");
             feedbackText.setText("total time is not a valid time!");
             return;
         }
         if (ratingComboBox.getValue() == null || ratingComboBox.getValue() == 0) {
+            log.debug("rating not entered");
             feedbackText.setText("rating not entered!");
             return;
         }

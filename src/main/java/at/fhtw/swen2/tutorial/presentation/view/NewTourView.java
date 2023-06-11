@@ -35,12 +35,15 @@ public class NewTourView implements Initializable {
     public ComboBox<String> transportTypeComboBox;
 
     public NewTourView(NewTourViewModel newTourViewModel) {
+        log.debug("new tour controller");
         this.newTourViewModel = newTourViewModel;
     }
 
 
     @Override
     public void initialize(URL location, ResourceBundle rb) {
+
+        log.debug("Initializing new tour");
 
         List<String> transportTypeList = List.of("fastest", "shortest", "pedestrian", "bicycle");
         transportTypeComboBox.getItems().addAll(transportTypeList);

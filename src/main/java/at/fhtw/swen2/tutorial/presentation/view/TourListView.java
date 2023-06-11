@@ -21,7 +21,6 @@ import javafx.stage.FileChooser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
-import javafx.stage.Stage;
 
 import java.awt.*;
 import java.io.File;
@@ -59,6 +58,7 @@ public class TourListView implements Initializable{
     private String selectedTourName;
 
     public TourListView(TourListViewModel tourListViewModel, Swen2TemplateApplication swen2TemplateApplication, LogListViewModel logListViewModel) {
+        log.debug("TourListView constructor");
         this.tourListViewModel = tourListViewModel;
         this.swen2TemplateApplication = swen2TemplateApplication;
         this.logListViewModel = logListViewModel;
@@ -67,6 +67,7 @@ public class TourListView implements Initializable{
     @Override
     public void initialize(URL location, ResourceBundle rb){
 
+        log.debug("initialising TourListView");
         saveEditedTourButton.setVisible(false);
 
         tableView.setItems(tourListViewModel.getTourListItems());
@@ -127,6 +128,7 @@ public class TourListView implements Initializable{
         tableView.setRowFactory( tv -> {
             TableRow<Tour> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
+                log.info("clicked on row");
                 //to get selected tour name:
                 if (event.getClickCount() == 1) {
                     Tour rowData = row.getItem();
@@ -144,19 +146,22 @@ public class TourListView implements Initializable{
         });
 
         summaryReportButton.setOnAction(event -> {
+            log.info("clicked on summary report button");
             tourListViewModel.generateSummaryReport();
         });
 
     }
 
-    public void deleteButtonAction(ActionEvent actionEvent) {
+    public void deleteButtonAction() {
+        log.info("clicked on delete tour button");
         Tour selectedTour = tableView.getSelectionModel().getSelectedItem();
         tourListViewModel.deleteTour(selectedTour);
         tourListViewModel.deleteMap(selectedTourName);
     }
 
-    public void editButtonAction(ActionEvent actionEvent) {
+    public void editButtonAction() {
 
+        log.info("clicked on edit tour button");
         //make table editable
         tableView.setEditable(true);
 
@@ -165,6 +170,8 @@ public class TourListView implements Initializable{
     }
 
     public void saveEditedTourButtonAction(ActionEvent actionEvent) {
+
+        log.info("clicked on save edited tour button");
 
         Tour selectedTour = tableView.getSelectionModel().getSelectedItem();
         System.out.println(selectedTour);
@@ -181,6 +188,8 @@ public class TourListView implements Initializable{
 
     public void importToursButtonAction() throws Exception {
 
+        log.info("clicked on import tours button");
+
         final FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
                 new FileChooser.ExtensionFilter("Excel Files", "*.xlsx")
@@ -192,10 +201,12 @@ public class TourListView implements Initializable{
     }
 
     public void exportToursButtonAction() throws Exception {
+        log.info("clicked on export tours button");
         tourListViewModel.exportTours();
     }
 
     public void importLogsButtonAction() throws Exception {
+        log.info("clicked on import logs button");
 
         final FileChooser fileChooser = new FileChooser();
         fileChooser.getExtensionFilters().addAll(
@@ -209,6 +220,7 @@ public class TourListView implements Initializable{
     }
 
     public void exportLogsButtonAction() throws Exception {
+        log.info("clicked on export logs button");
         logListViewModel.exportLogs();
     }
 }

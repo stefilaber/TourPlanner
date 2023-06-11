@@ -1,6 +1,5 @@
 package at.fhtw.swen2.tutorial.presentation.view;
 
-
 import at.fhtw.swen2.tutorial.presentation.viewmodel.TourSearchViewModel;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,8 +15,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class TourSearchView {
 
-    public static final int PAGE_ITEMS_COUNT = 10;
-
     @Autowired
     private TourSearchViewModel tourSearchViewModel;
 
@@ -28,6 +25,8 @@ public class TourSearchView {
 
     @FXML
     private void initialize() {
+
+        log.debug("Initializing tour search view");
 
         searchField.textProperty().bindBidirectional(tourSearchViewModel.searchStringProperty());
 
@@ -44,6 +43,7 @@ public class TourSearchView {
 
     private void loadData() {
         tourSearchViewModel.search();
+        log.debug("Searching for tours");
     }
 
 }

@@ -23,11 +23,14 @@ public class LogSearchView {
     private Button searchButton;
 
     public LogSearchView(LogSearchViewModel logSearchViewModel) {
+        log.debug("logSearchView controller");
         this.logSearchViewModel = logSearchViewModel;
     }
 
     @FXML
     private void initialize() {
+
+        log.debug("Initializing log search view");
 
         searchField.textProperty().bindBidirectional(logSearchViewModel.searchStringProperty());
 
@@ -43,6 +46,7 @@ public class LogSearchView {
     }
 
     private void loadData() {
+        log.debug("Loading filtered data");
         logSearchViewModel.search();
     }
 

@@ -1,21 +1,20 @@
 package at.fhtw.swen2.tutorial.service.impl;
 import at.fhtw.swen2.tutorial.service.MapQuestApiService;
 import com.fasterxml.jackson.databind.JsonNode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.*;
 
 @Service
-@Transactional
+@Slf4j
 public class MapQuestApiServiceImpl implements MapQuestApiService {
-
     String key = "kMmPCHrWU9Jng3AWsYyivKIACMsJqaRO";
 
     @Override
@@ -29,6 +28,7 @@ public class MapQuestApiServiceImpl implements MapQuestApiService {
         String contentType = con.getHeaderField("Content-Type");
         con.setConnectTimeout(5000);
         con.setReadTimeout(5000);
+        log.debug("Requesting distance and time from MapQuest API");
 
         //reading the response
         int status = con.getResponseCode();
@@ -43,7 +43,7 @@ public class MapQuestApiServiceImpl implements MapQuestApiService {
         in.close();
 
         con.disconnect();
-
+        log.info("Distance and time received from MapQuest API");
         return content.toString();
 
     }
@@ -62,11 +62,14 @@ public class MapQuestApiServiceImpl implements MapQuestApiService {
         con.setConnectTimeout(5000);
         con.setReadTimeout(5000);
 
+        log.debug("Requesting static map from MapQuest API");
+
         //reading the response
         int status = con.getResponseCode();
         BufferedImage img = ImageIO.read(con.getInputStream());
 
         con.disconnect();
+        log.info("Static map received from MapQuest API");
         return img;
     }
 
